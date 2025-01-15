@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/BeginPageFragment">
+
+    <fragment
+        android:id="@+id/BeginPageFragment"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.BeginPageFragment"
+        android:label="Begin Page"
+        tools:layout="@layout/begin_page" >
+
+        <action
+            android:id="@+id/action_beginPage_to_userSelectionPage"
+            app:destination="@id/UserSelectionPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/UserSelectionPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserSelectionFragment"
+        android:label="User Selection Page"
+        tools:layout="@layout/user_selection_page" >
+    </fragment>
+</navigation>

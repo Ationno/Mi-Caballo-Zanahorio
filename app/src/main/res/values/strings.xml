@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Juegos Didacticos - Limpieza de Caballo</string>
+    <string name="cedica_logo_cut">Logo de Cedica sin su texto de marca.</string>
+    <string name="background_s">Background de la app. Contiene manchas.</string>
+    <string name="pacientes">Pacientes</string>
+    <string name="terapeutas">Terapeutas</string>
+    <string name="avatar_del_usuario">Avatar del usuario.</string>
+</resources>
