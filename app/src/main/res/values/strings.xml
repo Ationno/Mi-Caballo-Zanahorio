@@ -5,4 +5,5 @@
     <string name="pacientes">Pacientes</string>
     <string name="terapeutas">Terapeutas</string>
     <string name="avatar_del_usuario">Avatar del usuario.</string>
+    <string name="iniciar">Iniciar</string>
 </resources>
