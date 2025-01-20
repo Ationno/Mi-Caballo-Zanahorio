@@ -6,4 +6,12 @@
     <string name="terapeutas">Terapeutas</string>
     <string name="avatar_del_usuario">Avatar del usuario.</string>
     <string name="iniciar">Iniciar</string>
+    <string name="user">User</string>
+    <string name="user_name">User Name</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="jugar">Jugar</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="informacion">Informacion</string>
+    <string name="cambiar_perfil">Cambiar perfil</string>
+    <string name="informacion_de_desarrollo">Informacion de desarrollo</string>
 </resources>
