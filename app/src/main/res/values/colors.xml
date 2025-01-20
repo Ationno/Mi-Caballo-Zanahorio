@@ -6,6 +6,7 @@
     <color name="light_blue">#78B9BF</color>
     <color name="light_blue_shadow">#EB66A4AB</color>
     <color name="dark_orange">#F7BD65</color>
+    <color name="darker_orange">#DEA551</color>
     <color name="light_font">#FBFBFB</color>
     <color name="grey_font">#ff9e9e9e</color>
     <color name="text_shadow">#7F000000</color>
