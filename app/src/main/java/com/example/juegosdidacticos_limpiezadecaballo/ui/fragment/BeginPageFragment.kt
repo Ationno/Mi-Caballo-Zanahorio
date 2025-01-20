@@ -17,9 +17,7 @@ class BeginPageFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.begin_page, container, false)
 
-        // Agregar un OnClickListener al view raíz para detectar toques
         view.setOnClickListener {
-            // Navegar a la página de selección de usuario
             findNavController().navigate(R.id.action_beginPage_to_userSelectionPage)
         }
 

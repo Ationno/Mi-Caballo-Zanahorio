@@ -20,5 +20,19 @@
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserSelectionFragment"
         android:label="User Selection Page"
         tools:layout="@layout/user_selection_page" >
+
+        <action
+            android:id="@+id/action_userSelectionPage_to_userInitPage"
+            app:destination="@id/UserInitPage" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/UserInitPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserInitFragment"
+        android:label="User Init Page"
+        tools:layout="@layout/user_init_page" >
+        <action
+            android:id="@+id/action_userInitPage_to_userSelectionPage"
+            app:destination="@id/UserSelectionPage" />
     </fragment>
 </navigation>

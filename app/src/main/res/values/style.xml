@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ButtonStyleMenu">
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_margin">15dp</item>
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:fontFamily">@font/comixloud</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_font</item>
+        <item name="android:shadowColor">@color/text_shadow</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:textSize">18sp</item>
+
+    </style>
+</resources>

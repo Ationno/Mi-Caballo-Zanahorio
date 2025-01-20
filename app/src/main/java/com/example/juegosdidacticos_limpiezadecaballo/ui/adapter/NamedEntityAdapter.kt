@@ -7,10 +7,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.juegosdidacticos_limpiezadecaballo.R
-import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
+import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils.getAvatarResource
 
-class NamedEntityAdapter(private val items: List<NamedEntity>) : RecyclerView.Adapter<NamedEntityAdapter.UserViewHolder>() {
+class NamedEntityAdapter(private val items: List<NamedEntity>, private val onItemSelected: (NamedEntity) -> Unit) : RecyclerView.Adapter<NamedEntityAdapter.UserViewHolder>() {
+
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
+
+    init {
+        if (items.isNotEmpty()) {
+            selectedPosition = 0
+            onItemSelected(items[0])
+        }
+    }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.textName)
@@ -26,17 +35,28 @@ class NamedEntityAdapter(private val items: List<NamedEntity>) : RecyclerView.Ad
         val item = items[position]
         holder.nameTextView.text = item.name
         holder.avatarImageView.setImageResource(getAvatarResource(item.avatar))
+
+        holder.itemView.isSelected = position == selectedPosition
+
+        // Si el item está seleccionado, aplicamos la sombra en el borde
+        if (position == selectedPosition) {
+            holder.avatarImageView.setBackgroundResource(R.drawable.avatar_selected_border) // El drawable que creaste con la sombra
+            holder.nameTextView.setTextColor(holder.itemView.context.getColor(R.color.dark_orange))
+        } else {
+            holder.avatarImageView.setBackgroundResource(0) // Sin fondo
+            holder.nameTextView.setTextColor(holder.itemView.context.getColor(R.color.light_font))
+        }
+
+        holder.itemView.setOnClickListener {
+            val previousPosition = selectedPosition
+            selectedPosition = holder.adapterPosition
+            notifyItemChanged(previousPosition)
+            notifyItemChanged(selectedPosition)
+
+            onItemSelected(item)
+        }
     }
 
     override fun getItemCount(): Int = items.size
 
-    private fun getAvatarResource(avatarType: Avatar): Int {
-        return when (avatarType) {
-            Avatar.FIRST -> R.drawable.first_avatar
-            Avatar.SECOND -> R.drawable.second_avatar
-            Avatar.THIRD -> R.drawable.third_avatar
-            Avatar.FOURTH -> R.drawable.fourth_avatar
-            Avatar.FIFTH -> R.drawable.fifth_avatar
-        }
-    }
 }
