@@ -3,6 +3,7 @@
     <style name="ButtonStyleMenu">
         <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">80dp</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:layout_margin">15dp</item>
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:fontFamily">@font/comixloud</item>

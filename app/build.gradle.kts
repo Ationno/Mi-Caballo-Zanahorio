@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.androidx.navigation.safe.args)
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -41,7 +43,6 @@ android {
         viewBinding = true
     }
 }
-
 dependencies {
 
     // ROOM dependencies

@@ -8,7 +8,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
 
 
-@Database(entities = [PacientEntity::class, TeraphistEntity::class], version = 4)
+@Database(entities = [PacientEntity::class, TeraphistEntity::class], version = 5)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun pacientDao(): PacientDao

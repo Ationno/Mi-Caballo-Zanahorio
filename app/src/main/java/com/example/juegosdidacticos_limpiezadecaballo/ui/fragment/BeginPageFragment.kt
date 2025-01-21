@@ -7,15 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.juegosdidacticos_limpiezadecaballo.R
+import com.example.juegosdidacticos_limpiezadecaballo.databinding.BeginPageBinding
 
 class BeginPageFragment : Fragment() {
+
+    private var _binding: BeginPageBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.begin_page, container, false)
+    ): View {
+
+        _binding = BeginPageBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         view.setOnClickListener {
             findNavController().navigate(R.id.action_beginPage_to_userSelectionPage)

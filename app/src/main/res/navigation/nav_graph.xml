@@ -20,11 +20,13 @@
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserSelectionFragment"
         android:label="User Selection Page"
         tools:layout="@layout/user_selection_page" >
-
         <action
             android:id="@+id/action_userSelectionPage_to_userInitPage"
-            app:destination="@id/UserInitPage" />
-
+            app:destination="@id/UserInitPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/UserInitPage"
