@@ -1,5 +1,6 @@
 package com.example.juegosdidacticos_limpiezadecaballo.ui.fragment
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -51,6 +52,23 @@ class UserInitFragment : Fragment() {
             findNavController().navigate(R.id.action_userInitPage_to_userSelectionPage)
         }
 
+        binding.aboutUsButton.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.about_us, null)
+
+            val dialog = AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .create()
+
+            dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.show()
+        }
+
         selectedUser?.let { user ->
             binding.userName.text = user.name
             binding.userProfile.setImageResource(AvatarUtils.getAvatarResource(user.avatar))
@@ -68,7 +86,7 @@ class UserInitFragment : Fragment() {
                 is TeraphistEntity -> {
                     binding.pacientsButton.visibility = View.VISIBLE
                     binding.registerButton.visibility = View.VISIBLE
-                    binding.configurationButton.visibility= View.VISIBLE
+                    binding.configurationButton.visibility = View.VISIBLE
                 }
             }
         }

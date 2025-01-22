@@ -10,6 +10,7 @@
         android:layout_height="300dp"
         android:layout_marginTop="88dp"
         android:src="@drawable/cedica_logo"
+        android:contentDescription="@string/cedica_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,6 +21,7 @@
         android:layout_height="350dp"
         android:layout_marginTop="70dp"
         android:src="@drawable/horse"
+        android:contentDescription="@string/vector_caballo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cedica_logo" />
