@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/cedica_logo_cut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="50dp"
         android:contentDescription="@string/cedica_logo_cut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,22 +17,28 @@
 
     <ImageView
         android:id="@+id/profile_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/avatar_del_usuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cedica_logo_cut"
-        app:srcCompat="@drawable/profile_example" />
+        app:srcCompat="@drawable/first_avatar" />
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Matias"
-        android:textColor="#FFFCFC"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/comixloud"
+        android:text="@string/user"
+        android:textStyle="bold"
+        android:textColor="@color/light_font"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="3"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,31 +61,46 @@
             android:layout_width="150dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/button_background"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_selector"
+            android:fontFamily="@font/comixloud"
+            android:textStyle="bold"
+            android:textColor="@color/light_font"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:textSize="10sp"
             android:text="@string/pacientes"
-            android:textColor="@color/white"
             />
+
 
         <android.widget.Button
             android:id="@+id/therapist"
             android:layout_width="150dp"
             android:layout_height="35dp"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/button_background"
+            android:layout_margin="4dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/button_selector"
+            android:fontFamily="@font/comixloud"
+            android:textStyle="bold"
+            android:textColor="@color/light_font"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:textSize="10sp"
             android:text="@string/terapeutas"
-            android:textColor="@color/white"
             />
 
     </LinearLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="300dp"
         android:layout_height="250dp"
-        android:background="@color/light_blue"
+        android:background="@drawable/rounded_border"
         android:scrollbars="vertical"
         android:layout_marginTop="20dp"
         android:padding="8dp"
@@ -88,4 +108,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_list_users" />
+
+
+    <android.widget.Button
+        android:id="@+id/iniciar"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button_selector"
+        android:fontFamily="@font/comixloud"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="3"
+        android:text="@string/iniciar"
+        android:textColor="@color/light_font"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

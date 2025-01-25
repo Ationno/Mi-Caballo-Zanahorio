@@ -1,8 +1,31 @@
 <resources>
     <string name="app_name">Juegos Didacticos - Limpieza de Caballo</string>
+    <string name="cedica_logo">Logo de Cedica.</string>
+    <string name="vector_caballo">Imagen en negro del contorno de un caballo.</string>
     <string name="cedica_logo_cut">Logo de Cedica sin su texto de marca.</string>
+    <string name="logo_informatica">Logo de la Universidad de Informatica.</string>
     <string name="background_s">Background de la app. Contiene manchas.</string>
     <string name="pacientes">Pacientes</string>
     <string name="terapeutas">Terapeutas</string>
     <string name="avatar_del_usuario">Avatar del usuario.</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="user">User</string>
+    <string name="user_name">User Name</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="jugar">Jugar</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="informacion">Ver Informacion</string>
+    <string name="cambiar_perfil">Cambiar perfil</string>
+    <string name="informacion_de_desarrollo">Informacion de desarrollo</string>
+    <string name="registrar_usuario">Registrar Usuario</string>
+    <string name="configuracion">Configuracion</string>
+    <string name="dificultad_usuario">Dificultad %s</string>
+    <string name="difficulty_easy">Facil</string>
+    <string name="difficulty_medium">Media</string>
+    <string name="difficulty_hard">Dificil</string>
+    <string name="about_us_developer">Desarrollo</string>"
+    <string name="about_us_team">Rojas, Agustina Sol; Glorioso Ceretti, Antonio Felix</string>
+    <string name="about_us_colaboration">Colaboracion con"</string>
+    <string name="close_button">Boton de cierre</string>
+
 </resources>
