@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:background="@drawable/background_game">
+
+    <!-- Barra superior -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_menu"
+        android:layout_width="889dp"
+        android:layout_height="55dp"
+        android:background="@drawable/top_menu_background"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/button_group_game"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginStart="15dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/button_selector"
+                android:contentDescription="Volver al menú"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="5dp"
+                android:src="@drawable/ic_home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <!-- Botón configuración -->
+            <ImageButton
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/button_selector"
+                android:contentDescription="Abrir configuración"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="5dp"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <!-- Botón pausa -->
+            <ImageButton
+                android:id="@+id/btn_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/button_selector"
+                android:contentDescription="Pausar el juego"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="5dp"
+                android:src="@drawable/ic_pause"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+        </LinearLayout>
+
+        <!-- Tiempo -->
+        <!-- Barra de progreso y dificultad -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_score"
+            app:layout_constraintStart_toEndOf="@id/button_group_game"
+            app:layout_constraintTop_toTopOf="parent"
+            android:clipChildren="false"
+            >
+
+            <!-- LinearLayout en lugar de ConstraintLayout para el primer contenedor -->
+            <LinearLayout
+                android:id="@+id/time_constraint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/progress_bar_constraint"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/comixloud"
+                    android:text="Tiempo"
+                    android:textSize="12dp"
+                    android:layout_marginTop="-8dp"
+                    android:textColor="@color/dark_orange"/>
+
+                <TextView
+                    android:id="@+id/total_time"
+                    android:layout_width="43dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background"
+                    android:fontFamily="@font/comixregular"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="00"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    />
+            </LinearLayout>
+
+            <!-- LinearLayout en lugar de ConstraintLayout para el segundo contenedor -->
+            <LinearLayout
+                android:id="@+id/progress_bar_constraint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@+id/time_constraint"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/error_constraint">
+
+                <TextView
+                    android:id="@+id/tv_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Facil"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/comixloud"
+                    android:textSize="12dp"
+                    android:layout_marginTop="-8dp"
+                    android:textColor="@color/dark_orange"
+
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_bar_style" />
+            </LinearLayout>
+
+            <!-- LinearLayout en lugar de ConstraintLayout para el tercer contenedor -->
+            <LinearLayout
+                android:id="@+id/error_constraint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@+id/progress_bar_constraint"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/error_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/comixloud"
+                    android:text="Errores"
+                    android:textSize="12dp"
+                    android:layout_marginTop="-8dp"
+                    android:textColor="@color/dark_orange"/>
+
+                <TextView
+                    android:id="@+id/error_value"
+                    android:layout_width="43dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background"
+                    android:fontFamily="@font/comixregular"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="6/8"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <!-- Puntaje total -->
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Puntaje: 0"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="15dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Botón de pista (abajo a la izquierda) -->
+    <ImageButton
+        android:id="@+id/btn_hint"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_background"
+        android:contentDescription="Pista"
+        android:src="@drawable/ic_hint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
