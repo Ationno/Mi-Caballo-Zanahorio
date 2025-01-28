@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.juegosdidacticos_limpiezadecaballo.R
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
@@ -14,13 +16,16 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.UserInitPageBinding
+import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils
+import kotlinx.coroutines.launch
 
 class UserInitFragment : Fragment() {
 
     private var _binding: UserInitPageBinding? = null
     private val binding get() = _binding!!
     private var selectedUser: NamedEntity? = null
+    private val userViewModel: UserViewModel by activityViewModels()
 
     //non graphical initializations here
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +51,7 @@ class UserInitFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
         binding.changeProfileButton.setOnClickListener {
@@ -79,8 +85,7 @@ class UserInitFragment : Fragment() {
                     binding.informationButton.visibility = View.VISIBLE
                     binding.userDifficulty.visibility = View.VISIBLE
                     binding.userDifficulty.text = getString(R.string.dificultad_usuario,
-                        context?.let { user.difficulty.getDisplayName(it) })
-
+                        context?.let { lifecycleScope.launch { userViewModel.getConfigByPacientId(user.id)?.difficulty?.getDisplayName(it) }})
                 }
 
                 is TeraphistEntity -> {
@@ -93,6 +98,6 @@ class UserInitFragment : Fragment() {
     }
 
     private fun Difficulty.getDisplayName(context: Context): String {
-        return context.getString(this.displayNameResId)
+        return context.getString(this.displayDifficultyString)
     }
 }

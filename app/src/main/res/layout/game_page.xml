@@ -32,7 +32,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@drawable/button_selector"
-                android:contentDescription="Volver al menú"
+                android:contentDescription="@string/volver_al_menu"
                 android:src="@drawable/ic_home"
                 app:tint="@color/white" />
 
@@ -42,7 +42,7 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button_selector"
-                android:contentDescription="Abrir configuración"
+                android:contentDescription="@string/abrir_configuracion"
                 android:src="@drawable/ic_settings"
                 app:tint="@color/white" />
 
@@ -52,7 +52,7 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button_selector"
-                android:contentDescription="Pausar el juego"
+                android:contentDescription="@string/pausar_el_juego"
                 android:src="@drawable/ic_pause"
                 app:tint="@color/white" />
         </LinearLayout>
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comixloud"
-                    android:text="Tiempo"
+                    android:text="@string/tiempo_game"
                     android:textColor="@color/dark_orange"
                     android:textSize="12sp" />
 
@@ -105,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:orientation="vertical"
+                android:clipChildren="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/error_constraint"
                 app:layout_constraintStart_toEndOf="@+id/time_constraint"
@@ -116,18 +117,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/comixloud"
-                    android:text="Facil"
+                    android:text="@string/facil_game"
+                    android:layout_marginBottom="10dp"
                     android:textColor="@color/dark_orange"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:max="100"
                     android:progress="50"
-                    android:progressTint="@color/dark_orange" />
+                    android:progressTint="@color/dark_orange"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -146,9 +149,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comixloud"
-                    android:text="Errores"
+                    android:text="@string/errores_game"
                     android:textColor="@color/dark_orange"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/error_value"
@@ -158,9 +161,9 @@
                     android:background="@drawable/button_background"
                     android:fontFamily="@font/comixregular"
                     android:gravity="center"
-                    android:text="6/8"
+                    android:text="@string/cantidad_errores"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -183,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/comixloud"
-                android:text="Puntaje"
+                android:text="@string/puntaje_game"
                 android:textColor="@color/dark_orange"
                 android:textSize="12sp" />
 
@@ -195,9 +198,9 @@
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/comixregular"
                 android:gravity="center"
-                android:text="10"
+                android:text="@string/value_puntaje_game"
                 android:textColor="@android:color/white"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -205,10 +208,12 @@
         android:id="@+id/btn_hint"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        app:tint="@color/white"
         android:layout_marginStart="15dp"
         android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_question_mark"
         android:background="@drawable/button_background"
-        android:contentDescription="Pista"
+        android:contentDescription="@string/pista_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -216,7 +221,7 @@
         android:id="@+id/horse_image"
         android:layout_width="300dp"
         android:layout_height="320dp"
-        android:contentDescription="Imagen de un caballo"
+        android:contentDescription="@string/imagen_de_un_caballo"
         android:src="@drawable/horse_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -237,7 +242,7 @@
             android:id="@+id/table_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="Imagen de una mesa"
+            android:contentDescription="@string/imagen_de_una_mesa"
             android:src="@drawable/game_table" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

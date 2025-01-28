@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.database.UserDatabase
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val pacientDao = UserDatabase.getDatabase(application).pacientDao()
     private val teraphistDao = UserDatabase.getDatabase(application).teraphistDao()
+    private val configDao = UserDatabase.getDatabase(application).configDao()
 
     val allPacients: LiveData<List<PacientEntity>> = pacientDao.getAllPacients()
     val allTeraphists: LiveData<List<TeraphistEntity>> = teraphistDao.getAllTeraphists()
@@ -31,7 +33,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         observations = "Observación 1",
                         avatar = Avatar.FIRST,
                         genre = "Masculino",
-                        difficulty = Difficulty.EASY
                     ),
                     PacientEntity(
                         name = "Jane",
@@ -40,7 +41,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         observations = "Observación 2",
                         avatar = Avatar.SECOND,
                         genre = "Femenino",
-                        difficulty = Difficulty.MEDIUM
                     ),
                     PacientEntity(
                         name = "Tom",
@@ -49,7 +49,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         observations = "Observación 3",
                         avatar = Avatar.THIRD,
                         genre = "Masculino",
-                        difficulty = Difficulty.HARD
                     ),
                     PacientEntity(
                         name = "Lisa",
@@ -58,7 +57,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         observations = "Observación 4",
                         avatar = Avatar.FOURTH,
                         genre = "Femenino",
-                        difficulty = Difficulty.EASY
                     ),
                 )
                 examplePacients.forEach {
@@ -82,5 +80,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+    suspend fun getConfigByPacientId(pacientId: Int): ConfigEntity? {
+        return configDao.getConfigByPacientId(pacientId)
     }
 }

@@ -27,5 +27,19 @@
     <string name="about_us_team">Rojas, Agustina Sol; Glorioso Ceretti, Antonio Felix</string>
     <string name="about_us_colaboration">Colaboracion con"</string>
     <string name="close_button">Boton de cierre</string>
+    <string name="volver_al_menu">Volver al menú</string>
+    <string name="abrir_configuracion">Abrir configuración</string>
+    <string name="pausar_el_juego">Pausar el juego</string>
+    <string name="tiempo_game">Tiempo</string>
+    <string name="facil_game">Facil</string>
+    <string name="errores_game">Errores</string>
+    <string name="cantidad_errores">6/8</string>
+    <string name="puntaje_game">Puntaje</string>
+    <string name="value_puntaje_game">10</string>
+    <string name="pista_game">Pista</string>
+    <string name="imagen_de_un_caballo">Imagen de un caballo</string>
+    <string name="imagen_de_una_mesa">Imagen de una mesa</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
 
 </resources>

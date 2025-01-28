@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 
-
-@Database(entities = [PacientEntity::class, TeraphistEntity::class], version = 5)
+@Database(entities = [PacientEntity::class, TeraphistEntity::class, GameStateEntity::class, ConfigEntity::class], version = 6)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun pacientDao(): PacientDao
     abstract fun teraphistDao(): TeraphistDao
+    abstract fun gameStateDao(): GameStateDao
+    abstract fun configDao(): ConfigDao
 
     companion object {
         @Volatile
@@ -25,7 +28,7 @@ abstract class UserDatabase : RoomDatabase() {
                     UserDatabase::class.java,
                     "user_database"
                 )
-                    .fallbackToDestructiveMigration() // Borra y recrea la base de datos automáticamente
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
