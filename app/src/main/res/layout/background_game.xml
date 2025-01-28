@@ -125,9 +125,9 @@
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:progressTint="@color/dark_orange"
                     android:max="100"
-                    android:progress="50" />
+                    android:progress="50"
+                    android:progressTint="@color/dark_orange" />
             </LinearLayout>
 
             <LinearLayout
@@ -164,15 +164,16 @@
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:id="@+id/score_constraint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:orientation="vertical"
-            app:layout_constraintHorizontal_bias="0.92"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.92"
             app:layout_constraintStart_toEndOf="@+id/layout_progress"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -224,13 +225,83 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.99" />
 
-    <ImageView
-        android:id="@+id/table_image"
+    <FrameLayout
+        android:id="@+id/table_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Imagen de una mesa"
-        android:src="@drawable/game_table"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/horse_image" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/horse_image">
 
+        <ImageView
+            android:id="@+id/table_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Imagen de una mesa"
+            android:src="@drawable/game_table" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/object_constraints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@+id/table_image">
+
+            <ImageView
+                android:id="@+id/object_1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="Herramienta 1"
+                android:src="@drawable/tool_1"
+                app:layout_constraintEnd_toStartOf="@+id/object_2"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/object_2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="Herramienta 2"
+                android:src="@drawable/tool_2"
+                app:layout_constraintEnd_toStartOf="@+id/object_3"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/object_1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/object_3"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:contentDescription="Herramienta 3"
+                android:src="@drawable/tool_3"
+                app:layout_constraintEnd_toStartOf="@+id/object_4"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/object_2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/object_4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="Herramienta 4"
+                android:src="@drawable/tool_4"
+                app:layout_constraintEnd_toStartOf="@+id/object_5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/object_3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/object_5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="Herramienta 5"
+                android:src="@drawable/tool_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/object_4"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
