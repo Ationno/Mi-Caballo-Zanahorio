@@ -2,7 +2,9 @@ package com.example.juegosdidacticos_limpiezadecaballo.ui.fragment
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.juegosdidacticos_limpiezadecaballo.GameActivity
 import com.example.juegosdidacticos_limpiezadecaballo.R
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
@@ -27,21 +30,13 @@ class UserInitFragment : Fragment() {
     private var selectedUser: NamedEntity? = null
     private val userViewModel: UserViewModel by activityViewModels()
 
-    //non graphical initializations here
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            selectedUser =
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                    it.getParcelable("selectedUser", NamedEntity::class.java) // >= API 33
-                } else {
-                    @Suppress("DEPRECATION")
-                    it.getParcelable("selectedUser") // < API 33
-                }
+            selectedUser = it.getParcelable("selectedUser", NamedEntity::class.java)
         }
     }
 
-    //graphical initializations here
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,16 +79,26 @@ class UserInitFragment : Fragment() {
                     binding.playButton.visibility = View.VISIBLE
                     binding.informationButton.visibility = View.VISIBLE
                     binding.userDifficulty.visibility = View.VISIBLE
-                    binding.userDifficulty.text = getString(R.string.dificultad_usuario,
-                        context?.let { lifecycleScope.launch { userViewModel.getConfigByPacientId(user.id)?.difficulty?.getDisplayName(it) }})
+                    lifecycleScope.launch {
+                        val config = userViewModel.getConfigByPacientId(user.id)
+                        val difficultyName = config?.difficulty?.getDisplayName(requireContext()) ?: "Unknown"
+                        binding.userDifficulty.text = getString(R.string.dificultad_usuario, difficultyName)
+                    }
                 }
 
                 is TeraphistEntity -> {
                     binding.pacientsButton.visibility = View.VISIBLE
                     binding.registerButton.visibility = View.VISIBLE
-                    binding.configurationButton.visibility = View.VISIBLE
                 }
+
+                else -> {}
             }
+        }
+
+        binding.playButton.setOnClickListener {
+            val intent = Intent(requireContext(), GameActivity::class.java)
+            intent.putExtra("user", selectedUser)
+            startActivity(intent)
         }
     }
 

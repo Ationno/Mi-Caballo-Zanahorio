@@ -94,7 +94,6 @@
         <android.widget.Button
             android:id="@+id/configuration_button"
             style="@style/ButtonStyleMenu"
-            android:visibility="gone"
             android:text="@string/configuracion" />
 
         <android.widget.Button

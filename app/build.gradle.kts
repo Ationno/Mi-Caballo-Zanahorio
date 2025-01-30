@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.juegosdidacticos_limpiezadecaballo"
-        minSdk = 30
+        minSdk = 33
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -41,6 +41,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 dependencies {

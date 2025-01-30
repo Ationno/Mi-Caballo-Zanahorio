@@ -41,5 +41,8 @@
     <string name="imagen_de_una_mesa">Imagen de una mesa</string>
     <string name="masculino">Masculino</string>
     <string name="femenino">Femenino</string>
+    <string name="estas_seguro">Estas seguro</string>
+    <string name="info_confirmacion">¿Quieres volver a la página de inicio? No se guardará la información de esta partida.</string>
+    <string name="confirmar">Confirmar</string>
 
 </resources>

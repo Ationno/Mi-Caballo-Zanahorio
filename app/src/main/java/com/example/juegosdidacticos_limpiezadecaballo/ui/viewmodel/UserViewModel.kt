@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.database.UserDatabase
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
@@ -25,6 +26,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val pacientCount = pacientDao.getPacientCount()
         if (pacientCount == 0) {
             viewModelScope.launch {
+                for (i in 1..4) {
+                    val config = ConfigEntity(
+                        pacientId = i,
+                        difficulty = Difficulty.EASY,
+                        voices = Voices.FEMININE,
+                        clues = true
+                    )
+
+                    configDao.insertConfig(config)
+                }
                 val examplePacients = listOf(
                     PacientEntity(
                         name = "John",
