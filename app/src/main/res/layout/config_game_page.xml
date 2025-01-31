@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/background_color"
@@ -12,9 +12,8 @@
         app:cardElevation="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:padding="16dp">
 
             <ImageView
@@ -38,52 +37,134 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/comixloud"
                 android:text="Configuracion"
-                android:textColor="#C65D18 "
+                android:textColor="#C65D18"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@id/closeDialogButton"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:gravity="left"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoTitle">
+                app:layout_constraintTop_toBottomOf="@id/infoTitle">
 
-                <android.widget.Button
-                    android:id="@+id/resumeButton"
-                    style="@style/ButtonStyleMenu"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/comixregular"
+                    android:text="Volumen del Juego"
+                    android:textColor="#C65D18"
+                    android:textSize="35sp" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="15sp"
-                    android:paddingVertical="20sp"
-                    android:text="@string/reanudar"
-                    android:textSize="12sp" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
+                    <SeekBar
+                        android:id="@+id/gameVolumeSeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:thumbTint="@color/dark_orange" />
+
+                    <TextView
+                        android:id="@+id/gameVolumePercentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="50%"
+                        android:textColor="#C65D18"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/comixregular"
+                    android:text="Volumen de voces"
+                    android:textColor="#C65D18"
+                    android:textSize="35sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/voiceVolumeSeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:thumbTint="@color/dark_orange" />
+
+                    <TextView
+                        android:id="@+id/voiceVolumePercentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="50%"
+                        android:textColor="#C65D18"
+                        android:textSize="20sp" />
+                </LinearLayout>
+                <!--
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/comixregular"
+                                    android:text="Seleccionar Voz"
+                                    android:layout_marginTop="5dp"
+                                    android:textColor="#C65D18"
+                                    android:textSize="35sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    app:layout_constraintTop_toBottomOf="@id/infoTitle">
+
+                                    <android.widget.Button
+                                        android:id="@+id/masculineVoiceButton"
+                                        style="@style/ButtonStyleMenu"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:paddingHorizontal="15sp"
+                                        android:paddingVertical="20sp"
+                                        android:text="@string/masculine_voice"
+                                        android:textSize="12sp" />
+
+                                    <android.widget.Button
+                                        android:id="@+id/femenineVoiceButton"
+                                        style="@style/ButtonStyleMenu"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:paddingHorizontal="18sp"
+                                        android:paddingVertical="20sp"
+                                        android:text="@string/femenine_voice"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+                                -->
                 <android.widget.Button
-                    android:id="@+id/menuButton"
+                    android:id="@+id/confirmButton"
                     style="@style/ButtonStyleMenu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="18sp"
                     android:paddingVertical="20sp"
-                    android:text="Volver al Menu"
+                    android:text="@string/confirm_button"
                     android:textSize="12sp" />
-
-                <android.widget.Button
-                    android:id="@+id/restartButton"
-                    style="@style/ButtonStyleMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="18sp"
-                    android:paddingVertical="20sp"
-                    android:text="Reiniciar"
-                    android:textSize="12sp" />
-
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

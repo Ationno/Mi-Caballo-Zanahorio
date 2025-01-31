@@ -42,5 +42,7 @@
     <string name="femenino">Femenino</string>
     <string name="juego_pausado">Juego Pausado</string>
     <string name="reanudar">Reanudar</string>
-
+    <string name="femenine_voice">Femenina</string>
+    <string name="masculine_voice">Masculina</string>
+    <string name="confirm_button">Confirmar</string>
 </resources>
