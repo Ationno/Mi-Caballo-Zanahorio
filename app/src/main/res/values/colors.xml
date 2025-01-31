@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_color">#FCECD3</color>
     <color name="light_blue">#78B9BF</color>
+    <color name="sky_blue">#bde0fe</color>
     <color name="light_blue_shadow">#EB66A4AB</color>
     <color name="dark_orange">#F7BD65</color>
     <color name="darker_orange">#DEA551</color>

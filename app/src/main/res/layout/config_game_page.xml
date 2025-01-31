@@ -72,11 +72,12 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:max="100"
-                        android:thumbTint="@color/dark_orange" />
+                        android:progressDrawable="@drawable/seek_bar"
+                        android:thumb="@drawable/seek_thumb" />
 
                     <TextView
                         android:id="@+id/gameVolumePercentage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="35dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/comixregular"
@@ -106,11 +107,12 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:max="100"
-                        android:thumbTint="@color/dark_orange" />
+                        android:progressDrawable="@drawable/seek_bar"
+                        android:thumb="@drawable/seek_thumb"/>
 
                     <TextView
                         android:id="@+id/voiceVolumePercentage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="35dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/comixregular"
