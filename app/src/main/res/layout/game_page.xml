@@ -31,7 +31,7 @@
             android:id="@+id/button_group_game"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="35dp"
             android:layout_marginTop="25dp"
             android:clipChildren="false"
             android:clipToPadding="false"
@@ -39,12 +39,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/btn_back"
+                android:id="@+id/btnPause"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@drawable/button_selector"
-                android:contentDescription="@string/volver_al_menu"
-                android:src="@drawable/ic_home"
+                android:contentDescription="@string/pausar_juego"
+                android:src="@drawable/ic_pause"
                 app:tint="@color/white" />
 
             <ImageButton
@@ -57,15 +57,6 @@
                 android:src="@drawable/ic_settings"
                 app:tint="@color/white" />
 
-            <ImageButton
-                android:id="@+id/btn_pause"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/button_selector"
-                android:contentDescription="@string/pausar_el_juego"
-                android:src="@drawable/ic_pause"
-                app:tint="@color/white" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -187,7 +178,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.92"
+            app:layout_constraintHorizontal_bias="0.70"
             app:layout_constraintStart_toEndOf="@+id/layout_progress"
             app:layout_constraintTop_toTopOf="parent">
 

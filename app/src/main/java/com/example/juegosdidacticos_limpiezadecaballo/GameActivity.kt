@@ -4,7 +4,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
@@ -64,16 +66,12 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.btnBack.setOnClickListener {
-            onBackButtonClicked()
+        binding.btnPause.setOnClickListener {
+            onPauseButtonClicked()
         }
 
         binding.btnSettings.setOnClickListener {
             onSettingsButtonClicked()
-        }
-
-        binding.btnPause.setOnClickListener {
-            onPauseButtonClicked()
         }
 
         binding.btnHint.setOnClickListener {
@@ -81,14 +79,14 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun onBackButtonClicked() {
-        val dialogView = layoutInflater.inflate(R.layout.confirmation_page, null)
+    private fun onPauseButtonClicked() {
+        val dialogView = layoutInflater.inflate(R.layout.pause_page, null)
 
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
 
-        dialogView.findViewById<View>(R.id.yesButton).setOnClickListener {
+        dialogView.findViewById<View>(R.id.menuButton).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SHOW_USER_INIT_FRAGMENT", true)
                 putExtra("USER_DATA", user)
@@ -102,20 +100,25 @@ class GameActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
-        dialogView.findViewById<View>(R.id.noButton).setOnClickListener {
+        dialogView.findViewById<View>(R.id.resumeButton).setOnClickListener {
             dialog.dismiss()
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCanceledOnTouchOutside(true)
         dialog.show()
+
+        val widthInDp = 410
+        val widthInPixels = (widthInDp * resources.displayMetrics.density).toInt()
+
+        dialog.window?.apply {
+            setLayout(widthInPixels, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
     }
 
     private fun onSettingsButtonClicked() {
     }
 
-    private fun onPauseButtonClicked() {
-    }
 
     private fun onHintButtonClicked() {
     }

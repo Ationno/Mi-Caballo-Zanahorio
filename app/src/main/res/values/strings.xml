@@ -27,9 +27,8 @@
     <string name="about_us_team">Rojas, Agustina Sol; Glorioso Ceretti, Antonio Felix</string>
     <string name="about_us_colaboration">Colaboracion con"</string>
     <string name="close_button">Boton de cierre</string>
-    <string name="volver_al_menu">Volver al menú</string>
+    <string name="pausar_juego">Boton de pausa</string>
     <string name="abrir_configuracion">Abrir configuración</string>
-    <string name="pausar_el_juego">Pausar el juego</string>
     <string name="tiempo_game">Tiempo</string>
     <string name="facil_game">Facil</string>
     <string name="errores_game">Errores</string>
@@ -41,8 +40,7 @@
     <string name="imagen_de_una_mesa">Imagen de una mesa</string>
     <string name="masculino">Masculino</string>
     <string name="femenino">Femenino</string>
-    <string name="estas_seguro">Estas seguro</string>
-    <string name="info_confirmacion">¿Quieres volver a la página de inicio? No se guardará la información de esta partida.</string>
-    <string name="confirmar">Confirmar</string>
+    <string name="juego_pausado">Juego Pausado</string>
+    <string name="reanudar">Reanudar</string>
 
 </resources>
