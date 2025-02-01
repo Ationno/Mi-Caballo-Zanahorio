@@ -12,5 +12,4 @@ data class GameStateEntity (
     val difficulty: Difficulty,
     val timeLeft: Long,
     val timeTotal: Long,
-    val completed: Boolean
 )

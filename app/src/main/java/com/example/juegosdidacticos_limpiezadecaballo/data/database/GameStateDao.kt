@@ -6,9 +6,6 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 
 @Dao
 interface GameStateDao {
-    @Query("SELECT * FROM game_state_table WHERE completed = :completed")
-    fun getGameStateByCompletion(completed: Boolean): GameStateEntity
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGameState(gameState: GameStateEntity)
 
