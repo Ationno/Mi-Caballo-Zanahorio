@@ -1,14 +1,11 @@
 package com.example.juegosdidacticos_limpiezadecaballo
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.MainPageBinding
-import com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserInitFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainPageBinding

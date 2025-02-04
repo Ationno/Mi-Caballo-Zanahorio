@@ -4,9 +4,13 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.RectF
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.DragEvent
 import android.view.MotionEvent
@@ -26,8 +30,6 @@ import com.example.juegosdidacticos_limpiezadecaballo.databinding.GamePageBindin
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 class GameActivity : AppCompatActivity() {
 
@@ -41,6 +43,44 @@ class GameActivity : AppCompatActivity() {
     private var difficulty: Difficulty = Difficulty.EASY
     private var errors: Int = 0
     private var score: Int = 0
+
+    private val cleaningOrder = listOf(
+        Pair("head", "soft_scraper"),
+        Pair("neck", "hard_scraper"),
+        Pair("shoulder", "hard_scraper"),
+        Pair("back", "hard_scraper"),
+        Pair("belly", "hard_scraper"),
+        Pair("haunch", "hard_scraper"),
+        Pair("front_legs", "soft_scraper"),
+        Pair("hind_legs", "soft_scraper"),
+        Pair("groin", "hard_scraper"),
+        Pair("whole_body", "soft_brush"),
+        Pair("main", "hard_brush"),
+        Pair("tail", "hard_brush"),
+        Pair("hooves_1", "hoof_pick"),
+        Pair("hooves_2", "hoof_pick"),
+        Pair("hooves_3", "hoof_pick")
+    )
+
+    private val horseRegionsDp = mutableMapOf(
+        "head" to Pair(RectF(30f, 5f, 105f, 120f), true),
+        "neck" to Pair(RectF(95f, 20f, 160f, 100f), false),
+        "shoulder" to Pair(RectF(115f, 150f, 160f, 190f), false),
+        "back" to Pair(RectF(160f, 95f, 250f, 115f), false),
+        "belly" to Pair(RectF(170f, 170f, 235f, 210f), false),
+        "haunch" to Pair(RectF(251f, 95f, 300f, 140f), false),
+        "front_legs" to Pair(RectF(30f, 191f, 150f, 330f), false),
+        "hind_legs" to Pair(RectF(236f, 201f, 300f, 330f), false),
+        "groin" to Pair(RectF(236f, 171f, 270f, 200f), false),
+        "whole_body" to Pair(RectF(70f, 100f, 300f, 175f), false),
+        "main" to Pair(RectF(95f, 20f, 170f, 115f), false),
+        "tail" to Pair(RectF(280f, 100f, 330f, 290f), false),
+        "hooves_1" to Pair(RectF(90f, 315f, 115f, 330f), false),
+        "hooves_2" to Pair(RectF(220f, 310f, 245f, 325f), false),
+        "hooves_3" to Pair(RectF(280f, 310f, 300f, 325f), false)
+    )
+
+    private var currentStep = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -294,7 +334,7 @@ class GameActivity : AppCompatActivity() {
 
         tools.forEach { tool ->
             tool.setOnLongClickListener { v ->
-                val clipData = ClipData.newPlainText("tool", v.contentDescription)
+                val clipData = ClipData.newPlainText("tool", v.id.toString()) // Use ID instead of contentDescription
                 val dragShadowBuilder = View.DragShadowBuilder(v)
                 v.startDragAndDrop(clipData, dragShadowBuilder, v, 0)
                 true
@@ -306,6 +346,8 @@ class GameActivity : AppCompatActivity() {
         var previousX = 0f
         var previousY = 0f
         var isCleaning = false
+        var countCleaning = 0
+        var countCleaningReversed = 0
 
         binding.horseImage.setOnDragListener { v, event ->
             when (event.action) {
@@ -325,8 +367,10 @@ class GameActivity : AppCompatActivity() {
                     val deltaY = currentY - previousY
 
                     if (isCleaningMotion(deltaX, deltaY)) {
+                        countCleaning += 1
                         Log.d("DragDrop", "Cleaning motion detected")
                     } else if (isCleaningMotionReversed(deltaX, deltaY)) {
+                        countCleaningReversed += 1
                         Log.d("DragDrop", "Cleaning motion reversed detected")
                     }
                     previousX = currentX
@@ -335,8 +379,20 @@ class GameActivity : AppCompatActivity() {
                 }
                 DragEvent.ACTION_DROP -> {
                     val tool = event.localState as ImageView
-                    val toolName = tool.contentDescription.toString()
+                    val toolName = tool.id
                     val horsePart = getHorsePartUnderDrag(event.x, event.y)
+
+                    Log.d("CountCleaning", "Count cleaning: $countCleaning")
+                    Log.d("CountCleaningReversed", "Count cleaning reversed: $countCleaningReversed")
+
+                    isCleaning = countCleaning > countCleaningReversed && countCleaning > 50 && countCleaningReversed < 20
+
+                    countCleaning = 0
+                    countCleaningReversed = 0
+
+                    Log.d("DragDrop", "Cleaning motion: $isCleaning")
+                    Log.d("ToolName", "Tool name: $toolName")
+                    Log.d("HorsePart", "Horse part: $horsePart")
 
                     if (horsePart != null && isCorrectToolForPart(toolName, horsePart)) {
                         if (isCleaning) {
@@ -362,37 +418,20 @@ class GameActivity : AppCompatActivity() {
 
     private fun isCleaningMotion(deltaX: Float, deltaY: Float): Boolean {
         val isTopToBottom = deltaY > 0
-        val isRightToLeft = deltaX > 0
+        val isRightToLeft = deltaX < 0
 
         return isTopToBottom || isRightToLeft
     }
 
     private fun isCleaningMotionReversed(deltaX: Float, deltaY: Float): Boolean {
         val isTopToBottom = deltaY < 5
-        val isRightToLeft = deltaX < 0
+        val isRightToLeft = deltaX > 0
 
         return isTopToBottom || isRightToLeft
     }
 
 
     private fun getHorsePartUnderDrag(x: Float, y: Float): String? {
-        val horseRegionsDp = mapOf(
-            "head" to Pair(RectF(30f, 5f, 105f, 120f), true),
-            "neck" to Pair(RectF(95f, 20f, 160f, 100f), false),
-            "shoulder" to Pair(RectF(115f, 150f, 160f, 190f), false),
-            "back" to Pair(RectF(160f, 95f, 250f, 115f), false),
-            "belly" to Pair(RectF(170f, 170f, 235f, 170f), false),
-            "haunch" to Pair(RectF(251f, 95f, 300f, 140f), false),
-            "front_legs" to Pair(RectF(30f, 191f, 150f, 330f), false),
-            "hind_legs" to Pair(RectF(236f, 201f, 300f, 330f), false),
-            "groin" to Pair(RectF(236f, 171f, 270f, 200f), false),
-            "whole_body" to Pair(RectF(70f, 100f, 300f, 175f), false),
-            "main" to Pair(RectF(95f, 20f, 170f, 115f), false),
-            "tail" to Pair(RectF(280f, 100f, 330f, 290f), false),
-            "hooves_1" to Pair(RectF(90f, 315f, 115f, 330f), false),
-            "hooves_2" to Pair(RectF(220f, 310f, 245f, 325f), false),
-            "hooves_3" to Pair(RectF(280f, 310f, 300f, 325f), false)
-        )
 
         val accessibleHorseRegionsPx = horseRegionsDp
             .filter { (_, pair) -> pair.second }
@@ -412,29 +451,76 @@ class GameActivity : AppCompatActivity() {
         return dp * resources.displayMetrics.density
     }
 
-    private fun isCorrectToolForPart(toolName: String, horsePart: String?): Boolean {
-        // Implement logic to check if the tool is correct for the horse part
-        // This is a placeholder, you need to implement the actual logic
-        return true
+    private fun isCorrectToolForPart(toolId: Int, horsePart: String?): Boolean {
+        if (currentStep >= cleaningOrder.size) return false
+
+        val (expectedPart, expectedToolName) = cleaningOrder[currentStep]
+
+        val toolName = when (toolId) {
+            R.id.hard_scraper -> "hard_scraper"
+            R.id.soft_scraper -> "soft_scraper"
+            R.id.hoof_pick -> "hoof_pick"
+            R.id.soft_brush -> "soft_brush"
+            R.id.hard_brush -> "hard_brush"
+            else -> return false
+        }
+
+        return horsePart == expectedPart && toolName == expectedToolName
     }
 
     private fun playSuccessEffect() {
-        // Play a success sound and visual effect
+        val mediaPlayer = MediaPlayer.create(this, R.raw.correct_game)
+        mediaPlayer.start()
+
+        binding.horseImage.setBackgroundColor(Color.GREEN)
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.horseImage.setBackgroundColor(Color.TRANSPARENT)
+        }, 500)
+
+        val currentPart = cleaningOrder[currentStep].first
+        val currentPartPair = horseRegionsDp[currentPart]
+        if (currentPartPair != null) {
+            horseRegionsDp[currentPart] = currentPartPair.copy(second = false)
+        }
+
+        currentStep++
+
+        if (currentStep < cleaningOrder.size) {
+            val nextPart = cleaningOrder[currentStep].first
+            val nextPartPair = horseRegionsDp[nextPart]
+            if (nextPartPair != null) {
+                horseRegionsDp[nextPart] = nextPartPair.copy(second = true)
+            }
+        }
+
+        updateProgressBar()
     }
 
     private fun playErrorEffect() {
-        // Play an error sound and visual effect
+        val mediaPlayer = MediaPlayer.create(this, R.raw.error_game)
+        mediaPlayer.start()
+
+        binding.horseImage.setBackgroundColor(Color.RED)
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.horseImage.setBackgroundColor(Color.TRANSPARENT)
+        }, 500)
     }
 
     private fun updateScore() {
-        // Update the score
-        score += 10 // Example: Add 10 points for each correct action
+        score += 10
         binding.scoreValue.text = score.toString()
     }
 
     private fun incrementErrors() {
-        // Increment the error count
         errors++
-        binding.errorValue.text = errors.toString()
+        binding.errorValue.text = buildString {
+            append(errors.toString())
+            append("/8")
+        }
+    }
+
+    private fun updateProgressBar() {
+        val progress = (currentStep.toFloat() / cleaningOrder.size) * 100
+        binding.progressBar.progress = progress.toInt()
     }
 }

@@ -32,7 +32,7 @@
     <string name="tiempo_game">Tiempo</string>
     <string name="facil_game">Facil</string>
     <string name="errores_game">Errores</string>
-    <string name="cantidad_errores">6/8</string>
+    <string name="cantidad_errores">0/8</string>
     <string name="puntaje_game">Puntaje</string>
     <string name="value_puntaje_game">10</string>
     <string name="pista_game">Pista</string>
