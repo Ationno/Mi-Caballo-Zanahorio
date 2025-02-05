@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.MainPageBinding
+import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainPageBinding
@@ -27,5 +28,17 @@ class MainActivity : AppCompatActivity() {
             }
             navController.navigate(R.id.UserInitPage, args)
         }
+
+        BackgroundMusicPlayer.start(this, R.raw.menu_music)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        BackgroundMusicPlayer.start(applicationContext, R.raw.menu_music)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        BackgroundMusicPlayer.start(applicationContext, R.raw.menu_music)
     }
 }

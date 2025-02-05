@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.RectF
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -13,9 +12,9 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.DragEvent
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -29,6 +28,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.GamePageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
+import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
 
 class GameActivity : AppCompatActivity() {
@@ -43,6 +43,8 @@ class GameActivity : AppCompatActivity() {
     private var difficulty: Difficulty = Difficulty.EASY
     private var errors: Int = 0
     private var score: Int = 0
+    private var gameVolume: Int = 0
+    private var voiceVolume: Int = 0
 
     private val cleaningOrder = listOf(
         Pair("head", "soft_scraper"),
@@ -82,12 +84,19 @@ class GameActivity : AppCompatActivity() {
 
     private var currentStep = 0
 
+    private val dirtyOverlays = mutableMapOf<String, ImageView>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = GamePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize the difficulty and time based on the selected difficulty
+        if (!BackgroundMusicPlayer.isPlaying()) {
+            BackgroundMusicPlayer.start(this, R.raw.game_music)
+        }
+
+        BackgroundMusicPlayer.changeMusic(this, R.raw.game_music)
+
         user = intent.getParcelableExtra("user", PacientEntity::class.java)
         val pacientId = user?.id
 
@@ -103,6 +112,53 @@ class GameActivity : AppCompatActivity() {
 
         setupClickListeners()
         setupDragAndDrop()
+
+        dirtyOverlays["head"] = binding.dirtyHead
+        dirtyOverlays["neck"] = binding.dirtyNeck
+        dirtyOverlays["shoulder"] = binding.dirtyShoulder
+        dirtyOverlays["back"] = binding.dirtyBack
+        dirtyOverlays["belly"] = binding.dirtyBelly
+        dirtyOverlays["haunch"] = binding.dirtyHaunch
+        dirtyOverlays["front_legs"] = binding.dirtyFrontLegs
+        dirtyOverlays["hind_legs"] = binding.dirtyHindLegs
+        dirtyOverlays["groin"] = binding.dirtyGroin
+        dirtyOverlays["whole_body"] = binding.dirtyWholeBody
+        dirtyOverlays["main"] = binding.dirtyMain
+        dirtyOverlays["tail"] = binding.dirtyTail
+        dirtyOverlays["hooves_1"] = binding.dirtyHooves1
+        dirtyOverlays["hooves_2"] = binding.dirtyHooves2
+        dirtyOverlays["hooves_3"] = binding.dirtyHooves3
+
+        for ((region, pair) in horseRegionsDp) {
+            val (rectF, _) = pair
+            val overlay = dirtyOverlays[region]
+
+            if (overlay != null) {
+                val left = dpToPx(rectF.left)
+                val top = dpToPx(rectF.top)
+                val right = dpToPx(rectF.right)
+                val bottom = dpToPx(rectF.bottom)
+
+                overlay.layoutParams = FrameLayout.LayoutParams(
+                    (right - left).toInt(),
+                    (bottom - top).toInt()
+                )
+                overlay.x = left
+                overlay.y = top
+                overlay.visibility = View.VISIBLE
+            }
+        }
+
+        val sharedPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE)
+        gameVolume = sharedPrefs.getInt("gameVolume", 50)
+        voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
+    }
+
+    private fun updateDirtyOverlays(currentPart: String) {
+        val overlay = dirtyOverlays[currentPart]
+        if (overlay != null) {
+            overlay.visibility = View.GONE
+        }
     }
 
     private fun initializeDifficulty(difficulty: Difficulty) {
@@ -111,14 +167,20 @@ class GameActivity : AppCompatActivity() {
             Difficulty.EASY -> {
                 timeLeftInMillis = 480000L
                 totalTimeInMillis = 480000L
+
+                binding.errorValue.text = "0/24"
             }
             Difficulty.MEDIUM -> {
                 timeLeftInMillis = 240000L
                 totalTimeInMillis = 240000L
+
+                binding.errorValue.text = "0/16"
             }
             Difficulty.HARD -> {
                 timeLeftInMillis = 120000L
                 totalTimeInMillis = 120000L
+
+                binding.errorValue.text = "0/8"
             }
         }
         binding.totalTime.text = (timeLeftInMillis / 1000).toString()
@@ -186,7 +248,7 @@ class GameActivity : AppCompatActivity() {
             onHintButtonClicked()
         }
 
-        binding.horseImage.setOnTouchListener { _, event ->
+        /* binding.horseImage.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val x = event.x // x coordinate in pixels
                 val y = event.y // y coordinate in pixels
@@ -200,6 +262,7 @@ class GameActivity : AppCompatActivity() {
             }
             true // Return true to indicate the event was handled
         }
+        */
     }
 
     private fun pxToDp(px: Float): Float {
@@ -263,8 +326,8 @@ class GameActivity : AppCompatActivity() {
         val voiceVolumePercentage = dialogView.findViewById<TextView>(R.id.voiceVolumePercentage)
 
         val sharedPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE)
-        val gameVolume = sharedPrefs.getInt("gameVolume", 50)
-        val voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
+        gameVolume = sharedPrefs.getInt("gameVolume", 50)
+        voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
 
         gameVolumeSeekBar.progress = gameVolume
         gameVolumePercentage.text = "$gameVolume%"
@@ -275,6 +338,7 @@ class GameActivity : AppCompatActivity() {
         gameVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 gameVolumePercentage.text = "$progress%"
+                BackgroundMusicPlayer.setVolume(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -293,6 +357,8 @@ class GameActivity : AppCompatActivity() {
         dialogView.findViewById<View>(R.id.confirmButton).setOnClickListener {
             val newGameVolume = gameVolumeSeekBar.progress
             val newVoiceVolume = voiceVolumeSeekBar.progress
+            gameVolume = newGameVolume
+            voiceVolume = newVoiceVolume
 
             sharedPrefs.edit()
                 .putInt("gameVolume", newGameVolume)
@@ -303,10 +369,12 @@ class GameActivity : AppCompatActivity() {
         }
 
         dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+            BackgroundMusicPlayer.setVolume(gameVolume)
             dialog.dismiss()
         }
 
         dialog.setOnDismissListener {
+            BackgroundMusicPlayer.setVolume(gameVolume)
             resumeTimer()
         }
 
@@ -368,10 +436,8 @@ class GameActivity : AppCompatActivity() {
 
                     if (isCleaningMotion(deltaX, deltaY)) {
                         countCleaning += 1
-                        Log.d("DragDrop", "Cleaning motion detected")
                     } else if (isCleaningMotionReversed(deltaX, deltaY)) {
                         countCleaningReversed += 1
-                        Log.d("DragDrop", "Cleaning motion reversed detected")
                     }
                     previousX = currentX
                     previousY = currentY
@@ -469,19 +535,29 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun playSuccessEffect() {
-        val mediaPlayer = MediaPlayer.create(this, R.raw.correct_game)
+        val mediaPlayer = MediaPlayer.create(this, R.raw.relincho)
+        mediaPlayer.setVolume(gameVolume / 100f, gameVolume / 100f)
         mediaPlayer.start()
 
-        binding.horseImage.setBackgroundColor(Color.GREEN)
+        binding.greenOverlay.visibility = View.VISIBLE
+
         Handler(Looper.getMainLooper()).postDelayed({
-            binding.horseImage.setBackgroundColor(Color.TRANSPARENT)
-        }, 500)
+            binding.greenOverlay.visibility = View.GONE
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.greenOverlay.visibility = View.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.greenOverlay.visibility = View.GONE
+                }, 200)
+            }, 200)
+        }, 200)
 
         val currentPart = cleaningOrder[currentStep].first
         val currentPartPair = horseRegionsDp[currentPart]
         if (currentPartPair != null) {
             horseRegionsDp[currentPart] = currentPartPair.copy(second = false)
         }
+
+        updateDirtyOverlays(currentPart)
 
         currentStep++
 
@@ -497,13 +573,21 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun playErrorEffect() {
-        val mediaPlayer = MediaPlayer.create(this, R.raw.error_game)
+        val mediaPlayer = MediaPlayer.create(this, R.raw.resoplido)
+        mediaPlayer.setVolume(gameVolume / 100f, gameVolume / 100f)
         mediaPlayer.start()
 
-        binding.horseImage.setBackgroundColor(Color.RED)
+        binding.redOverlay.visibility = View.VISIBLE
+
         Handler(Looper.getMainLooper()).postDelayed({
-            binding.horseImage.setBackgroundColor(Color.TRANSPARENT)
-        }, 500)
+            binding.redOverlay.visibility = View.GONE
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.redOverlay.visibility = View.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.redOverlay.visibility = View.GONE
+                }, 200)
+            }, 200)
+        }, 200)
     }
 
     private fun updateScore() {
@@ -513,10 +597,9 @@ class GameActivity : AppCompatActivity() {
 
     private fun incrementErrors() {
         errors++
-        binding.errorValue.text = buildString {
-            append(errors.toString())
-            append("/8")
-        }
+        val currentText = binding.errorValue.text.toString()
+        val updatedText = currentText.replace(Regex("^\\d+"), errors.toString())
+        binding.errorValue.text = updatedText
     }
 
     private fun updateProgressBar() {
