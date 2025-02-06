@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
@@ -23,6 +24,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.ErrorType
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.GamePageBinding
@@ -167,45 +169,51 @@ class GameActivity : AppCompatActivity() {
             Difficulty.EASY -> {
                 timeLeftInMillis = 480000L
                 totalTimeInMillis = 480000L
-
-                binding.errorValue.text = "0/24"
             }
             Difficulty.MEDIUM -> {
                 timeLeftInMillis = 240000L
                 totalTimeInMillis = 240000L
-
-                binding.errorValue.text = "0/16"
             }
             Difficulty.HARD -> {
                 timeLeftInMillis = 120000L
                 totalTimeInMillis = 120000L
 
-                binding.errorValue.text = "0/8"
             }
         }
-        binding.totalTime.text = (timeLeftInMillis / 1000).toString()
+        binding.errorValue.text = buildString {
+            append("0/")
+            append(getMaxErrors().toString())
+        }
+        binding.topMenuDifficulty.text = difficulty.getDisplayDifficulty()
+    }
+
+    private fun getMaxErrors(): Int {
+        return when (difficulty) {
+            Difficulty.EASY -> 24
+            Difficulty.MEDIUM -> 16
+            Difficulty.HARD -> 8
+        }
     }
 
     private fun startTimer() {
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished
-                updateTimer()
+                binding.totalTime.text = formatTime(timeLeftInMillis)
             }
 
             override fun onFinish() {
                 timeLeftInMillis = 0
-                updateTimer()
+                binding.totalTime.text = formatTime(timeLeftInMillis)
                 endGame(false)
             }
         }.start()
     }
 
-    private fun updateTimer() {
-        val minutes = (timeLeftInMillis / 1000) / 60
-        val seconds = (timeLeftInMillis / 1000) % 60
-        val timeFormatted = String.format("%02d:%02d", minutes, seconds)
-        binding.totalTime.text = timeFormatted
+    private fun formatTime(time: Long): String {
+        val minutes = (time / 1000) / 60
+        val seconds = (time / 1000) % 60
+        return String.format("%02d:%02d", minutes, seconds)
     }
 
     private fun pauseTimer() {
@@ -218,8 +226,16 @@ class GameActivity : AppCompatActivity() {
 
     private fun endGame(completed: Boolean) {
         countDownTimer?.cancel()
+
+        val isWin = completed
+        val loseReason = when {
+            !completed && timeLeftInMillis <= 0 -> "Se te ha acabado el tiempo!"
+            !completed && errors >= getMaxErrors() -> "Demasiados errores!"
+            else -> null
+        }
+
+        showGameResultDialog(isWin, loseReason)
         saveGameState(completed)
-        Toast.makeText(this, if (completed) "Game Completed!" else "Time's Up!", Toast.LENGTH_SHORT).show()
     }
 
     private fun saveGameState(completed: Boolean) {
@@ -448,38 +464,44 @@ class GameActivity : AppCompatActivity() {
                     val toolName = tool.id
                     val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    Log.d("CountCleaning", "Count cleaning: $countCleaning")
-                    Log.d("CountCleaningReversed", "Count cleaning reversed: $countCleaningReversed")
-
                     isCleaning = countCleaning > countCleaningReversed && countCleaning > 50 && countCleaningReversed < 20
 
                     countCleaning = 0
                     countCleaningReversed = 0
 
-                    Log.d("DragDrop", "Cleaning motion: $isCleaning")
-                    Log.d("ToolName", "Tool name: $toolName")
-                    Log.d("HorsePart", "Horse part: $horsePart")
-
                     if (horsePart != null && isCorrectToolForPart(toolName, horsePart)) {
                         if (isCleaning) {
-                            playSuccessEffect()
                             updateScore()
-                            Log.d("DragDrop", "Cleaning motion completed for $horsePart")
+                            playSuccessEffect()
+                            updateProgressBar()
                         } else {
                             playErrorEffect()
                             incrementErrors()
-                            Log.d("DragDrop", "No cleaning motion for $horsePart")
+                            showErrorAlert(ErrorType.INCORRECT_MOVEMENT)
                         }
                     } else {
                         playErrorEffect()
                         incrementErrors()
-                        Log.d("DragDrop", "Incorrect tool or part")
+                        if (horsePart == null) {
+                            showErrorAlert(ErrorType.INCORRECT_PART)
+                        } else {
+                            showErrorAlert(ErrorType.INCORRECT_TOOL)
+                        }
                     }
                     true
                 }
                 else -> true
             }
         }
+    }
+
+    private fun showErrorAlert(errorType: ErrorType) {
+        binding.errorAlert.text = errorType.getInfo()
+        binding.errorAlert.visibility = View.VISIBLE
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.errorAlert.visibility = View.GONE
+        }, 3000)
     }
 
     private fun isCleaningMotion(deltaX: Float, deltaY: Float): Boolean {
@@ -568,8 +590,6 @@ class GameActivity : AppCompatActivity() {
                 horseRegionsDp[nextPart] = nextPartPair.copy(second = true)
             }
         }
-
-        updateProgressBar()
     }
 
     private fun playErrorEffect() {
@@ -597,6 +617,10 @@ class GameActivity : AppCompatActivity() {
 
     private fun incrementErrors() {
         errors++
+        if (errors > getMaxErrors()) {
+            endGame(false)
+            return
+        }
         val currentText = binding.errorValue.text.toString()
         val updatedText = currentText.replace(Regex("^\\d+"), errors.toString())
         binding.errorValue.text = updatedText
@@ -605,5 +629,69 @@ class GameActivity : AppCompatActivity() {
     private fun updateProgressBar() {
         val progress = (currentStep.toFloat() / cleaningOrder.size) * 100
         binding.progressBar.progress = progress.toInt()
+        if (progress == 100f) {
+            endGame(true)
+            return
+        }
+    }
+
+    private fun showGameResultDialog(isWin: Boolean, loseReason: String?) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_game_result, null)
+
+        val title = dialogView.findViewById<TextView>(R.id.titleGameResult)
+        val info = dialogView.findViewById<TextView>(R.id.infoGameResult)
+        val timeLeft = dialogView.findViewById<TextView>(R.id.timeLeft)
+        val errorsText = dialogView.findViewById<TextView>(R.id.errors)
+        val difficultyText = dialogView.findViewById<TextView>(R.id.difficulty)
+        val points = dialogView.findViewById<TextView>(R.id.points)
+        val progress = dialogView.findViewById<TextView>(R.id.progress)
+
+        if (isWin) {
+            title.text = "Has Ganado!"
+        } else {
+            title.text = "Has Perdido!"
+            if (loseReason != null) {
+                info.visibility = View.VISIBLE
+                info.text = "$loseReason"
+            }
+        }
+
+        timeLeft.text = "Tiempo restante: ${formatTime(timeLeftInMillis)}"
+        errorsText.text = buildString {
+            append("Errores: $errors/")
+            append(getMaxErrors().toString())
+        }
+        difficultyText.text = "Dificultad: ${difficulty.getDisplayDifficulty()}"
+        points.text = "Puntos: $score"
+        progress.text = "Progreso: ${(currentStep.toFloat() / cleaningOrder.size * 100).toInt()}%"
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialogView.findViewById<View>(R.id.closeButton).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("SHOW_USER_INIT_FRAGMENT", true)
+                putExtra("USER_DATA", user)
+            }
+            startActivity(intent)
+            finish()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("SHOW_USER_INIT_FRAGMENT", true)
+                putExtra("USER_DATA", user)
+            }
+            startActivity(intent)
+            finish()
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.show()
     }
 }

@@ -29,7 +29,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 for (i in 1..4) {
                     val config = ConfigEntity(
                         pacientId = i,
-                        difficulty = Difficulty.EASY,
+                        difficulty = Difficulty.HARD,
                         voices = Voices.FEMININE,
                         clues = true
                     )

@@ -20,9 +20,6 @@
     <string name="registrar_usuario">Registrar Usuario</string>
     <string name="configuracion">Configuracion</string>
     <string name="dificultad_usuario">Dificultad %s</string>
-    <string name="difficulty_easy">Facil</string>
-    <string name="difficulty_medium">Media</string>
-    <string name="difficulty_hard">Dificil</string>
     <string name="about_us_developer">Desarrollo</string>"
     <string name="about_us_team">Rojas, Agustina Sol; Glorioso Ceretti, Antonio Felix</string>
     <string name="about_us_colaboration">Colaboracion con"</string>
@@ -34,7 +31,7 @@
     <string name="errores_game">Errores</string>
     <string name="cantidad_errores">0/8</string>
     <string name="puntaje_game">Puntaje</string>
-    <string name="value_puntaje_game">10</string>
+    <string name="value_puntaje_game">0</string>
     <string name="pista_game">Pista</string>
     <string name="imagen_de_un_caballo">Imagen de un caballo</string>
     <string name="imagen_de_una_mesa">Imagen de una mesa</string>

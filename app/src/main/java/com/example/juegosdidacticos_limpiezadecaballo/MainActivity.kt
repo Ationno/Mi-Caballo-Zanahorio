@@ -34,11 +34,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        BackgroundMusicPlayer.start(applicationContext, R.raw.menu_music)
+        BackgroundMusicPlayer.changeMusic(applicationContext, R.raw.menu_music)
     }
 
     override fun onResume() {
         super.onResume()
-        BackgroundMusicPlayer.start(applicationContext, R.raw.menu_music)
+        BackgroundMusicPlayer.changeMusic(applicationContext, R.raw.menu_music)
     }
 }

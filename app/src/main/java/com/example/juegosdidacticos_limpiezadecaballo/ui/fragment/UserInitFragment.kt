@@ -81,8 +81,7 @@ class UserInitFragment : Fragment() {
                     binding.userDifficulty.visibility = View.VISIBLE
                     lifecycleScope.launch {
                         val config = userViewModel.getConfigByPacientId(user.id)
-                        val difficultyName = config?.difficulty?.getDisplayName(requireContext()) ?: "Unknown"
-                        binding.userDifficulty.text = getString(R.string.dificultad_usuario, difficultyName)
+                        binding.userDifficulty.text = getString(R.string.dificultad_usuario, config?.difficulty?.getDisplayDifficulty())
                     }
                 }
 
@@ -100,9 +99,5 @@ class UserInitFragment : Fragment() {
             intent.putExtra("user", selectedUser)
             startActivity(intent)
         }
-    }
-
-    private fun Difficulty.getDisplayName(context: Context): String {
-        return context.getString(this.displayDifficultyString)
     }
 }
