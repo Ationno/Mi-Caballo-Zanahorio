@@ -33,19 +33,35 @@
 
         <TextView
             android:id="@+id/errorAlert"
-            android:gravity="center"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:visibility="gone"
-            android:layout_marginEnd="43dp"
-            android:fontFamily="@font/comixregular"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="43dp"
             android:background="@drawable/error_alert_background"
+            android:fontFamily="@font/comixregular"
+            android:gravity="center"
+            android:padding="8dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/top_menu"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_menu" />
+
+        <TextView
+            android:id="@+id/clueText"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="43dp"
+            android:background="@drawable/hint_alert_background"
+            android:fontFamily="@font/comixregular"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/errorAlert" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -235,14 +251,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
-        android:id="@+id/btn_hint"
+        android:id="@+id/btnHint"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
         android:layout_marginBottom="15dp"
+        android:alpha="0.5"
         android:background="@drawable/button_background"
         android:contentDescription="@string/pista_game"
         android:src="@drawable/ic_question_mark"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
@@ -268,56 +286,85 @@
             android:id="@+id/dirtyHead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:paddingStart="6dp"
+            android:paddingTop="4dp"
+            android:scaleX="2.5"
+            android:scaleY="2.5"
+            android:src="@drawable/head_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyNeck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:paddingTop="18dp"
+            android:paddingEnd="17dp"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:src="@drawable/neck_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyShoulder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:scaleY="1.8"
+            android:scaleX="1.8"
+            android:paddingBottom="7dp"
+            android:paddingEnd="7dp"
+            android:src="@drawable/shoulder_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:scaleX="4"
+            android:scaleY="4"
+            android:paddingBottom="8dp"
+            android:src="@drawable/back_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyBelly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:scaleY="4"
+            android:scaleX="4"
+            android:paddingTop="17dp"
+            android:paddingEnd="4dp"
+            android:src="@drawable/belly_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyHaunch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:src="@drawable/haunch_dirt"
+            android:scaleX="3.5"
+            android:scaleY="3.5"
+            android:paddingEnd="11dp"
+            android:paddingTop="9dp"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyFrontLegs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:paddingStart="25dp"
+            android:paddingBottom="8dp"
+            android:src="@drawable/front_legs_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyHindLegs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dirty"
+            android:paddingEnd="10dp"
+            android:paddingBottom="20dp"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            android:src="@drawable/hind_legs_dirt"
             android:visibility="gone" />
 
         <ImageView
