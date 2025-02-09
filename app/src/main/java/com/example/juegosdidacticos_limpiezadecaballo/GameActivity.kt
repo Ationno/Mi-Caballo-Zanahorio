@@ -4,7 +4,10 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.RectF
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -22,6 +25,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.marginStart
 import androidx.lifecycle.lifecycleScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.ErrorType
@@ -510,6 +515,7 @@ class GameActivity : AppCompatActivity() {
                             updateScore()
                             playSuccessEffect()
                             updateProgressBar()
+                            moveRider()
                         } else {
                             playErrorEffect()
                             incrementErrors()
@@ -530,6 +536,95 @@ class GameActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun moveRider() {
+        val imageView = binding.rider
+        val layoutParams = imageView.layoutParams as FrameLayout.LayoutParams
+
+        Log.d("RiderMovement", "moveRider() called for step: $currentStep")
+
+        // Update marginStart and image based on the current step
+        when (currentStep) {
+            1 -> {
+                layoutParams.marginStart = -dpToPx(150f).toInt()
+            }
+            2 -> {
+                layoutParams.marginStart = -dpToPx(130f).toInt()
+            }
+            3 -> {
+                layoutParams.marginStart = -dpToPx(70f).toInt()
+            }
+            4 -> {
+                layoutParams.marginStart = -dpToPx(80f).toInt()
+                changeRiderImage(imageView, R.drawable.rider_squat)
+            }
+            5 -> {
+                layoutParams.marginStart = -dpToPx(10f).toInt()
+                changeRiderImage(imageView, R.drawable.rider)
+            }
+            6 -> {
+                layoutParams.marginStart = -dpToPx(170f).toInt()
+                changeRiderImage(imageView, R.drawable.rider_squat)
+            }
+            7 -> {
+                layoutParams.marginStart = dpToPx(10f).toInt()
+            }
+            8 -> {
+                layoutParams.marginStart = -dpToPx(20f).toInt()
+            }
+            9 -> {
+                layoutParams.marginStart = -dpToPx(100f).toInt()
+                changeRiderImage(imageView, R.drawable.rider)
+            }
+            10 -> {
+                layoutParams.marginStart = -dpToPx(130f).toInt()
+            }
+            11 -> {
+                layoutParams.marginStart = dpToPx(40f).toInt()
+            }
+            12 -> {
+                layoutParams.marginStart = -dpToPx(140f).toInt()
+                changeRiderImage(imageView, R.drawable.rider_squat)
+            }
+            13 -> {
+                layoutParams.marginStart = -dpToPx(20f).toInt()
+            }
+            14 -> {
+                layoutParams.marginStart = dpToPx(50f).toInt()
+            }
+            else -> {
+                layoutParams.marginStart = layoutParams.marginStart // Keep the current margin
+            }
+        }
+
+        Log.d("RiderMovement", "Setting marginStart to: ${layoutParams.marginStart}")
+
+        // Apply layout changes
+        imageView.layoutParams = layoutParams
+        imageView.post {
+            imageView.requestLayout()
+            (imageView.parent as ViewGroup).invalidate() // Force parent redraw
+        }
+    }
+
+    private fun changeRiderImage(imageView: ImageView, newImageRes: Int) {
+        val newDrawable = ContextCompat.getDrawable(this, newImageRes) ?: return // Evita crash si es null
+        val currentDrawable = imageView.drawable ?: ColorDrawable(Color.TRANSPARENT) // Imagen actual o transparente
+
+        // Primero, ocultamos la imagen para evitar solapamientos
+        imageView.setImageDrawable(null)
+
+        // Pequeño retraso para evitar que ambas imágenes se solapen
+        imageView.postDelayed({
+            val transitionDrawable = TransitionDrawable(arrayOf(currentDrawable, newDrawable))
+            imageView.setImageDrawable(transitionDrawable)
+            transitionDrawable.startTransition(300) // Suaviza la transición en 300ms
+
+            imageView.requestLayout() // Asegura que la vista se actualice correctamente
+            imageView.invalidate()    // Forzar redibujado inmediato
+        }, 50) // Pequeña pausa de 50ms para evitar solapamientos
+    }
+
 
     private fun showErrorAlert(errorType: ErrorType) {
         binding.errorAlert.text = errorType.getInfo()
