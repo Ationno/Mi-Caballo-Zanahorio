@@ -261,6 +261,7 @@
         android:contentDescription="@string/pista_game"
         android:src="@drawable/ic_question_mark"
         android:visibility="visible"
+        android:elevation="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
@@ -268,6 +269,7 @@
     <FrameLayout
         android:layout_width="400dp"
         android:layout_height="340dp"
+        android:layout_marginStart="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
@@ -289,7 +291,7 @@
             android:layout_marginStart="-180dp"
             android:layout_marginTop="10dp"
             android:alpha="0.6"
-            android:elevation="100dp"
+            android:elevation="10dp"
             android:contentDescription="@string/imagen_de_una_jinete"
             android:src="@drawable/rider" />
 
@@ -459,15 +461,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/imagen_de_una_mesa"
-            android:scaleX="1.3"
-            android:scaleY="1.6"
+            android:scaleX="1"
+            android:scaleY="1.4"
             android:src="@drawable/game_table" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/object_constraints"
             android:layout_width="451dp"
             android:layout_height="165dp"
-            android:layout_marginTop="-30dp">
+            android:layout_marginTop="-15dp">
 
             <LinearLayout
                 android:id="@+id/tools_group"
@@ -479,25 +481,25 @@
 
                 <ImageView
                     android:id="@+id/hard_scraper"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
                     android:contentDescription="Rasqueta dura."
                     android:src="@drawable/tool_1" />
 
                 <ImageView
                     android:id="@+id/soft_scraper"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="40dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="30dp"
                     android:contentDescription="Rasqueta blanda."
                     android:src="@drawable/tool_2" />
 
                 <ImageView
                     android:id="@+id/hoof_pick"
-                    android:layout_width="90dp"
-                    android:layout_height="80dp"
+                    android:layout_width="80dp"
+                    android:layout_height="70dp"
                     android:contentDescription="Escarba-vasos."
                     android:src="@drawable/tool_3" />
             </LinearLayout>
@@ -511,17 +513,17 @@
 
                 <ImageView
                     android:id="@+id/soft_brush"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="80dp"
+                    android:layout_marginEnd="60dp"
                     android:contentDescription="Cepillo blando."
                     android:src="@drawable/tool_4" />
 
                 <ImageView
                     android:id="@+id/hard_brush"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:contentDescription="Cepillo duro."
                     android:src="@drawable/tool_5" />
             </LinearLayout>

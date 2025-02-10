@@ -2,19 +2,19 @@ package com.example.juegosdidacticos_limpiezadecaballo.utils
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 
 object BackgroundMusicPlayer {
     private var mediaPlayer: MediaPlayer? = null
-    private var gameVolume: Int = 0
+    private var volumeFinal: Float = 0f
     fun start(context: Context, musicResId: Int) {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(context, musicResId)
             mediaPlayer?.isLooping = true
             mediaPlayer?.start()
             val sharedPrefs = context.getSharedPreferences("AppSettings", MODE_PRIVATE)
-            gameVolume = sharedPrefs.getInt("gameVolume", 50)
-            mediaPlayer?.setVolume(gameVolume / 100f, gameVolume / 100f)
+            setVolume(sharedPrefs.getInt("musicVolume", 50), sharedPrefs.getInt("gameVolume", 50))
         }
     }
 
@@ -28,12 +28,13 @@ object BackgroundMusicPlayer {
 
         mediaPlayer = MediaPlayer.create(context.applicationContext, newMusicResId)
         mediaPlayer?.isLooping = true
-        mediaPlayer?.setVolume(gameVolume / 100f, gameVolume / 100f)
+        mediaPlayer?.setVolume(volumeFinal / 100f, volumeFinal / 100f)
         mediaPlayer?.start()
     }
 
-    fun setVolume(volume: Int) {
-        mediaPlayer?.setVolume(volume / 100f, volume / 100f)
+    fun setVolume(volumeMusic: Int, volumeTotal: Int) {
+        volumeFinal = volumeTotal/100f * volumeMusic
+        mediaPlayer?.setVolume(volumeFinal / 100f, volumeFinal / 100f)
     }
 
     fun stop() {

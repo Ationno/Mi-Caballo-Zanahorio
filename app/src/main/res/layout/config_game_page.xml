@@ -38,7 +38,7 @@
                 android:fontFamily="@font/comixloud"
                 android:text="Configuracion"
                 android:textColor="#C65D18"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@id/closeDialogButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +57,7 @@
                     android:fontFamily="@font/comixregular"
                     android:text="Volumen del Juego"
                     android:textColor="#C65D18"
-                    android:textSize="35sp" />
+                    android:textSize="25sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                     android:fontFamily="@font/comixregular"
                     android:text="Volumen de voces"
                     android:textColor="#C65D18"
-                    android:textSize="35sp" />
+                    android:textSize="25sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -120,53 +120,50 @@
                         android:textColor="#C65D18"
                         android:textSize="20sp" />
                 </LinearLayout>
-                <!--
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/comixregular"
-                                    android:text="Seleccionar Voz"
-                                    android:layout_marginTop="5dp"
-                                    android:textColor="#C65D18"
-                                    android:textSize="35sp" />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:orientation="horizontal"
-                                    app:layout_constraintTop_toBottomOf="@id/infoTitle">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/comixregular"
+                    android:text="Volumen de la música"
+                    android:textColor="#C65D18"
+                    android:textSize="25sp" />
 
-                                    <android.widget.Button
-                                        android:id="@+id/masculineVoiceButton"
-                                        style="@style/ButtonStyleMenu"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:paddingHorizontal="15sp"
-                                        android:paddingVertical="20sp"
-                                        android:text="@string/masculine_voice"
-                                        android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                                    <android.widget.Button
-                                        android:id="@+id/femenineVoiceButton"
-                                        style="@style/ButtonStyleMenu"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:paddingHorizontal="18sp"
-                                        android:paddingVertical="20sp"
-                                        android:text="@string/femenine_voice"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-                                -->
+                    <SeekBar
+                        android:id="@+id/musicVolumeSeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:progressDrawable="@drawable/seek_bar"
+                        android:thumb="@drawable/seek_thumb" />
+
+                    <TextView
+                        android:id="@+id/musicVolumePercentage"
+                        android:layout_width="35dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="50%"
+                        android:textColor="#C65D18"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
                 <android.widget.Button
                     android:id="@+id/confirmButton"
                     style="@style/ButtonStyleMenu"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="18sp"
-                    android:paddingVertical="20sp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8sp"
                     android:text="@string/confirm_button"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

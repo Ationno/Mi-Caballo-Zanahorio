@@ -1,13 +1,13 @@
 package com.example.juegosdidacticos_limpiezadecaballo
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.RectF
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.TransitionDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -17,16 +17,12 @@ import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.marginStart
 import androidx.lifecycle.lifecycleScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.ErrorType
@@ -52,6 +48,7 @@ class GameActivity : AppCompatActivity() {
     private var score: Int = 0
     private var gameVolume: Int = 0
     private var voiceVolume: Int = 0
+    private var musicVolume: Int = 0
 
     private val cleaningOrder = listOf(
         Pair("head", "soft_scraper"),
@@ -124,7 +121,7 @@ class GameActivity : AppCompatActivity() {
 
         BackgroundMusicPlayer.changeMusic(this, R.raw.game_music)
 
-        user = intent.getParcelableExtra("user", PacientEntity::class.java)
+        user = intent.getParcelableExtra("USER", PacientEntity::class.java)
         val pacientId = user?.id
 
         pacientId?.let { id: Int ->
@@ -242,15 +239,23 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun pauseTimer() {
-        countDownTimer?.cancel() // Stop the timer
+        countDownTimer?.cancel()
     }
 
     private fun resumeTimer() {
-        startTimer() // Restart the timer with the remaining time
+        startTimer()
     }
 
     private fun endGame(completed: Boolean) {
         countDownTimer?.cancel()
+
+        MediaPlayer.create(this, if (completed) R.raw.win_game else R.raw.game_over).apply {
+            setVolume(gameVolume / 100f, gameVolume / 100f)
+            start()
+            setOnCompletionListener {
+                release()
+            }
+        }
 
         val isWin = completed
         val loseReason = when {
@@ -288,26 +293,6 @@ class GameActivity : AppCompatActivity() {
         binding.btnHint.setOnClickListener {
             onHintButtonClicked()
         }
-
-        /* binding.horseImage.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                val x = event.x // x coordinate in pixels
-                val y = event.y // y coordinate in pixels
-
-                // Convert pixels to dp
-                val xDp = pxToDp(x)
-                val yDp = pxToDp(y)
-
-                // Log the coordinates in dp
-                Log.d("HorseImageClick", "Clicked at (x: $xDp dp, y: $yDp dp)")
-            }
-            true // Return true to indicate the event was handled
-        }
-        */
-    }
-
-    private fun pxToDp(px: Float): Float {
-        return px / resources.displayMetrics.density
     }
 
     private fun onPauseButtonClicked() {
@@ -323,6 +308,15 @@ class GameActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SHOW_USER_INIT_FRAGMENT", true)
                 putExtra("USER_DATA", user)
+            }
+            startActivity(intent)
+            finish()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<View>(R.id.restartButton).setOnClickListener {
+            val intent = Intent(this, GameActivity::class.java).apply {
+               putExtra("USER", user)
             }
             startActivity(intent)
             finish()
@@ -365,10 +359,13 @@ class GameActivity : AppCompatActivity() {
         val gameVolumePercentage = dialogView.findViewById<TextView>(R.id.gameVolumePercentage)
         val voiceVolumeSeekBar = dialogView.findViewById<SeekBar>(R.id.voiceVolumeSeekBar)
         val voiceVolumePercentage = dialogView.findViewById<TextView>(R.id.voiceVolumePercentage)
+        val musicVolumeSeekBar = dialogView.findViewById<SeekBar>(R.id.musicVolumeSeekBar)
+        val musicVolumePercentage = dialogView.findViewById<TextView>(R.id.musicVolumePercentage)
 
         val sharedPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE)
         gameVolume = sharedPrefs.getInt("gameVolume", 50)
         voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
+        musicVolume = sharedPrefs.getInt("musicVolume", 50)
 
         gameVolumeSeekBar.progress = gameVolume
         gameVolumePercentage.text = "$gameVolume%"
@@ -376,10 +373,13 @@ class GameActivity : AppCompatActivity() {
         voiceVolumeSeekBar.progress = voiceVolume
         voiceVolumePercentage.text = "$voiceVolume%"
 
+        musicVolumeSeekBar.progress = musicVolume
+        musicVolumePercentage.text = "$musicVolume%"
+
         gameVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 gameVolumePercentage.text = "$progress%"
-                BackgroundMusicPlayer.setVolume(progress)
+                BackgroundMusicPlayer.setVolume(musicVolumeSeekBar.progress, progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -395,27 +395,41 @@ class GameActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        musicVolumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                musicVolumePercentage.text = "$progress%"
+                BackgroundMusicPlayer.setVolume(progress, gameVolumeSeekBar.progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         dialogView.findViewById<View>(R.id.confirmButton).setOnClickListener {
             val newGameVolume = gameVolumeSeekBar.progress
             val newVoiceVolume = voiceVolumeSeekBar.progress
+            val newMusicVolume = musicVolumeSeekBar.progress
+
             gameVolume = newGameVolume
             voiceVolume = newVoiceVolume
+            musicVolume = newMusicVolume
 
             sharedPrefs.edit()
                 .putInt("gameVolume", newGameVolume)
                 .putInt("voiceVolume", newVoiceVolume)
+                .putInt("musicVolume", newMusicVolume)
                 .apply()
 
             dialog.dismiss()
         }
 
         dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
-            BackgroundMusicPlayer.setVolume(gameVolume)
+            BackgroundMusicPlayer.setVolume(musicVolume, gameVolume)
             dialog.dismiss()
         }
 
         dialog.setOnDismissListener {
-            BackgroundMusicPlayer.setVolume(gameVolume)
+            BackgroundMusicPlayer.setVolume(musicVolume, gameVolume)
             resumeTimer()
         }
 
@@ -431,8 +445,8 @@ class GameActivity : AppCompatActivity() {
     private fun onHintButtonClicked() {
         if (errorsOnCurrentStep >= 4) {
             val clue = when {
-                errorsOnCurrentStep >= 8 -> clues[currentStep]?.second // Show the more obvious clue
-                else -> clues[currentStep]?.first // Show the less obvious clue
+                errorsOnCurrentStep >= 8 -> clues[currentStep]?.second
+                else -> clues[currentStep]?.first
             }
 
             if (clue != null) {
@@ -441,7 +455,7 @@ class GameActivity : AppCompatActivity() {
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     binding.clueText.visibility = View.GONE
-                }, 5000) // Hide the clue after 5 seconds
+                }, 5000)
             }
         }
     }
@@ -457,7 +471,7 @@ class GameActivity : AppCompatActivity() {
 
         tools.forEach { tool ->
             tool.setOnLongClickListener { v ->
-                val clipData = ClipData.newPlainText("tool", v.id.toString()) // Use ID instead of contentDescription
+                val clipData = ClipData.newPlainText("tool", v.id.toString())
                 val dragShadowBuilder = View.DragShadowBuilder(v)
                 v.startDragAndDrop(clipData, dragShadowBuilder, v, 0)
                 true
@@ -503,8 +517,6 @@ class GameActivity : AppCompatActivity() {
                     val toolName = tool.id
                     val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    Log.d("HorsePart", "horsePart: $horsePart")
-
                     isCleaning = countCleaning > countCleaningReversed && countCleaning > 50 && countCleaningReversed < 20
 
                     countCleaning = 0
@@ -541,9 +553,6 @@ class GameActivity : AppCompatActivity() {
         val imageView = binding.rider
         val layoutParams = imageView.layoutParams as FrameLayout.LayoutParams
 
-        Log.d("RiderMovement", "moveRider() called for step: $currentStep")
-
-        // Update marginStart and image based on the current step
         when (currentStep) {
             1 -> {
                 layoutParams.marginStart = -dpToPx(150f).toInt()
@@ -567,7 +576,7 @@ class GameActivity : AppCompatActivity() {
                 changeRiderImage(imageView, R.drawable.rider_squat)
             }
             7 -> {
-                layoutParams.marginStart = dpToPx(10f).toInt()
+                layoutParams.marginStart = 0
             }
             8 -> {
                 layoutParams.marginStart = -dpToPx(20f).toInt()
@@ -593,7 +602,7 @@ class GameActivity : AppCompatActivity() {
                 layoutParams.marginStart = dpToPx(50f).toInt()
             }
             else -> {
-                layoutParams.marginStart = layoutParams.marginStart // Keep the current margin
+                layoutParams.marginStart = layoutParams.marginStart
             }
         }
 
@@ -603,26 +612,28 @@ class GameActivity : AppCompatActivity() {
         imageView.layoutParams = layoutParams
         imageView.post {
             imageView.requestLayout()
-            (imageView.parent as ViewGroup).invalidate() // Force parent redraw
+            (imageView.parent as ViewGroup).invalidate()
         }
     }
 
     private fun changeRiderImage(imageView: ImageView, newImageRes: Int) {
-        val newDrawable = ContextCompat.getDrawable(this, newImageRes) ?: return // Evita crash si es null
-        val currentDrawable = imageView.drawable ?: ColorDrawable(Color.TRANSPARENT) // Imagen actual o transparente
+        val initialAlpha = imageView.alpha
 
-        // Primero, ocultamos la imagen para evitar solapamientos
-        imageView.setImageDrawable(null)
+        val fadeOut = ObjectAnimator.ofFloat(imageView, "alpha", initialAlpha, 0f)
+        fadeOut.duration = 300
 
-        // Pequeño retraso para evitar que ambas imágenes se solapen
-        imageView.postDelayed({
-            val transitionDrawable = TransitionDrawable(arrayOf(currentDrawable, newDrawable))
-            imageView.setImageDrawable(transitionDrawable)
-            transitionDrawable.startTransition(300) // Suaviza la transición en 300ms
+        fadeOut.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                imageView.setImageResource(newImageRes)
+                imageView.alpha = 0f
 
-            imageView.requestLayout() // Asegura que la vista se actualice correctamente
-            imageView.invalidate()    // Forzar redibujado inmediato
-        }, 50) // Pequeña pausa de 50ms para evitar solapamientos
+                val fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, initialAlpha)
+                fadeIn.duration = 300
+                fadeIn.start()
+            }
+        })
+
+        fadeOut.start()
     }
 
 
@@ -688,9 +699,13 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun playSuccessEffect() {
-        val mediaPlayer = MediaPlayer.create(this, R.raw.relincho)
-        mediaPlayer.setVolume(gameVolume / 100f, gameVolume / 100f)
-        mediaPlayer.start()
+        MediaPlayer.create(this, R.raw.relincho).apply {
+            setVolume(gameVolume / 100f, gameVolume / 100f)
+            start()
+            setOnCompletionListener {
+                release()
+            }
+        }
 
         binding.greenOverlay.visibility = View.VISIBLE
 
@@ -724,13 +739,17 @@ class GameActivity : AppCompatActivity() {
 
         errorsOnCurrentStep = 0
         binding.btnHint.alpha = 0.5f
-        binding.clueText.visibility = View.GONE // Hide the clue
+        binding.clueText.visibility = View.GONE
     }
 
     private fun playErrorEffect() {
-        val mediaPlayer = MediaPlayer.create(this, R.raw.resoplido)
-        mediaPlayer.setVolume(gameVolume / 100f, gameVolume / 100f)
-        mediaPlayer.start()
+        MediaPlayer.create(this, R.raw.resoplido).apply {
+            setVolume(gameVolume / 100f, gameVolume / 100f)
+            start()
+            setOnCompletionListener {
+                release()
+            }
+        }
 
         binding.redOverlay.visibility = View.VISIBLE
 
@@ -746,7 +765,33 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun updateScore() {
-        score += 10
+        var baseScore = 10
+
+        val difficultyMultiplier = when (difficulty) {
+            Difficulty.EASY -> 1.0
+            Difficulty.MEDIUM -> 1.5
+            Difficulty.HARD -> 2.0
+        }
+
+        val timeSpent = totalTimeInMillis - timeLeftInMillis
+        val timeMultiplier = when {
+            timeSpent < totalTimeInMillis * 0.25 -> 1.5
+            timeSpent < totalTimeInMillis * 0.5 -> 1.2
+            else -> 1.0
+        }
+
+        val errorMultiplier = when (errorsOnCurrentStep) {
+            0 -> 2.0
+            1 -> 1.5
+            2 -> 1.2
+            3 -> 1.0
+            else -> 0.8
+        }
+
+        val stepScore = (baseScore * difficultyMultiplier * timeMultiplier * errorMultiplier).toInt()
+
+        score += stepScore
+
         binding.scoreValue.text = score.toString()
     }
 

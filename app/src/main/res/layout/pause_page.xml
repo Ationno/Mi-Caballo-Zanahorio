@@ -39,7 +39,7 @@
                 android:fontFamily="@font/comixloud"
                 android:text="@string/juego_pausado"
                 android:textColor="#C65D18 "
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@id/closeDialogButton"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,10 +59,9 @@
                     style="@style/ButtonStyleMenu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingHorizontal="15sp"
-                    android:paddingVertical="20sp"
+                    android:paddingVertical="8sp"
                     android:text="@string/reanudar"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <android.widget.Button
                     android:id="@+id/menuButton"
@@ -70,19 +69,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="18sp"
-                    android:paddingVertical="20sp"
+                    android:paddingVertical="8sp"
                     android:text="Volver al Menu"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <android.widget.Button
                     android:id="@+id/restartButton"
                     style="@style/ButtonStyleMenu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingHorizontal="18sp"
-                    android:paddingVertical="20sp"
+                    android:paddingVertical="8sp"
                     android:text="Reiniciar"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,8 @@
 package com.example.juegosdidacticos_limpiezadecaballo.ui.fragment
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.juegosdidacticos_limpiezadecaballo.GameActivity
 import com.example.juegosdidacticos_limpiezadecaballo.R
-import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
@@ -96,7 +93,7 @@ class UserInitFragment : Fragment() {
 
         binding.playButton.setOnClickListener {
             val intent = Intent(requireContext(), GameActivity::class.java)
-            intent.putExtra("user", selectedUser)
+            intent.putExtra("USER", selectedUser)
             startActivity(intent)
         }
     }
