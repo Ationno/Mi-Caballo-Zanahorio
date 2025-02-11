@@ -4,20 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <ImageView
-        android:id="@+id/user_profile"
+        android:id="@+id/userProfile"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginTop="50dp"
-        android:contentDescription="@string/avatar_del_usuario"
+        android:contentDescription="@string/user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/first_avatar" />
 
     <TextView
-        android:id="@+id/user_name"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -32,10 +31,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_profile" />
+        app:layout_constraintTop_toBottomOf="@id/userProfile" />
 
     <TextView
-        android:id="@+id/user_difficulty"
+        android:id="@+id/userDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -45,79 +44,78 @@
         android:shadowDy="2"
         android:shadowRadius="3"
         android:text="@string/difficulty"
-        android:visibility="gone"
         android:textColor="@color/light_font"
         android:textSize="30sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_name" />
+        app:layout_constraintTop_toBottomOf="@id/userName" />
 
     <LinearLayout
-        android:id="@+id/button_list"
+        android:id="@+id/buttonList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="120dp"
         android:gravity="center"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_difficulty"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/userDifficulty">
 
         <android.widget.Button
-            android:id="@+id/pacients_button"
+            android:id="@+id/pacientsButton"
             style="@style/ButtonStyleMenu"
-            android:visibility="gone"
-            android:text="@string/pacientes" />
+            android:text="@string/patients"
+            android:visibility="gone" />
 
         <android.widget.Button
-            android:id="@+id/play_button"
+            android:id="@+id/playButton"
             style="@style/ButtonStyleMenu"
-            android:visibility="gone"
-            android:text="@string/jugar" />
+            android:text="@string/play"
+            android:visibility="gone" />
 
         <android.widget.Button
-            android:id="@+id/information_button"
+            android:id="@+id/informationButton"
             style="@style/ButtonStyleMenu"
-            android:visibility="gone"
-            android:text="@string/informacion" />
+            android:text="@string/information"
+            android:visibility="gone" />
 
         <android.widget.Button
-            android:id="@+id/register_button"
+            android:id="@+id/registerButton"
             style="@style/ButtonStyleMenu"
-            android:visibility="gone"
+            android:text="@string/register_user"
             android:textSize="16sp"
-            android:text="@string/registrar_usuario" />
+            android:visibility="gone" />
 
         <android.widget.Button
-            android:id="@+id/configuration_button"
+            android:id="@+id/configurationButton"
             style="@style/ButtonStyleMenu"
-            android:text="@string/configuracion" />
+            android:text="@string/configuration" />
 
         <android.widget.Button
-            android:id="@+id/change_profile_button"
+            android:id="@+id/change_profileButton"
             style="@style/ButtonStyleMenu"
-            android:text="@string/cambiar_perfil" />
+            android:text="@string/change_profile" />
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/about_us_button"
+        android:id="@+id/aboutUsButton"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:contentDescription="@string/informacion_de_desarrollo"
+        android:contentDescription="@string/development_information"
+        app:background="@drawable/button_selector"
+        app:backgroundTint="@color/dark_orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_info"
-        app:background="@drawable/button_selector"
-        app:backgroundTint="@color/dark_orange"
-        app:tint="#D57C26"
-        />
+        app:tint="#D57C26" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

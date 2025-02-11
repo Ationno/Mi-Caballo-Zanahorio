@@ -27,7 +27,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.ErrorType
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.GamePageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
@@ -39,7 +39,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var binding: GamePageBinding
     private val userViewModel: UserViewModel by viewModels()
     private val gameViewModel: GameViewModel by viewModels()
-    private var user: PacientEntity? = null
+    private var user: PatientEntity? = null
     private var countDownTimer: CountDownTimer? = null
     private var timeLeftInMillis: Long = 0
     private var totalTimeInMillis: Long = 0
@@ -49,6 +49,9 @@ class GameActivity : AppCompatActivity() {
     private var gameVolume: Int = 0
     private var voiceVolume: Int = 0
     private var musicVolume: Int = 0
+    private var errorsOnCurrentStep = 0
+    private var currentStep = 0
+    private val dirtyOverlays = mutableMapOf<String, ImageView>()
 
     private val cleaningOrder = listOf(
         Pair("head", "soft_scraper"),
@@ -87,28 +90,67 @@ class GameActivity : AppCompatActivity() {
     )
 
     private val clues = mapOf(
-        0 to Pair("Pista: La cabeza es sensible, es mejor usar herramientas que no duelan!.", "Pista: La rasqueta suave se utiliza para limpiar la cabeza."),
-        1 to Pair("Pista: El cuello es difícil de limpiar, es mejor usar herramientas fuertes!.", "Pista: La rasqueta dura se utiliza para limpiar el cuello."),
-        2 to Pair("Pista: La paleta necesita una buena limpieza, las herramientas más resistentes son mejores!.", "Pista: La rasqueta dura se utiliza para limpiar la paleta."),
-        3 to Pair("Pista: Los caballos tienen jinetes en su lomo constantemente, es mejor limpiarlo con herramientas fuertes!.", "Pista: La rasqueta dura se utiliza para limpiar el lomo."),
-        4 to Pair("Pista: La panza de los caballos suele estar bastante sucia, hay que limpiarla con mucha dureza!", "Pista: La rasqueta dura se utiliza para limpiar la panza."),
-        5 to Pair("Pista: La anca debe limpiarse con firmeza, una herramienta resistente es la mejor opción!", "Pista: La rasqueta dura se utiliza para limpiar la anca."),
-        6 to Pair("Pista: Las manos del caballo son delicadas, es mejor usar algo suave para limpiarlas.", "Pista: La rasqueta blanda se utiliza para limpiar las manos."),
-        7 to Pair("Pista: Las patas deben mantenerse limpias, pero hay que hacerlo con cuidado.", "Pista: La rasqueta blanda se utiliza para limpiar las patas."),
-        8 to Pair("Pista: La verija es una zona difícil de limpiar, se necesita una herramienta fuerte!", "Pista: La rasqueta dura se utiliza para limpiar la verija."),
-        9 to Pair("Pista: Para un buen mantenimiento, el cuerpo en general necesita un cepillado suave.", "Pista: El cepillo blando se utiliza para limpiar el cuerpo en general."),
-        10 to Pair("Pista: Las crines pueden enredarse fácilmente, es mejor usar un cepillo firme!", "Pista: El cepillo duro se utiliza para limpiar las crines."),
-        11 to Pair("Pista: La cola puede acumular suciedad y enredos, se necesita un buen cepillado!", "Pista: El cepillo duro se utiliza para limpiar la cola."),
-        12 to Pair("Pista: El vaso de la mano izquierda delantera debe mantenerse limpio para evitar problemas.", "Pista: El escarbavasos se utiliza para limpiar el vaso de la mano izquierda delantera."),
-        13 to Pair("Pista: El vaso de la pata derecha delantera también necesita una limpieza profunda.", "Pista: El escarbavasos se utiliza para limpiar el vaso de la pata derecha delantera."),
-        14 to Pair("Pista: El vaso de la pata izquierda delantera no debe descuidarse, es importante limpiarlo bien.", "Pista: El escarbavasos se utiliza para limpiar el vaso de la pata izquierda delantera.")
+        0 to Pair(
+            "Pista: La cabeza es sensible, es mejor usar herramientas que no duelan!.",
+            "Pista: La rasqueta suave se utiliza para limpiar la cabeza."
+        ),
+        1 to Pair(
+            "Pista: El cuello es difícil de limpiar, es mejor usar herramientas fuertes!.",
+            "Pista: La rasqueta dura se utiliza para limpiar el cuello."
+        ),
+        2 to Pair(
+            "Pista: La paleta necesita una buena limpieza, las herramientas más resistentes son mejores!.",
+            "Pista: La rasqueta dura se utiliza para limpiar la paleta."
+        ),
+        3 to Pair(
+            "Pista: Los caballos tienen jinetes en su lomo constantemente, es mejor limpiarlo con herramientas fuertes!.",
+            "Pista: La rasqueta dura se utiliza para limpiar el lomo."
+        ),
+        4 to Pair(
+            "Pista: La panza de los caballos suele estar bastante sucia, hay que limpiarla con mucha dureza!",
+            "Pista: La rasqueta dura se utiliza para limpiar la panza."
+        ),
+        5 to Pair(
+            "Pista: La anca debe limpiarse con firmeza, una herramienta resistente es la mejor opción!",
+            "Pista: La rasqueta dura se utiliza para limpiar la anca."
+        ),
+        6 to Pair(
+            "Pista: Las manos del caballo son delicadas, es mejor usar algo suave para limpiarlas.",
+            "Pista: La rasqueta blanda se utiliza para limpiar las manos."
+        ),
+        7 to Pair(
+            "Pista: Las patas deben mantenerse limpias, pero hay que hacerlo con cuidado.",
+            "Pista: La rasqueta blanda se utiliza para limpiar las patas."
+        ),
+        8 to Pair(
+            "Pista: La verija es una zona difícil de limpiar, se necesita una herramienta fuerte!",
+            "Pista: La rasqueta dura se utiliza para limpiar la verija."
+        ),
+        9 to Pair(
+            "Pista: Para un buen mantenimiento, el cuerpo en general necesita un cepillado suave.",
+            "Pista: El cepillo blando se utiliza para limpiar el cuerpo en general."
+        ),
+        10 to Pair(
+            "Pista: Las crines pueden enredarse fácilmente, es mejor usar un cepillo firme!",
+            "Pista: El cepillo duro se utiliza para limpiar las crines."
+        ),
+        11 to Pair(
+            "Pista: La cola puede acumular suciedad y enredos, se necesita un buen cepillado!",
+            "Pista: El cepillo duro se utiliza para limpiar la cola."
+        ),
+        12 to Pair(
+            "Pista: El vaso de la mano izquierda delantera debe mantenerse limpio para evitar problemas.",
+            "Pista: El escarbavasos se utiliza para limpiar el vaso de la mano izquierda delantera."
+        ),
+        13 to Pair(
+            "Pista: El vaso de la pata derecha delantera también necesita una limpieza profunda.",
+            "Pista: El escarbavasos se utiliza para limpiar el vaso de la pata derecha delantera."
+        ),
+        14 to Pair(
+            "Pista: El vaso de la pata izquierda delantera no debe descuidarse, es importante limpiarlo bien.",
+            "Pista: El escarbavasos se utiliza para limpiar el vaso de la pata izquierda delantera."
+        )
     )
-
-    private var errorsOnCurrentStep = 0
-
-    private var currentStep = 0
-
-    private val dirtyOverlays = mutableMapOf<String, ImageView>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,12 +163,12 @@ class GameActivity : AppCompatActivity() {
 
         BackgroundMusicPlayer.changeMusic(this, R.raw.game_music)
 
-        user = intent.getParcelableExtra("USER", PacientEntity::class.java)
-        val pacientId = user?.id
+        user = intent.getParcelableExtra("USER", PatientEntity::class.java)
+        val patientId = user?.id
 
-        pacientId?.let { id: Int ->
+        patientId?.let { id: Int ->
             lifecycleScope.launch {
-                val config = userViewModel.getConfigByPacientId(id)
+                val config = userViewModel.getConfigByPatientId(id)
                 config?.let {
                     initializeDifficulty(it.difficulty)
                     startTimer()
@@ -192,10 +234,12 @@ class GameActivity : AppCompatActivity() {
                 timeLeftInMillis = 480000L
                 totalTimeInMillis = 480000L
             }
+
             Difficulty.MEDIUM -> {
                 timeLeftInMillis = 240000L
                 totalTimeInMillis = 240000L
             }
+
             Difficulty.HARD -> {
                 timeLeftInMillis = 120000L
                 totalTimeInMillis = 120000L
@@ -257,14 +301,13 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        val isWin = completed
         val loseReason = when {
             !completed && timeLeftInMillis <= 0 -> "Se te ha acabado el tiempo!"
             !completed && errors >= getMaxErrors() -> "Demasiados errores!"
             else -> null
         }
 
-        showGameResultDialog(isWin, loseReason)
+        showGameResultDialog(completed, loseReason)
         saveGameState(completed)
     }
 
@@ -316,7 +359,7 @@ class GameActivity : AppCompatActivity() {
 
         dialogView.findViewById<View>(R.id.restartButton).setOnClickListener {
             val intent = Intent(this, GameActivity::class.java).apply {
-               putExtra("USER", user)
+                putExtra("USER", user)
             }
             startActivity(intent)
             finish()
@@ -478,15 +521,15 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        var dragStartX = 0f
-        var dragStartY = 0f
+        var dragStartX: Float
+        var dragStartY: Float
         var previousX = 0f
         var previousY = 0f
-        var isCleaning = false
+        var isCleaning: Boolean
         var countCleaning = 0
         var countCleaningReversed = 0
 
-        binding.horseImage.setOnDragListener { v, event ->
+        binding.horseImage.setOnDragListener { _, event ->
             when (event.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
                     dragStartX = event.x
@@ -496,6 +539,7 @@ class GameActivity : AppCompatActivity() {
                     isCleaning = false
                     true
                 }
+
                 DragEvent.ACTION_DRAG_LOCATION -> {
                     val currentX = event.x
                     val currentY = event.y
@@ -512,12 +556,14 @@ class GameActivity : AppCompatActivity() {
                     previousY = currentY
                     true
                 }
+
                 DragEvent.ACTION_DROP -> {
                     val tool = event.localState as ImageView
                     val toolName = tool.id
                     val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    isCleaning = countCleaning > countCleaningReversed && countCleaning > 50 && countCleaningReversed < 20
+                    isCleaning =
+                        countCleaning > countCleaningReversed && countCleaning > 50 && countCleaningReversed < 20
 
                     countCleaning = 0
                     countCleaningReversed = 0
@@ -544,6 +590,7 @@ class GameActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 else -> true
             }
         }
@@ -557,58 +604,69 @@ class GameActivity : AppCompatActivity() {
             1 -> {
                 layoutParams.marginStart = -dpToPx(150f).toInt()
             }
+
             2 -> {
                 layoutParams.marginStart = -dpToPx(130f).toInt()
             }
+
             3 -> {
                 layoutParams.marginStart = -dpToPx(70f).toInt()
             }
+
             4 -> {
                 layoutParams.marginStart = -dpToPx(80f).toInt()
                 changeRiderImage(imageView, R.drawable.rider_squat)
             }
+
             5 -> {
                 layoutParams.marginStart = -dpToPx(10f).toInt()
                 changeRiderImage(imageView, R.drawable.rider)
             }
+
             6 -> {
                 layoutParams.marginStart = -dpToPx(170f).toInt()
                 changeRiderImage(imageView, R.drawable.rider_squat)
             }
+
             7 -> {
                 layoutParams.marginStart = 0
             }
+
             8 -> {
                 layoutParams.marginStart = -dpToPx(20f).toInt()
             }
+
             9 -> {
                 layoutParams.marginStart = -dpToPx(100f).toInt()
                 changeRiderImage(imageView, R.drawable.rider)
             }
+
             10 -> {
                 layoutParams.marginStart = -dpToPx(130f).toInt()
             }
+
             11 -> {
                 layoutParams.marginStart = dpToPx(40f).toInt()
             }
+
             12 -> {
                 layoutParams.marginStart = -dpToPx(140f).toInt()
                 changeRiderImage(imageView, R.drawable.rider_squat)
             }
+
             13 -> {
                 layoutParams.marginStart = -dpToPx(20f).toInt()
             }
+
             14 -> {
                 layoutParams.marginStart = dpToPx(50f).toInt()
             }
+
             else -> {
                 layoutParams.marginStart = layoutParams.marginStart
             }
         }
 
-        Log.d("RiderMovement", "Setting marginStart to: ${layoutParams.marginStart}")
-
-        // Apply layout changes
         imageView.layoutParams = layoutParams
         imageView.post {
             imageView.requestLayout()
@@ -677,7 +735,7 @@ class GameActivity : AppCompatActivity() {
         return accessibleHorseRegionsPx.entries.find { (_, rect) -> rect.contains(x, y) }?.key
     }
 
-    fun Context.dpToPx(dp: Float): Float {
+    private fun Context.dpToPx(dp: Float): Float {
         return dp * resources.displayMetrics.density
     }
 
@@ -687,11 +745,11 @@ class GameActivity : AppCompatActivity() {
         val (expectedPart, expectedToolName) = cleaningOrder[currentStep]
 
         val toolName = when (toolId) {
-            R.id.hard_scraper -> "hard_scraper"
-            R.id.soft_scraper -> "soft_scraper"
-            R.id.hoof_pick -> "hoof_pick"
-            R.id.soft_brush -> "soft_brush"
-            R.id.hard_brush -> "hard_brush"
+            R.id.hardScraper -> "hard_scraper"
+            R.id.softScraper -> "soft_scraper"
+            R.id.hoofPick -> "hoof_pick"
+            R.id.softBrush -> "soft_brush"
+            R.id.hardBrush -> "hard_brush"
             else -> return false
         }
 
@@ -765,7 +823,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun updateScore() {
-        var baseScore = 10
+        val baseScore = 10
 
         val difficultyMultiplier = when (difficulty) {
             Difficulty.EASY -> 1.0
@@ -788,7 +846,8 @@ class GameActivity : AppCompatActivity() {
             else -> 0.8
         }
 
-        val stepScore = (baseScore * difficultyMultiplier * timeMultiplier * errorMultiplier).toInt()
+        val stepScore =
+            (baseScore * difficultyMultiplier * timeMultiplier * errorMultiplier).toInt()
 
         score += stepScore
 
@@ -820,7 +879,7 @@ class GameActivity : AppCompatActivity() {
             override fun run() {
                 if (errorsOnCurrentStep >= 4) {
                     binding.btnHint.alpha = if (binding.btnHint.alpha == 1.0f) 0.5f else 1.0f
-                    handler.postDelayed(this, 500) // Twinkle every 500ms
+                    handler.postDelayed(this, 500)
                 }
             }
         }

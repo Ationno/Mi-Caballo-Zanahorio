@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/comixloud"
             android:gravity="center"
-            android:text="Has Ganado!"
+            android:text="@string/you_won"
             android:textColor="#C65D18 "
             android:textSize="24sp"
             android:textStyle="bold"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/comixregular"
-            android:text="Has perdido por demasiados errores. :("
+            android:text="@string/lost_errors"
             android:textColor="@color/light_blue"
             android:textSize="30sp"
             android:visibility="gone"
@@ -83,11 +83,10 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comixregular"
-                    android:text="Tiempo restante: 00:00"
+                    android:text="@string/time_left"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
-                <!-- Errors -->
                 <TextView
                     android:id="@+id/errors"
                     android:layout_width="wrap_content"
@@ -95,18 +94,17 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comixregular"
-                    android:text="Errores: 0/24"
+                    android:text="@string/errors"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
-                <!-- Difficulty -->
                 <TextView
                     android:id="@+id/difficulty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/comixregular"
-                    android:text="Dificultad: Facil"
+                    android:text="@string/difficulty_text"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
             </LinearLayout>
@@ -118,7 +116,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/firstRowGameResult">
-                <!-- Points -->
+
                 <TextView
                     android:id="@+id/points"
                     android:layout_width="wrap_content"
@@ -126,18 +124,17 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comixregular"
-                    android:text="Puntos: 150"
+                    android:text="@string/points"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
-                <!-- Progress -->
                 <TextView
                     android:id="@+id/progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/comixregular"
-                    android:text="Progreso: 100%"
+                    android:text="@string/progress"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -153,7 +150,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="18sp"
             android:paddingVertical="20sp"
-            android:text="Cerrar"
+            android:text="@string/close"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

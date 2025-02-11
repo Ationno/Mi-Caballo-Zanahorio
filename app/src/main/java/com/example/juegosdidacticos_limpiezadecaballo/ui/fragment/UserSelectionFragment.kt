@@ -41,19 +41,17 @@ class UserSelectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = binding.recyclerView
-        val buttonPacients = binding.pacients
-        val buttonTherapists = binding.therapist
-        val buttonStart = binding.iniciar
+        val buttonPatients = binding.patients
         val profileAvatar = binding.profileExample
         val userName = binding.userName
 
         recyclerView.layoutManager = GridLayoutManager(context, 3)
 
-        lastSelectedButton = buttonPacients
-        buttonPacients.setBackgroundResource(R.drawable.button_pressed_background)
+        lastSelectedButton = buttonPatients
+        buttonPatients.setBackgroundResource(R.drawable.button_pressed_background)
 
-        userViewModel.allPacients.observe(viewLifecycleOwner, { pacients ->
-            pacients?.let {
+        userViewModel.allPatients.observe(viewLifecycleOwner, { patients ->
+            patients?.let {
                 recyclerView.adapter = NamedEntityAdapter(it) { user ->
                     selectedUser = user
                     profileAvatar.setImageResource(getAvatarResource(user.avatar))
@@ -62,10 +60,10 @@ class UserSelectionFragment : Fragment() {
             }
         })
 
-        buttonPacients.setOnClickListener {
+        buttonPatients.setOnClickListener {
             selectButton(it as Button)
-            userViewModel.allPacients.observe(viewLifecycleOwner, { pacients ->
-                pacients?.let {
+            userViewModel.allPatients.observe(viewLifecycleOwner, { patients ->
+                patients?.let {
                     recyclerView.adapter = NamedEntityAdapter(it) { user ->
                         selectedUser = user
                         profileAvatar.setImageResource(getAvatarResource(user.avatar))
@@ -75,9 +73,9 @@ class UserSelectionFragment : Fragment() {
             })
         }
 
-        buttonTherapists.setOnClickListener {
+        binding.therapist.setOnClickListener {
             selectButton(it as Button)
-            userViewModel.allTeraphists.observe(viewLifecycleOwner, { therapists ->
+            userViewModel.allTherapists.observe(viewLifecycleOwner, { therapists ->
                 therapists?.let {
                     recyclerView.adapter = NamedEntityAdapter(it) { user ->
                         selectedUser = user
@@ -88,7 +86,7 @@ class UserSelectionFragment : Fragment() {
             })
         }
 
-        buttonStart.setOnClickListener {
+        binding.start.setOnClickListener {
             selectedUser?.let { user ->
                 val action =
                     UserSelectionFragmentDirections.actionUserSelectionPageToUserInitPage(user)
@@ -99,8 +97,8 @@ class UserSelectionFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            userViewModel.insertExamplePacients()
-            userViewModel.insertExampleTeraphists()
+            userViewModel.insertExamplePatients()
+            userViewModel.insertExampleTherapists()
         }
     }
 

@@ -10,7 +10,10 @@ import com.example.juegosdidacticos_limpiezadecaballo.R
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils.getAvatarResource
 
-class NamedEntityAdapter(private val items: List<NamedEntity>, private val onItemSelected: (NamedEntity) -> Unit) : RecyclerView.Adapter<NamedEntityAdapter.UserViewHolder>() {
+class NamedEntityAdapter(
+    private val items: List<NamedEntity>,
+    private val onItemSelected: (NamedEntity) -> Unit
+) : RecyclerView.Adapter<NamedEntityAdapter.UserViewHolder>() {
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
@@ -38,12 +41,11 @@ class NamedEntityAdapter(private val items: List<NamedEntity>, private val onIte
 
         holder.itemView.isSelected = position == selectedPosition
 
-        // Si el item está seleccionado, aplicamos la sombra en el borde
         if (position == selectedPosition) {
-            holder.avatarImageView.setBackgroundResource(R.drawable.avatar_selected_border) // El drawable que creaste con la sombra
+            holder.avatarImageView.setBackgroundResource(R.drawable.avatar_selected_border)
             holder.nameTextView.setTextColor(holder.itemView.context.getColor(R.color.dark_orange))
         } else {
-            holder.avatarImageView.setBackgroundResource(0) // Sin fondo
+            holder.avatarImageView.setBackgroundResource(0)
             holder.nameTextView.setTextColor(holder.itemView.context.getColor(R.color.light_font))
         }
 

@@ -5,15 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 
-@Database(entities = [PacientEntity::class, TeraphistEntity::class, GameStateEntity::class, ConfigEntity::class], version = 7)
+@Database(
+    entities = [PatientEntity::class, TherapistEntity::class, GameStateEntity::class, ConfigEntity::class],
+    version = 8
+)
 abstract class UserDatabase : RoomDatabase() {
 
-    abstract fun pacientDao(): PacientDao
-    abstract fun teraphistDao(): TeraphistDao
+    abstract fun patientDao(): PatientDao
+    abstract fun therapistDao(): TherapistDao
     abstract fun gameStateDao(): GameStateDao
     abstract fun configDao(): ConfigDao
 

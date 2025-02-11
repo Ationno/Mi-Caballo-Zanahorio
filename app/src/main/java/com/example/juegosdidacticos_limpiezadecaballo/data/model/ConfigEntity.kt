@@ -8,7 +8,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
 @Entity(tableName = "config_table")
 data class ConfigEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val pacientId: Int,
+    val patientId: Int,
     val difficulty: Difficulty,
     val voices: Voices,
     val clues: Boolean

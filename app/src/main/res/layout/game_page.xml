@@ -22,7 +22,7 @@
         android:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_menu"
+        android:id="@+id/topMenu"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:clipChildren="false"
@@ -45,7 +45,7 @@
             android:textSize="18sp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_menu" />
+            app:layout_constraintTop_toBottomOf="@id/topMenu" />
 
         <TextView
             android:id="@+id/clueText"
@@ -73,7 +73,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/button_group_game"
+            android:id="@+id/buttonGroupGame"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginStart="35dp"
@@ -88,24 +88,24 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@drawable/button_selector"
-                android:contentDescription="@string/pausar_juego"
+                android:contentDescription="@string/pause_game"
                 android:src="@drawable/ic_pause"
                 app:tint="@color/white" />
 
             <ImageButton
-                android:id="@+id/btn_settings"
+                android:id="@+id/btnSettings"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button_selector"
-                android:contentDescription="@string/abrir_configuracion"
+                android:contentDescription="@string/open_configuration"
                 android:src="@drawable/ic_settings"
                 app:tint="@color/white" />
 
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_progress"
+            android:id="@+id/layoutProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clipChildren="false"
@@ -114,48 +114,48 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/time_constraint"
+                android:id="@+id/timeConstraint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/progress_bar_constraint"
+                app:layout_constraintEnd_toStartOf="@+id/progressBarConstraint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/time_text"
+                    android:id="@+id/timeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comixloud"
-                    android:text="@string/tiempo_game"
+                    android:text="@string/game_time"
                     android:textColor="@color/dark_orange"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/total_time"
+                    android:id="@+id/totalTime"
                     android:layout_width="55dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:background="@drawable/button_background"
                     android:fontFamily="@font/comixregular"
                     android:gravity="center"
-                    android:text="00:00"
+                    android:text="@string/time_left_game"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/progress_bar_constraint"
+                android:id="@+id/progressBarConstraint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:clipChildren="false"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/error_constraint"
-                app:layout_constraintStart_toEndOf="@+id/time_constraint"
+                app:layout_constraintEnd_toStartOf="@+id/errorConstraint"
+                app:layout_constraintStart_toEndOf="@+id/timeConstraint"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -165,12 +165,12 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/comixloud"
-                    android:text="@string/facil_game"
+                    android:text="@string/example_difficulty_game"
                     android:textColor="@color/dark_orange"
                     android:textSize="12sp" />
 
                 <ProgressBar
-                    android:id="@+id/progress_bar"
+                    android:id="@+id/progressBar"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="200dp"
                     android:layout_height="20dp"
@@ -180,34 +180,34 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/error_constraint"
+                android:id="@+id/errorConstraint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/progress_bar_constraint"
+                app:layout_constraintStart_toEndOf="@+id/progressBarConstraint"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/error_text"
+                    android:id="@+id/errorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comixloud"
-                    android:text="@string/errores_game"
+                    android:text="@string/errors_game"
                     android:textColor="@color/dark_orange"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/error_value"
+                    android:id="@+id/errorValue"
                     android:layout_width="55dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:background="@drawable/button_background"
                     android:fontFamily="@font/comixregular"
                     android:gravity="center"
-                    android:text="@string/cantidad_errores"
+                    android:text="@string/errors_quantity"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -215,7 +215,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/score_constraint"
+            android:id="@+id/scoreConstraint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -223,7 +223,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.70"
-            app:layout_constraintStart_toEndOf="@+id/layout_progress"
+            app:layout_constraintStart_toEndOf="@+id/layoutProgress"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -232,19 +232,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/comixloud"
-                android:text="@string/puntaje_game"
+                android:text="@string/game_score"
                 android:textColor="@color/dark_orange"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/score_value"
+                android:id="@+id/scoreValue"
                 android:layout_width="100dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/comixregular"
                 android:gravity="center"
-                android:text="@string/value_puntaje_game"
+                android:text="@string/score_game_example"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -258,10 +258,10 @@
         android:layout_marginBottom="15dp"
         android:alpha="0.5"
         android:background="@drawable/button_background"
-        android:contentDescription="@string/pista_game"
+        android:contentDescription="@string/game_clue"
+        android:elevation="15dp"
         android:src="@drawable/ic_question_mark"
         android:visibility="visible"
-        android:elevation="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
@@ -278,10 +278,10 @@
         app:layout_constraintVertical_bias="0.99">
 
         <ImageView
-            android:id="@+id/horse_image"
+            android:id="@+id/horseImage"
             android:layout_width="400dp"
             android:layout_height="340dp"
-            android:contentDescription="@string/imagen_de_un_caballo"
+            android:contentDescription="@string/horse_image"
             android:src="@drawable/horse_game" />
 
         <ImageView
@@ -291,8 +291,8 @@
             android:layout_marginStart="-180dp"
             android:layout_marginTop="10dp"
             android:alpha="0.6"
+            android:contentDescription="@string/horse_rider_image"
             android:elevation="10dp"
-            android:contentDescription="@string/imagen_de_una_jinete"
             android:src="@drawable/rider" />
 
 
@@ -322,10 +322,10 @@
             android:id="@+id/dirtyShoulder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleY="1.8"
-            android:scaleX="1.8"
-            android:paddingBottom="7dp"
             android:paddingEnd="7dp"
+            android:paddingBottom="7dp"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
             android:src="@drawable/shoulder_dirt"
             android:visibility="gone" />
 
@@ -333,9 +333,9 @@
             android:id="@+id/dirtyBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
             android:scaleX="4"
             android:scaleY="4"
-            android:paddingBottom="8dp"
             android:src="@drawable/back_dirt"
             android:visibility="gone" />
 
@@ -343,10 +343,10 @@
             android:id="@+id/dirtyBelly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleY="4"
-            android:scaleX="4"
             android:paddingTop="17dp"
             android:paddingEnd="4dp"
+            android:scaleX="4"
+            android:scaleY="4"
             android:src="@drawable/belly_dirt"
             android:visibility="gone" />
 
@@ -354,11 +354,11 @@
             android:id="@+id/dirtyHaunch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/haunch_dirt"
+            android:paddingTop="9dp"
+            android:paddingEnd="11dp"
             android:scaleX="3.5"
             android:scaleY="3.5"
-            android:paddingEnd="11dp"
-            android:paddingTop="9dp"
+            android:src="@drawable/haunch_dirt"
             android:visibility="gone" />
 
         <ImageView
@@ -385,9 +385,9 @@
             android:id="@+id/dirtyGroin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/groin_dirt"
-            android:scaleY="1.2"
             android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:src="@drawable/groin_dirt"
             android:visibility="gone" />
 
         <ImageView
@@ -401,78 +401,78 @@
             android:id="@+id/dirtyMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/main_dirt"
             android:scaleX="1.2"
             android:scaleY="1.2"
+            android:src="@drawable/main_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyTail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/tail_dirt"
-            android:scaleX="2.5"
-            android:paddingTop="15dp"
             android:paddingStart="15dp"
+            android:paddingTop="15dp"
+            android:scaleX="2.5"
             android:scaleY="2.5"
+            android:src="@drawable/tail_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyHooves1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/hoove_1_dirt"
-            android:scaleY="3"
             android:scaleX="3"
+            android:scaleY="3"
+            android:src="@drawable/hoove_1_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyHooves2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/hoove_2_dirt"
-            android:scaleY="2.8"
-            android:scaleX="2.8"
             android:paddingStart="2dp"
+            android:scaleX="2.8"
+            android:scaleY="2.8"
+            android:src="@drawable/hoove_2_dirt"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/dirtyHooves3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/hoove_3_dirt"
-            android:scaleY="3.5"
-            android:scaleX="3.5"
             android:paddingTop="2dp"
+            android:scaleX="3.5"
+            android:scaleY="3.5"
+            android:src="@drawable/hoove_3_dirt"
             android:visibility="gone" />
 
 
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/table_container"
+        android:id="@+id/tableContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/table_image"
+            android:id="@+id/tableImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/imagen_de_una_mesa"
+            android:contentDescription="@string/table_image"
             android:scaleX="1"
             android:scaleY="1.4"
             android:src="@drawable/game_table" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/object_constraints"
+            android:id="@+id/objectConstraints"
             android:layout_width="451dp"
             android:layout_height="165dp"
             android:layout_marginTop="-15dp">
 
             <LinearLayout
-                android:id="@+id/tools_group"
+                android:id="@+id/toolsGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -480,27 +480,27 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/hard_scraper"
+                    android:id="@+id/hardScraper"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:contentDescription="Rasqueta dura."
+                    android:contentDescription="@string/hard_scraper"
                     android:src="@drawable/tool_1" />
 
                 <ImageView
-                    android:id="@+id/soft_scraper"
+                    android:id="@+id/softScraper"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginEnd="30dp"
-                    android:contentDescription="Rasqueta blanda."
+                    android:contentDescription="@string/soft_scraper"
                     android:src="@drawable/tool_2" />
 
                 <ImageView
-                    android:id="@+id/hoof_pick"
+                    android:id="@+id/hoofPick"
                     android:layout_width="80dp"
                     android:layout_height="70dp"
-                    android:contentDescription="Escarba-vasos."
+                    android:contentDescription="@string/hoof_pick"
                     android:src="@drawable/tool_3" />
             </LinearLayout>
 
@@ -509,22 +509,22 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tools_group">
+                app:layout_constraintTop_toBottomOf="@+id/toolsGroup">
 
                 <ImageView
-                    android:id="@+id/soft_brush"
+                    android:id="@+id/softBrush"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="60dp"
-                    android:contentDescription="Cepillo blando."
+                    android:contentDescription="@string/soft_brush"
                     android:src="@drawable/tool_4" />
 
                 <ImageView
-                    android:id="@+id/hard_brush"
+                    android:id="@+id/hardBrush"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:contentDescription="Cepillo duro."
+                    android:contentDescription="@string/hard_brush"
                     android:src="@drawable/tool_5" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.juegosdidacticos_limpiezadecaballo.GameActivity
 import com.example.juegosdidacticos_limpiezadecaballo.R
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.UserInitPageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils
@@ -72,17 +72,20 @@ class UserInitFragment : Fragment() {
             binding.userProfile.setImageResource(AvatarUtils.getAvatarResource(user.avatar))
 
             when (user) {
-                is PacientEntity -> {
+                is PatientEntity -> {
                     binding.playButton.visibility = View.VISIBLE
                     binding.informationButton.visibility = View.VISIBLE
                     binding.userDifficulty.visibility = View.VISIBLE
                     lifecycleScope.launch {
-                        val config = userViewModel.getConfigByPacientId(user.id)
-                        binding.userDifficulty.text = getString(R.string.dificultad_usuario, config?.difficulty?.getDisplayDifficulty())
+                        val config = userViewModel.getConfigByPatientId(user.id)
+                        binding.userDifficulty.text = getString(
+                            R.string.user_difficulty,
+                            config?.difficulty?.getDisplayDifficulty()
+                        )
                     }
                 }
 
-                is TeraphistEntity -> {
+                is TherapistEntity -> {
                     binding.pacientsButton.visibility = View.VISIBLE
                     binding.registerButton.visibility = View.VISIBLE
                 }

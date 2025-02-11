@@ -1,5 +1,5 @@
-<!-- res/drawable/error_alert_background.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#2EDC28"/> <!-- Red background color -->
-    <corners android:radius="8dp"/> <!-- Rounded corners -->
+    <solid android:color="#2EDC28" />
+    <corners android:radius="8dp" />
 </shape>

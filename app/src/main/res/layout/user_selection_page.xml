@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/cedica_logo_cut"
+        android:id="@+id/cedicaLogoCut"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginTop="50dp"
@@ -16,83 +16,80 @@
         app:srcCompat="@drawable/cedica_logo_cut" />
 
     <ImageView
-        android:id="@+id/profile_example"
+        android:id="@+id/profileExample"
         android:layout_width="145dp"
         android:layout_height="145dp"
         android:layout_marginTop="5dp"
-        android:contentDescription="@string/avatar_del_usuario"
+        android:contentDescription="@string/user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cedica_logo_cut"
+        app:layout_constraintTop_toBottomOf="@id/cedicaLogoCut"
         app:srcCompat="@drawable/first_avatar" />
 
     <TextView
-        android:id="@+id/user_name"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/comixloud"
-        android:text="@string/user"
-        android:textStyle="bold"
-        android:textColor="@color/light_font"
         android:shadowColor="@color/text_shadow"
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="3"
+        android:text="@string/user"
+        android:textColor="@color/light_font"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_example" />
+        app:layout_constraintTop_toBottomOf="@id/profileExample" />
 
     <LinearLayout
-        android:id="@+id/button_list_users"
+        android:id="@+id/buttonListUsers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_name"
-        >
+        app:layout_constraintTop_toBottomOf="@id/userName">
 
         <android.widget.Button
-            android:id="@+id/pacients"
+            android:id="@+id/patients"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:layout_weight="1"
             android:layout_margin="4dp"
+            android:layout_weight="1"
             android:background="@drawable/button_selector"
             android:fontFamily="@font/comixloud"
-            android:textStyle="bold"
-            android:textColor="@color/light_font"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="3"
+            android:text="@string/patients"
+            android:textColor="@color/light_font"
             android:textSize="10sp"
-            android:text="@string/pacientes"
-            />
+            android:textStyle="bold" />
 
 
         <android.widget.Button
             android:id="@+id/therapist"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:layout_weight="1"
             android:layout_margin="4dp"
             android:layout_marginEnd="0dp"
+            android:layout_weight="1"
             android:background="@drawable/button_selector"
             android:fontFamily="@font/comixloud"
-            android:textStyle="bold"
-            android:textColor="@color/light_font"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="3"
+            android:text="@string/therapists"
+            android:textColor="@color/light_font"
             android:textSize="10sp"
-            android:text="@string/terapeutas"
-            />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -100,18 +97,18 @@
         android:id="@+id/recyclerView"
         android:layout_width="300dp"
         android:layout_height="250dp"
-        android:background="@drawable/rounded_border"
-        android:scrollbars="vertical"
         android:layout_marginTop="20dp"
-        android:padding="8dp"
+        android:background="@drawable/rounded_border"
         android:gravity="center"
+        android:padding="8dp"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_list_users" />
+        app:layout_constraintTop_toBottomOf="@id/buttonListUsers" />
 
 
     <android.widget.Button
-        android:id="@+id/iniciar"
+        android:id="@+id/start"
         android:layout_width="250dp"
         android:layout_height="70dp"
         android:layout_marginTop="50dp"
@@ -121,7 +118,7 @@
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="3"
-        android:text="@string/iniciar"
+        android:text="@string/begin"
         android:textColor="@color/light_font"
         android:textSize="20sp"
         android:textStyle="bold"

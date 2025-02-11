@@ -17,7 +17,8 @@ class MainActivity : AppCompatActivity() {
         binding = MainPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         if (intent.getBooleanExtra("SHOW_USER_INIT_FRAGMENT", false)) {

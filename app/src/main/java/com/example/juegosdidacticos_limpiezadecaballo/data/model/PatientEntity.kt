@@ -6,8 +6,8 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "pacient_table")
-data class PacientEntity(
+@Entity(tableName = "patient_table")
+data class PatientEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     override val name: String,
     val surname: String,

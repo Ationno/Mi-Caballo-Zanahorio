@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/comixloud"
-                android:text="Configuracion"
+                android:text="@string/configuration"
                 android:textColor="#C65D18"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@id/closeDialogButton"
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comixregular"
-                    android:text="Volumen del Juego"
+                    android:text="@string/game_volume"
                     android:textColor="#C65D18"
                     android:textSize="25sp" />
 
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comixregular"
-                    android:text="Volumen de voces"
+                    android:text="@string/voice_volume"
                     android:textColor="#C65D18"
                     android:textSize="25sp" />
 
@@ -108,7 +108,7 @@
                         android:layout_weight="1"
                         android:max="100"
                         android:progressDrawable="@drawable/seek_bar"
-                        android:thumb="@drawable/seek_thumb"/>
+                        android:thumb="@drawable/seek_thumb" />
 
                     <TextView
                         android:id="@+id/voiceVolumePercentage"
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comixregular"
-                    android:text="Volumen de la música"
+                    android:text="@string/music_volume"
                     android:textColor="#C65D18"
                     android:textSize="25sp" />
 

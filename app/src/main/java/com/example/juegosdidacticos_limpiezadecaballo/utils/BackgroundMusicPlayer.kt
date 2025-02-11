@@ -2,12 +2,12 @@ package com.example.juegosdidacticos_limpiezadecaballo.utils
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 
 object BackgroundMusicPlayer {
     private var mediaPlayer: MediaPlayer? = null
     private var volumeFinal: Float = 0f
+
     fun start(context: Context, musicResId: Int) {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(context, musicResId)
@@ -33,14 +33,8 @@ object BackgroundMusicPlayer {
     }
 
     fun setVolume(volumeMusic: Int, volumeTotal: Int) {
-        volumeFinal = volumeTotal/100f * volumeMusic
+        volumeFinal = volumeTotal / 100f * volumeMusic
         mediaPlayer?.setVolume(volumeFinal / 100f, volumeFinal / 100f)
-    }
-
-    fun stop() {
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
     }
 
     fun isPlaying(): Boolean {

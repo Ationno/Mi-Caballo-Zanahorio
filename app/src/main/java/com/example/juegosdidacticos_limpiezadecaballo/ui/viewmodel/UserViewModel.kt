@@ -9,26 +9,26 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.PacientEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.TeraphistEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val pacientDao = UserDatabase.getDatabase(application).pacientDao()
-    private val teraphistDao = UserDatabase.getDatabase(application).teraphistDao()
+    private val patientDao = UserDatabase.getDatabase(application).patientDao()
+    private val therapistDao = UserDatabase.getDatabase(application).therapistDao()
     private val configDao = UserDatabase.getDatabase(application).configDao()
 
-    val allPacients: LiveData<List<PacientEntity>> = pacientDao.getAllPacients()
-    val allTeraphists: LiveData<List<TeraphistEntity>> = teraphistDao.getAllTeraphists()
+    val allPatients: LiveData<List<PatientEntity>> = patientDao.getAllPatients()
+    val allTherapists: LiveData<List<TherapistEntity>> = therapistDao.getAllTherapists()
 
-    suspend fun insertExamplePacients() {
-        val pacientCount = pacientDao.getPacientCount()
-        if (pacientCount == 0) {
+    suspend fun insertExamplePatients() {
+        val patientCount = patientDao.getPatientCount()
+        if (patientCount == 0) {
             viewModelScope.launch {
                 for (i in 1..4) {
                     val config = ConfigEntity(
-                        pacientId = i,
+                        patientId = i,
                         difficulty = Difficulty.HARD,
                         voices = Voices.FEMININE,
                         clues = true
@@ -36,8 +36,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
                     configDao.insertConfig(config)
                 }
-                val examplePacients = listOf(
-                    PacientEntity(
+                val examplePatients = listOf(
+                    PatientEntity(
                         name = "John",
                         surname = "Doe",
                         age = 30,
@@ -45,7 +45,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         avatar = Avatar.FIRST,
                         genre = "Masculino",
                     ),
-                    PacientEntity(
+                    PatientEntity(
                         name = "Jane",
                         surname = "Smith",
                         age = 25,
@@ -53,7 +53,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         avatar = Avatar.SECOND,
                         genre = "Femenino",
                     ),
-                    PacientEntity(
+                    PatientEntity(
                         name = "Tom",
                         surname = "Brown",
                         age = 35,
@@ -61,7 +61,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         avatar = Avatar.THIRD,
                         genre = "Masculino",
                     ),
-                    PacientEntity(
+                    PatientEntity(
                         name = "Lisa",
                         surname = "White",
                         age = 28,
@@ -70,30 +70,30 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         genre = "Femenino",
                     ),
                 )
-                examplePacients.forEach {
-                    pacientDao.insertPacient(it)
+                examplePatients.forEach {
+                    patientDao.insertPatient(it)
                 }
             }
         }
     }
 
-    suspend fun insertExampleTeraphists() {
-        val teraphistCount = teraphistDao.getTeraphistCount()
-        if (teraphistCount == 0) {
+    suspend fun insertExampleTherapists() {
+        val therapistCount = therapistDao.getTherapistCount()
+        if (therapistCount == 0) {
             viewModelScope.launch {
-                val exampleTeraphists = listOf(
-                    TeraphistEntity(name = "William", surname = "Smith", avatar = Avatar.FIRST),
-                    TeraphistEntity(name = "Emily", surname = "Johnson", avatar = Avatar.SECOND),
-                    TeraphistEntity(name = "David", surname = "Brown", avatar = Avatar.THIRD),
+                val exampleTherapists = listOf(
+                    TherapistEntity(name = "William", surname = "Smith", avatar = Avatar.FIRST),
+                    TherapistEntity(name = "Emily", surname = "Johnson", avatar = Avatar.SECOND),
+                    TherapistEntity(name = "David", surname = "Brown", avatar = Avatar.THIRD),
                 )
-                exampleTeraphists.forEach {
-                    teraphistDao.insertTeraphist(it)
+                exampleTherapists.forEach {
+                    therapistDao.insertTherapist(it)
                 }
             }
         }
     }
 
-    suspend fun getConfigByPacientId(pacientId: Int): ConfigEntity? {
-        return configDao.getConfigByPacientId(pacientId)
+    suspend fun getConfigByPatientId(patientId: Int): ConfigEntity? {
+        return configDao.getConfigByPatientId(patientId)
     }
 }

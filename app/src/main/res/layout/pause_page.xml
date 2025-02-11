@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/comixloud"
-                android:text="@string/juego_pausado"
+                android:text="@string/paused_game"
                 android:textColor="#C65D18 "
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@id/closeDialogButton"
@@ -60,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingVertical="8sp"
-                    android:text="@string/reanudar"
+                    android:text="@string/resume"
                     android:textSize="10sp" />
 
                 <android.widget.Button
@@ -70,7 +70,7 @@
                     android:layout_height="match_parent"
                     android:paddingHorizontal="18sp"
                     android:paddingVertical="8sp"
-                    android:text="Volver al Menu"
+                    android:text="@string/back_to_menu"
                     android:textSize="10sp" />
 
                 <android.widget.Button
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingVertical="8sp"
-                    android:text="Reiniciar"
+                    android:text="@string/reboot"
                     android:textSize="10sp" />
 
             </LinearLayout>

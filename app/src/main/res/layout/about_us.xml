@@ -84,7 +84,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:contentDescription="@string/logo_informatica"
+                android:contentDescription="@string/logo_unlp_cs"
                 android:scaleType="fitCenter"
                 android:src="@drawable/logo_informatica" />
         </LinearLayout>
