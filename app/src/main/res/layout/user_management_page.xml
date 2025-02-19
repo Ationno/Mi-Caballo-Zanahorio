@@ -15,16 +15,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cedica_logo_cut" />
 
-    <ImageView
-        android:id="@+id/profileExample"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginTop="5dp"
-        android:contentDescription="@string/user_avatar"
+    <FrameLayout
+        android:id="@+id/avatarContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cedicaLogoCut"
-        app:srcCompat="@drawable/first_avatar" />
+        app:layout_constraintTop_toBottomOf="@id/cedicaLogoCut">
+
+        <ImageView
+            android:id="@+id/profileExample"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/user_avatar"
+            app:srcCompat="@drawable/first_avatar" />
+
+        <ImageView
+            android:id="@+id/modifyIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_edit_with_background" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/userName"
@@ -42,7 +57,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profileExample" />
+        app:layout_constraintTop_toBottomOf="@id/avatarContainer" />
 
     <LinearLayout
         android:id="@+id/buttonListUsers"
@@ -96,34 +111,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_height="370dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_border"
         android:gravity="center"
         android:padding="8dp"
         android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonListUsers" />
-
-
-    <android.widget.Button
-        android:id="@+id/start"
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/button_selector"
-        android:fontFamily="@font/comixloud"
-        android:shadowColor="@color/text_shadow"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="3"
-        android:text="@string/begin"
-        android:textColor="@color/light_font"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@id/buttonListUsers"
+        app:layout_constraintVertical_bias="0.250" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

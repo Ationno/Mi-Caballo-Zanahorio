@@ -353,8 +353,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER_DATA", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialogView.findViewById<View>(R.id.restartButton).setOnClickListener {
@@ -362,8 +362,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
@@ -532,7 +532,7 @@ class GameActivity : AppCompatActivity() {
         binding.horseImage.setOnDragListener { _, event ->
             when (event.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
-                    dragStartX = event.x
+                    dragStartX = event.x // Variable innecesaria, mejor hacer previousX = event.x
                     dragStartY = event.y
                     previousX = dragStartX
                     previousY = dragStartY
@@ -936,8 +936,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER_DATA", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
@@ -946,8 +946,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER_DATA", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)

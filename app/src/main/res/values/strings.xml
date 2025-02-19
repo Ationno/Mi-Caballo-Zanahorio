@@ -5,10 +5,11 @@
     <string name="cedica_logo_cut">Logo de Cedica sin su texto de marca.</string>
     <string name="logo_unlp_cs">Logo de la Universidad de Informatica.</string>
     <string name="background">Background de la app. Contiene manchas.</string>
-    <string name="patients">Pacientes</string>
+    <string name="management">Administracion</string>
     <string name="therapists">Terapeutas</string>
     <string name="user_avatar">Avatar del usuario.</string>
     <string name="begin">Iniciar</string>
+    <string name="modify">Modificar</string>
     <string name="user">User</string>
     <string name="user_name">User Name</string>
     <string name="difficulty">Dificultad</string>
@@ -16,7 +17,7 @@
     <string name="information">Ver Informacion</string>
     <string name="change_profile">Cambiar perfil</string>
     <string name="development_information">Informacion de desarrollo</string>
-    <string name="register_user">Registrar Usuario</string>
+    <string name="my_profile">Mi Perfil</string>
     <string name="configuration">Configuracion</string>
     <string name="user_difficulty">Dificultad %s</string>
     <string name="about_us_developer">Desarrollo</string>"
@@ -58,4 +59,6 @@
     <string name="back_to_menu">Volver al Menu</string>
     <string name="reboot">Reiniciar</string>
     <string name="avatar">avatar</string>
+    <string name="histories">Historiales</string>
+    <string name="pacients">Pacientes</string>
 </resources>

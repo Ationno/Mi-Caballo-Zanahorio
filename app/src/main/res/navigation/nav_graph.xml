@@ -9,7 +9,7 @@
         android:id="@+id/BeginPageFragment"
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.BeginPageFragment"
         android:label="Begin Page"
-        tools:layout="@layout/begin_page" >
+        tools:layout="@layout/begin_page">
 
         <action
             android:id="@+id/action_beginPage_to_userSelectionPage"
@@ -19,7 +19,7 @@
         android:id="@+id/UserSelectionPage"
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserSelectionFragment"
         android:label="User Selection Page"
-        tools:layout="@layout/user_selection_page" >
+        tools:layout="@layout/user_selection_page">
         <action
             android:id="@+id/action_userSelectionPage_to_userInitPage"
             app:destination="@id/UserInitPage">
@@ -32,9 +32,18 @@
         android:id="@+id/UserInitPage"
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserInitFragment"
         android:label="User Init Page"
-        tools:layout="@layout/user_init_page" >
+        tools:layout="@layout/user_init_page">
         <action
             android:id="@+id/action_userInitPage_to_userSelectionPage"
             app:destination="@id/UserSelectionPage" />
+        <action
+            android:id="@+id/action_userInitPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/UserManagementPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserManagementFragment"
+        android:label="User Management Page"
+        tools:layout="@layout/user_management_page">
     </fragment>
 </navigation>

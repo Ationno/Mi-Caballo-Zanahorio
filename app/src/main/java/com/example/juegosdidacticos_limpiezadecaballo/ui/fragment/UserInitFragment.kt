@@ -86,12 +86,17 @@ class UserInitFragment : Fragment() {
                 }
 
                 is TherapistEntity -> {
-                    binding.pacientsButton.visibility = View.VISIBLE
-                    binding.registerButton.visibility = View.VISIBLE
+                    binding.managementButton.visibility = View.VISIBLE
+                    binding.myProfile.visibility = View.VISIBLE
+                    binding.histories.visibility = View.VISIBLE
                 }
 
                 else -> {}
             }
+        }
+
+        binding.managementButton.setOnClickListener {
+            findNavController().navigate(R.id.action_userInitPage_to_UserManagementPage)
         }
 
         binding.playButton.setOnClickListener {

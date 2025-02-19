@@ -66,9 +66,9 @@
         app:layout_constraintTop_toBottomOf="@id/userDifficulty">
 
         <android.widget.Button
-            android:id="@+id/pacientsButton"
+            android:id="@+id/managementButton"
             style="@style/ButtonStyleMenu"
-            android:text="@string/patients"
+            android:text="@string/management"
             android:visibility="gone" />
 
         <android.widget.Button
@@ -81,19 +81,22 @@
             android:id="@+id/informationButton"
             style="@style/ButtonStyleMenu"
             android:text="@string/information"
-            android:visibility="gone" />
-
-        <android.widget.Button
-            android:id="@+id/registerButton"
-            style="@style/ButtonStyleMenu"
-            android:text="@string/register_user"
             android:textSize="16sp"
             android:visibility="gone" />
 
         <android.widget.Button
-            android:id="@+id/configurationButton"
+            android:id="@+id/myProfile"
             style="@style/ButtonStyleMenu"
-            android:text="@string/configuration" />
+            android:text="@string/my_profile"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <android.widget.Button
+            android:id="@+id/histories"
+            style="@style/ButtonStyleMenu"
+            android:text="@string/histories"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <android.widget.Button
             android:id="@+id/change_profileButton"
