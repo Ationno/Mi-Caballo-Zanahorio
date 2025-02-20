@@ -9,8 +9,10 @@
     <string name="therapists">Terapeutas</string>
     <string name="user_avatar">Avatar del usuario.</string>
     <string name="begin">Iniciar</string>
+    <string name="register">Registrar</string>
     <string name="modify">Modificar</string>
     <string name="user">User</string>
+    <string name="add_user">Agregar</string>
     <string name="user_name">User Name</string>
     <string name="difficulty">Dificultad</string>
     <string name="play">Jugar</string>
@@ -58,7 +60,8 @@
     <string name="hard_brush">Cepillo duro.</string>
     <string name="back_to_menu">Volver al Menu</string>
     <string name="reboot">Reiniciar</string>
-    <string name="avatar">avatar</string>
+    <string name="icon_add_user">Icono agregar usuario</string>
+    <string name="avatar">Avatar</string>
     <string name="histories">Historiales</string>
     <string name="pacients">Pacientes</string>
 </resources>

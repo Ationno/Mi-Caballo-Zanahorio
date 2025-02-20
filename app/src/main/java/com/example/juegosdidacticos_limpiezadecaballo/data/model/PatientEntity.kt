@@ -3,6 +3,7 @@ package com.example.juegosdidacticos_limpiezadecaballo.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Genre
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -14,5 +15,5 @@ data class PatientEntity(
     val age: Int,
     val observations: String?,
     override val avatar: Avatar,
-    val genre: String,
+    val genre: Genre,
 ) : NamedEntity

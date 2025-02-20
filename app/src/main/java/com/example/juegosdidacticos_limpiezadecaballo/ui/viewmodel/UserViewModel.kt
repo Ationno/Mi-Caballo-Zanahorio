@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.database.UserDatabase
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Genre
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
@@ -43,7 +44,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         age = 30,
                         observations = "Observación 1",
                         avatar = Avatar.FIRST,
-                        genre = "Masculino",
+                        genre = Genre.MALE,
                     ),
                     PatientEntity(
                         name = "Jane",
@@ -51,7 +52,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         age = 25,
                         observations = "Observación 2",
                         avatar = Avatar.SECOND,
-                        genre = "Femenino",
+                        genre = Genre.FEMALE,
                     ),
                     PatientEntity(
                         name = "Tom",
@@ -59,7 +60,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         age = 35,
                         observations = "Observación 3",
                         avatar = Avatar.THIRD,
-                        genre = "Masculino",
+                        genre = Genre.MALE,
                     ),
                     PatientEntity(
                         name = "Lisa",
@@ -67,7 +68,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         age = 28,
                         observations = "Observación 4",
                         avatar = Avatar.FOURTH,
-                        genre = "Femenino",
+                        genre = Genre.FEMALE,
                     ),
                 )
                 examplePatients.forEach {
@@ -91,6 +92,22 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+    suspend fun insertPatient(patient: PatientEntity) {
+        val patientId = patientDao.insertPatient(patient).toInt()
+
+        val defaultConfig = ConfigEntity(
+            patientId = patientId,
+            difficulty = Difficulty.EASY,
+            voices = Voices.FEMININE,
+            clues = true
+        )
+        configDao.insertConfig(defaultConfig)
+    }
+
+    suspend fun insertTherapist(therapist: TherapistEntity) {
+        therapistDao.insertTherapist(therapist)
     }
 
     suspend fun getConfigByPatientId(patientId: Int): ConfigEntity? {

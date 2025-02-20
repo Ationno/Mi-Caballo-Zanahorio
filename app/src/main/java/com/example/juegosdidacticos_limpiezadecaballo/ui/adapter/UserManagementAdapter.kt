@@ -3,19 +3,16 @@ package com.example.juegosdidacticos_limpiezadecaballo.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.juegosdidacticos_limpiezadecaballo.R
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
-import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils.getAvatarResource
 
 class UserManagementAdapter(
     private val items: List<NamedEntity>,
     private val onItemSelected: (NamedEntity) -> Unit,
-    private val onModifyUser: (NamedEntity) -> Unit,
     private val onAddUser: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -28,7 +25,7 @@ class UserManagementAdapter(
 
     init {
         if (items.isNotEmpty()) {
-            selectedPosition = 1 // Because the first item is the "Add User" button
+            selectedPosition = 1
             onItemSelected(items[0])
         }
     }
@@ -57,12 +54,27 @@ class UserManagementAdapter(
         when (holder) {
             is AddUserViewHolder -> {
                 holder.addUserImage.setOnClickListener {
-                    onAddUser()
+                    val previousPosition = selectedPosition
+                    selectedPosition = holder.adapterPosition
+                    notifyItemChanged(previousPosition)
+                    notifyItemChanged(selectedPosition)
+
+                    holder.itemView.postDelayed({
+                        onAddUser()
+                    }, 200)
+                }
+
+                if (position == selectedPosition) {
+                    holder.addUserImage.setBackgroundResource(R.drawable.avatar_selected_border)
+                    holder.addText.setTextColor(holder.itemView.context.getColor(R.color.dark_orange))
+                } else {
+                    holder.addUserImage.setBackgroundResource(0)
+                    holder.addText.setTextColor(holder.itemView.context.getColor(R.color.light_font))
                 }
             }
 
             is UserViewHolder -> {
-                val item = items[position - 1] // Adjust position for the "Add User" button
+                val item = items[position - 1]
                 holder.nameTextView.text = item.name
                 holder.avatarImageView.setImageResource(getAvatarResource(item.avatar))
 
@@ -87,10 +99,11 @@ class UserManagementAdapter(
         }
     }
 
-    override fun getItemCount(): Int = items.size + 1 // +1 for the "Add User" button
+    override fun getItemCount(): Int = items.size + 1
 
     class AddUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val addUserImage: ImageView = itemView.findViewById(R.id.addUserImage)
+        val addText: TextView = itemView.findViewById(R.id.addText)
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

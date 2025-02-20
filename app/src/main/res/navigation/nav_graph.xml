@@ -45,5 +45,29 @@
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserManagementFragment"
         android:label="User Management Page"
         tools:layout="@layout/user_management_page">
+        <action
+            android:id="@+id/action_UserManagementPage_to_PatientRegistrationPage"
+            app:destination="@id/PatientRegistrationPage" />
+        <action
+            android:id="@+id/action_UserManagementPage_to_TherapistRegistrationPage"
+            app:destination="@id/TherapistRegistrationPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/TherapistRegistrationPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.TherapistRegistrationFragment"
+        android:label="Therapist Registration Page"
+        tools:layout="@layout/therapist_registration_page">
+        <action
+            android:id="@+id/action_TherapistRegistrationPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/PatientRegistrationPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.PatientRegistrationFragment"
+        android:label="Patient Registration Page"
+        tools:layout="@layout/patient_registration_page">
+        <action
+            android:id="@+id/action_PatientRegistrationPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
     </fragment>
 </navigation>

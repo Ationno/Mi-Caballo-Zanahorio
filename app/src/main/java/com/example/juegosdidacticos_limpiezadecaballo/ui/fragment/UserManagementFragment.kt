@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.juegosdidacticos_limpiezadecaballo.R
@@ -68,9 +69,7 @@ class UserManagementFragment : Fragment() {
         modifyIcon.setOnClickListener {
             selectedUser?.let { user ->
                 if (user is PatientEntity) {
-                    // Handle modify patient action
-                    // You can open a dialog or another fragment to modify the patient
-                    showModifyPatientDialog(user)
+                    // To modify a patient, prolly need to navigate to a different fragment
                 }
             }
         }
@@ -92,7 +91,7 @@ class UserManagementFragment : Fragment() {
         recyclerView: RecyclerView,
         profileAvatar: ImageView,
         userName: TextView,
-        modifyIcon: ImageView // Add this parameter
+        modifyIcon: ImageView
     ) {
         userList.observe(viewLifecycleOwner, { users ->
             users?.let {
@@ -109,23 +108,18 @@ class UserManagementFragment : Fragment() {
                             modifyIcon.visibility = View.GONE
                         }
                     },
-                    { user ->
-                        // Handle modify user action
-                        // You can open a dialog or another fragment to modify the user
-                    },
                     {
-                        // Handle add user action
-                        // You can open a dialog or another fragment to add a new user
+                        when (lastSelectedButton?.id) {
+                            R.id.patients -> {
+                                findNavController().navigate(R.id.action_UserManagementPage_to_PatientRegistrationPage)
+                            }
+                            R.id.therapist -> {
+                                findNavController().navigate(R.id.action_UserManagementPage_to_TherapistRegistrationPage)
+                            }
+                        }
                     }
                 )
             }
         })
-    }
-
-    private fun showModifyPatientDialog(patient: PatientEntity) {
-        // Implement your logic to show a dialog or fragment for modifying the patient
-        // Example:
-        // val dialog = ModifyPatientDialog(patient)
-        // dialog.show(parentFragmentManager, "ModifyPatientDialog")
     }
 }

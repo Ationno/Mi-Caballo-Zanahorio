@@ -13,4 +13,16 @@ object AvatarUtils {
             Avatar.FIFTH -> R.drawable.fifth_avatar
         }
     }
+
+    fun getAvatarType(resourceId: Int): Avatar {
+        return when (resourceId) {
+            R.drawable.first_avatar -> Avatar.FIRST
+            R.drawable.second_avatar -> Avatar.SECOND
+            R.drawable.third_avatar -> Avatar.THIRD
+            R.drawable.fourth_avatar -> Avatar.FOURTH
+            R.drawable.fifth_avatar -> Avatar.FIFTH
+            else -> throw IllegalArgumentException("Invalid resource ID")
+        }
+    }
+
 }

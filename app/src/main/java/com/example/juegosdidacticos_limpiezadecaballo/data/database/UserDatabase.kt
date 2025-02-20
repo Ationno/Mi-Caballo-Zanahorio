@@ -11,7 +11,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 
 @Database(
     entities = [PatientEntity::class, TherapistEntity::class, GameStateEntity::class, ConfigEntity::class],
-    version = 8
+    version = 10
 )
 abstract class UserDatabase : RoomDatabase() {
 
