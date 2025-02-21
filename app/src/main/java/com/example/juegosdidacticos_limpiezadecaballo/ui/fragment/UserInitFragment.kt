@@ -68,41 +68,51 @@ class UserInitFragment : Fragment() {
         }
 
         selectedUser?.let { user ->
-            binding.userName.text = user.name
-            binding.userProfile.setImageResource(AvatarUtils.getAvatarResource(user.avatar))
-
-            when (user) {
-                is PatientEntity -> {
-                    binding.playButton.visibility = View.VISIBLE
-                    binding.informationButton.visibility = View.VISIBLE
-                    binding.userDifficulty.visibility = View.VISIBLE
-                    lifecycleScope.launch {
-                        val config = userViewModel.getConfigByPatientId(user.id)
-                        binding.userDifficulty.text = getString(
-                            R.string.user_difficulty,
-                            config?.difficulty?.getDisplayDifficulty()
-                        )
-                    }
-                }
-
-                is TherapistEntity -> {
-                    binding.managementButton.visibility = View.VISIBLE
-                    binding.myProfile.visibility = View.VISIBLE
-                    binding.histories.visibility = View.VISIBLE
-                }
-
-                else -> {}
-            }
+            updateUI(user)
         }
 
         binding.managementButton.setOnClickListener {
             findNavController().navigate(R.id.action_userInitPage_to_UserManagementPage)
         }
 
+        binding.myProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_TherapistConfigPage, Bundle().apply {
+                putParcelable("selectedUser", selectedUser)
+            })
+        }
+
         binding.playButton.setOnClickListener {
             val intent = Intent(requireContext(), GameActivity::class.java)
             intent.putExtra("USER", selectedUser)
             startActivity(intent)
+        }
+    }
+
+    private fun updateUI(user: NamedEntity) {
+        binding.userName.text = user.name
+        binding.userProfile.setImageResource(AvatarUtils.getAvatarResource(user.avatar))
+
+        when (user) {
+            is PatientEntity -> {
+                binding.playButton.visibility = View.VISIBLE
+                binding.informationButton.visibility = View.VISIBLE
+                binding.userDifficulty.visibility = View.VISIBLE
+                lifecycleScope.launch {
+                    val config = userViewModel.getConfigByPatientId(user.id)
+                    binding.userDifficulty.text = getString(
+                        R.string.user_difficulty,
+                        config?.difficulty?.getDisplayDifficulty()
+                    )
+                }
+            }
+
+            is TherapistEntity -> {
+                binding.managementButton.visibility = View.VISIBLE
+                binding.myProfile.visibility = View.VISIBLE
+                binding.histories.visibility = View.VISIBLE
+            }
+
+            else -> {}
         }
     }
 }

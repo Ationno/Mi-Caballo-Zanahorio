@@ -9,6 +9,9 @@ interface TherapistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTherapist(therapist: TherapistEntity)
 
+    @Update
+    suspend fun updateTherapist(therapist: TherapistEntity)
+
     @Delete
     suspend fun deleteTherapist(therapist: TherapistEntity)
 

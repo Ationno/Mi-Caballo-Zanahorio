@@ -39,6 +39,13 @@
         <action
             android:id="@+id/action_userInitPage_to_UserManagementPage"
             app:destination="@id/UserManagementPage" />
+        <action
+            android:id="@+id/action_UserInitPage_to_TherapistConfigPage"
+            app:destination="@id/TherapistConfigPage">
+            <argument
+                android:name = "selectedUser"
+                app:argType = "com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/UserManagementPage"
@@ -51,6 +58,13 @@
         <action
             android:id="@+id/action_UserManagementPage_to_TherapistRegistrationPage"
             app:destination="@id/TherapistRegistrationPage" />
+        <action
+            android:id="@+id/action_UserManagementPage_to_PatientConfigPage"
+            app:destination="@id/PatientConfigPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/TherapistRegistrationPage"
@@ -69,5 +83,27 @@
         <action
             android:id="@+id/action_PatientRegistrationPage_to_UserManagementPage"
             app:destination="@id/UserManagementPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/PatientConfigPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.PatientConfigFragment"
+        android:label="Patient Config Page"
+        tools:layout="@layout/patient_config_page">
+        <action
+            android:id="@+id/action_PatientConfigPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/TherapistConfigPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.TherapistConfigFragment"
+        android:label="Therapist Config Page"
+        tools:layout="@layout/therapist_config_page">
+        <action
+            android:id="@+id/action_TherapistConfigPage_to_UserInitPage"
+            app:destination="@id/UserInitPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity" />
+        </action>
     </fragment>
 </navigation>

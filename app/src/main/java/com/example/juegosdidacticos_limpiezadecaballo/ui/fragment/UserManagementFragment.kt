@@ -69,7 +69,12 @@ class UserManagementFragment : Fragment() {
         modifyIcon.setOnClickListener {
             selectedUser?.let { user ->
                 if (user is PatientEntity) {
-                    // To modify a patient, prolly need to navigate to a different fragment
+                    findNavController().navigate(
+                        R.id.action_UserManagementPage_to_PatientConfigPage,
+                        Bundle().apply {
+                            putParcelable("selectedUser", user)
+                        }
+                    )
                 }
             }
         }

@@ -14,6 +14,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Genre
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.PatientRegistrationPageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
+import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils.getAvatarType
 import com.example.juegosdidacticos_limpiezadecaballo.utils.capitalizeFirstLetter
 import kotlinx.coroutines.launch
@@ -42,40 +43,32 @@ class PatientRegistrationFragment : Fragment() {
         binding.start.setOnClickListener {
             registerPatient()
         }
+
+        binding.cancel.setOnClickListener {
+            navigateBack()
+        }
     }
 
     private fun setupAvatarSelection() {
         val avatars = listOf(
-            binding.commonFields.avatar1,
-            binding.commonFields.avatar2,
-            binding.commonFields.avatar3,
-            binding.commonFields.avatar4,
-            binding.commonFields.avatar5
+            binding.commonPatientFields.commonFields.avatar1,
+            binding.commonPatientFields.commonFields.avatar2,
+            binding.commonPatientFields.commonFields.avatar3,
+            binding.commonPatientFields.commonFields.avatar4,
+            binding.commonPatientFields.commonFields.avatar5
         )
 
-        avatars.forEach { avatar ->
-            avatar.setOnClickListener {
-                selectedAvatarId = when (avatar.id) {
-                    R.id.avatar1 -> R.drawable.first_avatar
-                    R.id.avatar2 -> R.drawable.second_avatar
-                    R.id.avatar3 -> R.drawable.third_avatar
-                    R.id.avatar4 -> R.drawable.fourth_avatar
-                    R.id.avatar5 -> R.drawable.fifth_avatar
-                    else -> null
-                }
-
-                avatars.forEach { it.setBackgroundResource(0) }
-                avatar.setBackgroundResource(R.drawable.avatar_selected_border)
-            }
+        AvatarUtils.setupAvatarSelection(avatars) { selectedAvatarId ->
+            this.selectedAvatarId = selectedAvatarId
         }
     }
 
     private fun registerPatient() {
-        val name = binding.commonFields.name.text.toString().trim().capitalizeFirstLetter()
-        val surname = binding.commonFields.surname.text.toString().trim().capitalizeFirstLetter()
-        val age = binding.age.text.toString().trim().toIntOrNull()
-        val observations = binding.observations.text.toString().trim().capitalizeFirstLetter()
-        val genre = when (binding.patientGenre.checkedRadioButtonId) {
+        val name = binding.commonPatientFields.commonFields.name.text.toString().trim().capitalizeFirstLetter()
+        val surname = binding.commonPatientFields.commonFields.surname.text.toString().trim().capitalizeFirstLetter()
+        val age = binding.commonPatientFields.age.text.toString().trim().toIntOrNull()
+        val observations = binding.commonPatientFields.observations.text.toString().trim().capitalizeFirstLetter()
+        val genre = when (binding.commonPatientFields.patientGenre.checkedRadioButtonId) {
             R.id.male -> Genre.MALE
             R.id.female -> Genre.FEMALE
             else -> null

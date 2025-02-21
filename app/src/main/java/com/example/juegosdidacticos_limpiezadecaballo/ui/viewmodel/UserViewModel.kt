@@ -110,6 +110,18 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         therapistDao.insertTherapist(therapist)
     }
 
+    suspend fun updatePatient(patient: PatientEntity) {
+        patientDao.updatePatient(patient)
+    }
+
+    suspend fun updateTherapist(therapist: TherapistEntity) {
+        therapistDao.updateTherapist(therapist)
+    }
+
+    suspend fun updateConfig(config: ConfigEntity) {
+        configDao.updateConfigByPatientId(config.patientId, config.difficulty, config.voices, config.clues)
+    }
+
     suspend fun getConfigByPatientId(patientId: Int): ConfigEntity? {
         return configDao.getConfigByPatientId(patientId)
     }

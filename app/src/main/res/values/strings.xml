@@ -64,4 +64,6 @@
     <string name="avatar">Avatar</string>
     <string name="histories">Historiales</string>
     <string name="pacients">Pacientes</string>
+    <string name="deleteAccount">Eliminar perfil</string>
+    <string name="cancel">Cancelar</string>
 </resources>
