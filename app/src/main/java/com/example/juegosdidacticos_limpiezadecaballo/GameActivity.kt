@@ -521,39 +521,34 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        var dragStartX: Float
-        var dragStartY: Float
-        var previousX = 0f
-        var previousY = 0f
-        var isCleaning: Boolean
-        var countCleaning = 0
-        var countCleaningReversed = 0
+        var success: Boolean = false
 
         binding.horseImage.setOnDragListener { _, event ->
             when (event.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
-                    dragStartX = event.x // Variable innecesaria, mejor hacer previousX = event.x
-                    dragStartY = event.y
-                    previousX = dragStartX
-                    previousY = dragStartY
-                    isCleaning = false
+                    success = false
                     true
                 }
 
                 DragEvent.ACTION_DRAG_LOCATION -> {
-                    val currentX = event.x
-                    val currentY = event.y
+                    val tool = event.localState as ImageView
+                    val toolName = tool.id
+                    val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    val deltaX = currentX - previousX
-                    val deltaY = currentY - previousY
-
-                    if (isCleaningMotion(deltaX, deltaY)) {
-                        countCleaning += 1
-                    } else if (isCleaningMotionReversed(deltaX, deltaY)) {
-                        countCleaningReversed += 1
+                    if (horsePart != null && isCorrectToolForPart(toolName, horsePart)) {
+                        val overlay = dirtyOverlays[horsePart]
+                        if (overlay != null && overlay.visibility == View.VISIBLE) {
+                            overlay.alpha -= 0.01f
+                            if (overlay.alpha <= 0f) {
+                                overlay.visibility = View.GONE
+                                playSuccessEffect()
+                                updateScore()
+                                updateProgressBar()
+                                moveRider()
+                                success = true
+                            }
+                        }
                     }
-                    previousX = currentX
-                    previousY = currentY
                     true
                 }
 
@@ -562,24 +557,7 @@ class GameActivity : AppCompatActivity() {
                     val toolName = tool.id
                     val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    isCleaning =
-                        countCleaning > countCleaningReversed && countCleaning > 50 && countCleaningReversed < 20
-
-                    countCleaning = 0
-                    countCleaningReversed = 0
-
-                    if (horsePart != null && isCorrectToolForPart(toolName, horsePart)) {
-                        if (isCleaning) {
-                            updateScore()
-                            playSuccessEffect()
-                            updateProgressBar()
-                            moveRider()
-                        } else {
-                            playErrorEffect()
-                            incrementErrors()
-                            showErrorAlert(ErrorType.INCORRECT_MOVEMENT)
-                        }
-                    } else {
+                    if ((horsePart == null || !isCorrectToolForPart(toolName, horsePart)) && !success) {
                         playErrorEffect()
                         incrementErrors()
                         if (horsePart == null) {
