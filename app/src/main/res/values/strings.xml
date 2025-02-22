@@ -16,8 +16,6 @@
     <string name="user_name">User Name</string>
     <string name="difficulty">Dificultad</string>
     <string name="play">Jugar</string>
-    <string name="information">Ver Informacion</string>
-    <string name="change_profile">Cambiar perfil</string>
     <string name="development_information">Informacion de desarrollo</string>
     <string name="my_profile">Mi Perfil</string>
     <string name="configuration">Configuracion</string>
@@ -66,4 +64,7 @@
     <string name="pacients">Pacientes</string>
     <string name="deleteAccount">Eliminar perfil</string>
     <string name="cancel">Cancelar</string>
+    <string name="back_button">Boton de volver</string>
+    <string name="name_title_add">- Nombre</string>
+    <string name="surname_title_add">- Appellido</string>
 </resources>

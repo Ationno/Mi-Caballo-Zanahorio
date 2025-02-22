@@ -40,8 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:fontFamily="@font/comixloud"
-                    android:text="Dificultad"
-                    android:textColor="@color/beige"
+                    android:text="- Dificultad"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/commonPatientFields" />
@@ -76,7 +76,7 @@
                         android:fontFamily="@font/comixregular"
                         android:text="Fácil"
                         android:textColor="@color/beige"
-                        android:textSize="15sp" />
+                        android:textSize="24sp" />
 
                     <RadioButton
                         android:id="@+id/medium"
@@ -86,7 +86,7 @@
                         android:fontFamily="@font/comixregular"
                         android:text="Medio"
                         android:textColor="@color/beige"
-                        android:textSize="15sp" />
+                        android:textSize="24sp" />
 
                     <RadioButton
                         android:id="@+id/hard"
@@ -96,7 +96,7 @@
                         android:fontFamily="@font/comixregular"
                         android:text="Difícil"
                         android:textColor="@color/beige"
-                        android:textSize="15sp" />
+                        android:textSize="24sp" />
                 </RadioGroup>
 
                 <TextView
@@ -105,8 +105,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:fontFamily="@font/comixloud"
-                    android:text="Voz"
-                    android:textColor="@color/beige"
+                    android:text="- Voz"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/difficulty" />
@@ -141,7 +141,7 @@
                         android:fontFamily="@font/comixregular"
                         android:text="Masculina"
                         android:textColor="@color/beige"
-                        android:textSize="15sp" />
+                        android:textSize="24sp" />
 
                     <RadioButton
                         android:id="@+id/feminineVoice"
@@ -151,7 +151,7 @@
                         android:fontFamily="@font/comixregular"
                         android:text="Femenina"
                         android:textColor="@color/beige"
-                        android:textSize="15sp" />
+                        android:textSize="24sp" />
                 </RadioGroup>
 
                 <TextView
@@ -160,8 +160,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:fontFamily="@font/comixloud"
-                    android:text="Pistas"
-                    android:textColor="@color/beige"
+                    android:text="- Pistas"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/voice" />
@@ -196,7 +196,7 @@
                         android:fontFamily="@font/comixregular"
                         android:text="Sí"
                         android:textColor="@color/beige"
-                        android:textSize="15sp" />
+                        android:textSize="24sp" />
 
                     <RadioButton
                         android:id="@+id/no"
@@ -206,20 +206,8 @@
                         android:fontFamily="@font/comixregular"
                         android:text="No"
                         android:textColor="@color/beige"
-                        android:textSize="15sp" />
+                        android:textSize="24sp" />
                 </RadioGroup>
-
-                <TextView
-                    android:id="@+id/actionsAccount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:fontFamily="@font/comixloud"
-                    android:text="Acciones en cuenta"
-                    android:textColor="@color/beige"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/clues" />
 
                 <Button
                     android:id="@+id/delete"
@@ -237,7 +225,7 @@
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/actionsAccount" />
+                    app:layout_constraintTop_toBottomOf="@id/clues" />
 
 
                 <LinearLayout
