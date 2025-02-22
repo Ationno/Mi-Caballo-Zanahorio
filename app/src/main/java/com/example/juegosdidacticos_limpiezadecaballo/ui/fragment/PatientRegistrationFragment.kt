@@ -40,13 +40,10 @@ class PatientRegistrationFragment : Fragment() {
 
         setupAvatarSelection()
 
-        binding.start.setOnClickListener {
+        binding.register.setOnClickListener {
             registerPatient()
         }
 
-        binding.cancel.setOnClickListener {
-            navigateBack()
-        }
     }
 
     private fun setupAvatarSelection() {

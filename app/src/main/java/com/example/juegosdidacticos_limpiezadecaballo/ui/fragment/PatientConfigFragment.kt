@@ -1,14 +1,19 @@
 package com.example.juegosdidacticos_limpiezadecaballo.ui.fragment
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.juegosdidacticos_limpiezadecaballo.GameActivity
+import com.example.juegosdidacticos_limpiezadecaballo.MainActivity
 import com.example.juegosdidacticos_limpiezadecaballo.R
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Avatar
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
@@ -64,10 +69,6 @@ class PatientConfigFragment : Fragment() {
 
         binding.modify.setOnClickListener {
             modifyPatient()
-        }
-
-        binding.cancel.setOnClickListener {
-            navigateBack()
         }
 
         binding.delete.setOnClickListener {
@@ -218,11 +219,58 @@ class PatientConfigFragment : Fragment() {
     }
 
     private fun deletePatient() {
-        //TODO -> Abrir dialog, eliminar config y despues eliminar paciente.
+        val dialogView = layoutInflater.inflate(R.layout.confirm_action, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        val userName = selectedUser?.name
+
+        val infoTitle = dialogView.findViewById<TextView>(R.id.infoTitle)
+        infoTitle.text = "Eliminar a $userName"
+
+        val infoText = dialogView.findViewById<TextView>(R.id.infoText)
+        infoText.text = "¿Estas seguro que quieres eliminar el perfil de $userName? Se borraran todos sus datos de forma permanente."
+
+
+        dialogView.findViewById<View>(R.id.confirmButton).setOnClickListener {
+            dialog.dismiss()
+            lifecycleScope.launch {
+                try {
+                    userViewModel.deletePatient(selectedUser!!)
+                    Toast.makeText(
+                        requireContext(),
+                        "Paciente eliminado exitosamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navigateToSelection()
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al eliminar el paciente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
+
     }
 
     private fun navigateBack() {
         findNavController().navigate(R.id.action_PatientConfigPage_to_UserManagementPage)
+    }
+
+    private fun navigateToSelection() {
+        findNavController().navigate(R.id.action_PatientConfigPage_to_UserSelectionPage)
     }
 
     override fun onDestroyView() {

@@ -12,4 +12,5 @@ data class GameStateEntity(
     val difficulty: Difficulty,
     val timeLeft: Long,
     val timeTotal: Long,
+    val patientId: Int
 )

@@ -1,8 +1,11 @@
 package com.example.juegosdidacticos_limpiezadecaballo
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
@@ -36,8 +39,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.BeginPageFragment, R.id.UserSelectionPage -> {
                     binding.backButton.visibility = View.GONE
                 }
+                R.id.TherapistRegistrationPage, R.id.TherapistConfigPage,
+                R.id.PatientRegistrationPage, R.id.PatientConfigPage -> {
+                    binding.backButton.visibility = View.VISIBLE
+                    moveBackButtonToRight()
+                }
                 else -> {
                     binding.backButton.visibility = View.VISIBLE
+                    resetBackButtonPosition()
                 }
             }
         }
@@ -51,6 +60,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         BackgroundMusicPlayer.start(this, R.raw.menu_music)
+    }
+
+    private fun moveBackButtonToRight() {
+        val layoutParams = binding.backButton.layoutParams as FrameLayout.LayoutParams
+        layoutParams.gravity = Gravity.END or Gravity.TOP
+        binding.backButton.layoutParams = layoutParams
+
+        binding.backButton.imageTintList = ContextCompat.getColorStateList(this, R.color.background_color)
+    }
+
+    private fun resetBackButtonPosition() {
+        val layoutParams = binding.backButton.layoutParams as FrameLayout.LayoutParams
+        layoutParams.gravity = Gravity.START or Gravity.TOP
+        binding.backButton.layoutParams = layoutParams
+
+
+        binding.backButton.imageTintList = ContextCompat.getColorStateList(this, R.color.dark_orange)
     }
 
     override fun onRestart() {

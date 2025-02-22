@@ -92,6 +92,9 @@
         <action
             android:id="@+id/action_PatientConfigPage_to_UserManagementPage"
             app:destination="@id/UserManagementPage" />
+        <action
+            android:id="@+id/action_PatientConfigPage_to_UserSelectionPage"
+            app:destination="@id/UserSelectionPage" />
     </fragment>
     <fragment
         android:id="@+id/TherapistConfigPage"
@@ -105,5 +108,8 @@
                 android:name="selectedUser"
                 app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity" />
         </action>
+        <action
+            android:id="@+id/action_TherapistConfigPage_to_UserSelectionPage"
+            app:destination="@id/UserSelectionPage" />
     </fragment>
 </navigation>

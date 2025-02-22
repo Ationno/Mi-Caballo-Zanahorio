@@ -14,4 +14,7 @@ interface GameStateDao {
 
     @Query("SELECT * FROM game_state_table")
     fun getAllGameStates(): LiveData<List<GameStateEntity>>
+
+    @Query("DELETE FROM game_state_table WHERE patientId = :patientId")
+    suspend fun deleteGameStatesByPatientId(patientId: Int)
 }

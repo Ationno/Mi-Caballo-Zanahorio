@@ -1,9 +1,11 @@
 package com.example.juegosdidacticos_limpiezadecaballo.ui.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -54,10 +56,6 @@ class TherapistConfigFragment : Fragment() {
 
         binding.modify.setOnClickListener {
             modifyTherapist()
-        }
-
-        binding.cancel.setOnClickListener {
-            navigateBack()
         }
 
         binding.delete.setOnClickListener {
@@ -144,7 +142,50 @@ class TherapistConfigFragment : Fragment() {
     }
 
     private fun deleteTherapist() {
-        //TODO -> Abrir dialog, eliminar config y despues eliminar terapeuta.
+        val dialogView = layoutInflater.inflate(R.layout.confirm_action, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        val userName = selectedUser?.name
+
+        val infoTitle = dialogView.findViewById<TextView>(R.id.infoTitle)
+        infoTitle.text = "Eliminar a $userName"
+
+        val infoText = dialogView.findViewById<TextView>(R.id.infoText)
+        infoText.text = "¿Estas seguro que quieres eliminar el perfil de $userName? Se borraran todos sus datos de forma permanente."
+
+
+        dialogView.findViewById<View>(R.id.confirmButton).setOnClickListener {
+            dialog.dismiss()
+            lifecycleScope.launch {
+                try {
+                    userViewModel.deleteTherapist(selectedUser!!)
+                    Toast.makeText(
+                        requireContext(),
+                        "Terapeuta eliminado exitosamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navigateToSelection()
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al eliminar el terapeuta",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
+
     }
 
 
@@ -155,6 +196,10 @@ class TherapistConfigFragment : Fragment() {
                 putParcelable("selectedUser", selectedUser)
             }
         )
+    }
+
+    private fun navigateToSelection() {
+        findNavController().navigate(R.id.action_TherapistConfigPage_to_UserSelectionPage)
     }
 
     override fun onDestroyView() {

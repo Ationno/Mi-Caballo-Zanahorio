@@ -312,15 +312,20 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun saveGameState(completed: Boolean) {
-        val gameState = GameStateEntity(
-            errors = errors,
-            score = score,
-            difficulty = difficulty,
-            timeLeft = timeLeftInMillis,
-            timeTotal = totalTimeInMillis
-        )
+        val gameState = user?.id?.let {
+            GameStateEntity(
+                errors = errors,
+                score = score,
+                difficulty = difficulty,
+                timeLeft = timeLeftInMillis,
+                timeTotal = totalTimeInMillis,
+                patientId = it
+            )
+        }
         lifecycleScope.launch {
-            gameViewModel.insertGameState(gameState)
+            if (gameState != null) {
+                gameViewModel.insertGameState(gameState)
+            }
         }
     }
 

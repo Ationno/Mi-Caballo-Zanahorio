@@ -39,13 +39,10 @@ class TherapistRegistrationFragment : Fragment() {
 
         setupAvatarSelection()
 
-        binding.start.setOnClickListener {
+        binding.register.setOnClickListener {
             registerTherapist()
         }
 
-        binding.cancel.setOnClickListener {
-            navigateBack()
-        }
     }
 
     private fun setupAvatarSelection() {

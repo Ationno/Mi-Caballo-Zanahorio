@@ -19,6 +19,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val patientDao = UserDatabase.getDatabase(application).patientDao()
     private val therapistDao = UserDatabase.getDatabase(application).therapistDao()
     private val configDao = UserDatabase.getDatabase(application).configDao()
+    private val gameStateDao = UserDatabase.getDatabase(application).gameStateDao()
 
     val allPatients: LiveData<List<PatientEntity>> = patientDao.getAllPatients()
     val allTherapists: LiveData<List<TherapistEntity>> = therapistDao.getAllTherapists()
@@ -121,6 +122,17 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun updateConfig(config: ConfigEntity) {
         configDao.updateConfigByPatientId(config.patientId, config.difficulty, config.voices, config.clues)
     }
+
+    suspend fun deletePatient(patient: PatientEntity) {
+        configDao.deleteConfigByPatientId(patient.id)
+        gameStateDao.deleteGameStatesByPatientId(patient.id)
+        patientDao.deletePatient(patient)
+    }
+
+    suspend fun deleteTherapist(therapist: TherapistEntity) {
+        therapistDao.deleteTherapist(therapist)
+    }
+
 
     suspend fun getConfigByPatientId(patientId: Int): ConfigEntity? {
         return configDao.getConfigByPatientId(patientId)
