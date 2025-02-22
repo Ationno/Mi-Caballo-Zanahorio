@@ -46,10 +46,6 @@ class UserInitFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        binding.changeProfileButton.setOnClickListener {
-            findNavController().navigate(R.id.action_userInitPage_to_userSelectionPage)
-        }
-
         binding.aboutUsButton.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.about_us, null)
 
@@ -97,6 +93,7 @@ class UserInitFragment : Fragment() {
                 binding.playButton.visibility = View.VISIBLE
                 binding.informationButton.visibility = View.VISIBLE
                 binding.userDifficulty.visibility = View.VISIBLE
+                binding.myHistory.visibility = View.VISIBLE
                 lifecycleScope.launch {
                     val config = userViewModel.getConfigByPatientId(user.id)
                     binding.userDifficulty.text = getString(

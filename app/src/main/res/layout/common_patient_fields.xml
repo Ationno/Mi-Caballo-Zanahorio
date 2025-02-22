@@ -14,12 +14,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/ageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="- Edad"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:fontFamily="@font/comixloud"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commonFields" />
+
     <EditText
         android:id="@+id/age"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/light_blue_shadow"
         android:fontFamily="@font/comixloud"
@@ -27,10 +39,10 @@
         android:inputType="number"
         android:textColor="@color/beige"
         android:textColorHint="@color/beige_shadow"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/commonFields" />
+        app:layout_constraintTop_toBottomOf="@id/ageTitle" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,12 +55,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/age" />
 
+    <TextView
+        android:id="@+id/observationsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="- Observaciones"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:fontFamily="@font/comixloud"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/age" />
+
     <EditText
         android:id="@+id/observations"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/light_blue_shadow"
         android:fontFamily="@font/comixloud"
@@ -56,10 +80,10 @@
         android:inputType="textMultiLine"
         android:textColor="@color/beige"
         android:textColorHint="@color/beige_shadow"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/age" />
+        app:layout_constraintTop_toBottomOf="@id/observationsTitle" />
 
     <TextView
         android:id="@+id/genreTitle"
@@ -67,8 +91,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:fontFamily="@font/comixloud"
-        android:text="Genero"
-        android:textColor="@color/beige"
+        android:text="- Genero"
+        android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/observations" />
@@ -103,7 +127,7 @@
             android:fontFamily="@font/comixregular"
             android:text="Hombre"
             android:textColor="@color/beige"
-            android:textSize="15sp" />
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/female"
@@ -113,7 +137,7 @@
             android:fontFamily="@font/comixregular"
             android:text="Mujer"
             android:textColor="@color/beige"
-            android:textSize="15sp" />
+            android:textSize="24sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

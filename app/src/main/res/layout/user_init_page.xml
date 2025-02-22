@@ -80,7 +80,7 @@
         <android.widget.Button
             android:id="@+id/informationButton"
             style="@style/ButtonStyleMenu"
-            android:text="@string/information"
+            android:text="@string/configuration"
             android:textSize="16sp"
             android:visibility="gone" />
 
@@ -99,9 +99,11 @@
             android:visibility="gone" />
 
         <android.widget.Button
-            android:id="@+id/change_profileButton"
+            android:id="@+id/myHistory"
             style="@style/ButtonStyleMenu"
-            android:text="@string/change_profile" />
+            android:text="Historial"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
