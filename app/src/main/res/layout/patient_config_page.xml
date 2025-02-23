@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="*"
+                    android:text="@string/asterisk"
                     android:textColor="@color/red"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@id/difficultyTitle"
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="@font/comixregular"
-                        android:text="Fácil"
+                        android:text="@string/easy_difficulty"
                         android:textColor="@color/beige"
                         android:textSize="24sp" />
 
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="@font/comixregular"
-                        android:text="Medio"
+                        android:text="@string/medium_difficulty"
                         android:textColor="@color/beige"
                         android:textSize="24sp" />
 
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="@font/comixregular"
-                        android:text="Difícil"
+                        android:text="@string/hard_difficulty"
                         android:textColor="@color/beige"
                         android:textSize="24sp" />
                 </RadioGroup>
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:fontFamily="@font/comixloud"
-                    android:text="- Voz"
+                    android:text="@string/voice_hyphen"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="*"
+                    android:text="@string/asterisk"
                     android:textColor="@color/red"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@id/voiceTitle"
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="@font/comixregular"
-                        android:text="Masculina"
+                        android:text="@string/masculine"
                         android:textColor="@color/beige"
                         android:textSize="24sp" />
 
@@ -149,7 +149,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="@font/comixregular"
-                        android:text="Femenina"
+                        android:text="@string/feminine"
                         android:textColor="@color/beige"
                         android:textSize="24sp" />
                 </RadioGroup>
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:fontFamily="@font/comixloud"
-                    android:text="- Pistas"
+                    android:text="@string/clues_hyphen"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="*"
+                    android:text="@string/asterisk"
                     android:textColor="@color/red"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@id/cluesTitle"
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="@font/comixregular"
-                        android:text="Sí"
+                        android:text="@string/yes_text"
                         android:textColor="@color/beige"
                         android:textSize="24sp" />
 
@@ -204,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="@font/comixregular"
-                        android:text="No"
+                        android:text="@string/no_text"
                         android:textColor="@color/beige"
                         android:textSize="24sp" />
                 </RadioGroup>
