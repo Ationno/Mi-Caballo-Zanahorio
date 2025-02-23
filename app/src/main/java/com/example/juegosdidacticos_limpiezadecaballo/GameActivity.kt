@@ -33,6 +33,9 @@ import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class GameActivity : AppCompatActivity() {
 
@@ -314,6 +317,7 @@ class GameActivity : AppCompatActivity() {
     private fun saveGameState(completed: Boolean) {
         val gameState = user?.id?.let {
             GameStateEntity(
+                date = Date(),
                 errors = errors,
                 score = score,
                 difficulty = difficulty,
@@ -322,6 +326,7 @@ class GameActivity : AppCompatActivity() {
                 patientId = it
             )
         }
+
         lifecycleScope.launch {
             if (gameState != null) {
                 gameViewModel.insertGameState(gameState)

@@ -40,11 +40,14 @@
             android:id="@+id/action_userInitPage_to_UserManagementPage"
             app:destination="@id/UserManagementPage" />
         <action
+            android:id="@+id/action_UserInitPage_to_UserSelectionHistoryPage"
+            app:destination="@id/UserSelectionHistoryPage" />
+        <action
             android:id="@+id/action_UserInitPage_to_TherapistConfigPage"
             app:destination="@id/TherapistConfigPage">
             <argument
-                android:name = "selectedUser"
-                app:argType = "com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity" />
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity" />
         </action>
     </fragment>
     <fragment
@@ -111,5 +114,24 @@
         <action
             android:id="@+id/action_TherapistConfigPage_to_UserSelectionPage"
             app:destination="@id/UserSelectionPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/UserSelectionHistoryPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserSelectionHistoryFragment"
+        android:label="User Selection History Page"
+        tools:layout="@layout/user_selection_history_page">
+        <action
+            android:id="@+id/action_UserSelectionHistoryPage_to_UserHistoryPage"
+            app:destination="@id/UserHistoryPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/UserHistoryPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserHistoryFragment"
+        android:label="User History Page"
+        tools:layout="@layout/user_history_page">
     </fragment>
 </navigation>

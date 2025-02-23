@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
+import com.example.juegosdidacticos_limpiezadecaballo.utils.Converters
 
 @Database(
     entities = [PatientEntity::class, TherapistEntity::class, GameStateEntity::class, ConfigEntity::class],
-    version = 11
+    version = 14
 )
+@TypeConverters(Converters::class) // Register the TypeConverter
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun patientDao(): PatientDao

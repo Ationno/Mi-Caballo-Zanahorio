@@ -71,6 +71,10 @@ class UserInitFragment : Fragment() {
             findNavController().navigate(R.id.action_userInitPage_to_UserManagementPage)
         }
 
+        binding.histories.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_UserSelectionHistoryPage)
+        }
+
         binding.myProfile.setOnClickListener {
             findNavController().navigate(R.id.action_UserInitPage_to_TherapistConfigPage, Bundle().apply {
                 putParcelable("selectedUser", selectedUser)
