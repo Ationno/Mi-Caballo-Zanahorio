@@ -7,7 +7,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 @Dao
 interface PatientDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPatient(patient: PatientEntity)
+    suspend fun insertPatient(patient: PatientEntity): Long
 
     @Delete
     suspend fun deletePatient(patient: PatientEntity)

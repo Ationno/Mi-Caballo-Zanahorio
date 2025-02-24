@@ -13,7 +13,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.ErrorType
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigGameEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.GamePageBinding
@@ -33,6 +33,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class GameActivity : AppCompatActivity() {
 
@@ -215,9 +216,15 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        val sharedPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE)
-        gameVolume = sharedPrefs.getInt("gameVolume", 50)
-        voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
+        user?.id?.let { id: Int ->
+            lifecycleScope.launch {
+                val configGame = userViewModel.getGameConfigByPatientId(id)!!
+                gameVolume = configGame.gameVolume
+                voiceVolume = configGame.voiceVolume
+                musicVolume = configGame.musicVolume
+                BackgroundMusicPlayer.setVolume(musicVolume, gameVolume)
+            }
+        }
     }
 
     private fun updateDirtyOverlays(currentPart: String) {
@@ -312,15 +319,22 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun saveGameState(completed: Boolean) {
-        val gameState = GameStateEntity(
-            errors = errors,
-            score = score,
-            difficulty = difficulty,
-            timeLeft = timeLeftInMillis,
-            timeTotal = totalTimeInMillis
-        )
+        val gameState = user?.id?.let {
+            GameStateEntity(
+                date = Date(),
+                errors = errors,
+                score = score,
+                difficulty = difficulty,
+                timeLeft = timeLeftInMillis,
+                timeTotal = totalTimeInMillis,
+                patientId = it
+            )
+        }
+
         lifecycleScope.launch {
-            gameViewModel.insertGameState(gameState)
+            if (gameState != null) {
+                gameViewModel.insertGameState(gameState)
+            }
         }
     }
 
@@ -353,8 +367,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER_DATA", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialogView.findViewById<View>(R.id.restartButton).setOnClickListener {
@@ -362,8 +376,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
@@ -405,10 +419,14 @@ class GameActivity : AppCompatActivity() {
         val musicVolumeSeekBar = dialogView.findViewById<SeekBar>(R.id.musicVolumeSeekBar)
         val musicVolumePercentage = dialogView.findViewById<TextView>(R.id.musicVolumePercentage)
 
-        val sharedPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE)
-        gameVolume = sharedPrefs.getInt("gameVolume", 50)
-        voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
-        musicVolume = sharedPrefs.getInt("musicVolume", 50)
+        user?.id?.let { id: Int ->
+            lifecycleScope.launch {
+                val configGame = userViewModel.getGameConfigByPatientId(id)!!
+                gameVolume = configGame.gameVolume
+                voiceVolume = configGame.voiceVolume
+                musicVolume = configGame.musicVolume
+            }
+        }
 
         gameVolumeSeekBar.progress = gameVolume
         gameVolumePercentage.text = "$gameVolume%"
@@ -457,11 +475,18 @@ class GameActivity : AppCompatActivity() {
             voiceVolume = newVoiceVolume
             musicVolume = newMusicVolume
 
-            sharedPrefs.edit()
-                .putInt("gameVolume", newGameVolume)
-                .putInt("voiceVolume", newVoiceVolume)
-                .putInt("musicVolume", newMusicVolume)
-                .apply()
+            user?.id?.let { id: Int ->
+                lifecycleScope.launch {
+                    userViewModel.updateGameConfig(
+                        ConfigGameEntity(
+                            patientId = id,
+                            gameVolume = gameVolume,
+                            voiceVolume = voiceVolume,
+                            musicVolume = musicVolume
+                        )
+                    )
+                }
+            }
 
             dialog.dismiss()
         }
@@ -521,39 +546,34 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        var dragStartX: Float
-        var dragStartY: Float
-        var previousX = 0f
-        var previousY = 0f
-        var isCleaning: Boolean
-        var countCleaning = 0
-        var countCleaningReversed = 0
+        var success: Boolean = false
 
         binding.horseImage.setOnDragListener { _, event ->
             when (event.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
-                    dragStartX = event.x
-                    dragStartY = event.y
-                    previousX = dragStartX
-                    previousY = dragStartY
-                    isCleaning = false
+                    success = false
                     true
                 }
 
                 DragEvent.ACTION_DRAG_LOCATION -> {
-                    val currentX = event.x
-                    val currentY = event.y
+                    val tool = event.localState as ImageView
+                    val toolName = tool.id
+                    val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    val deltaX = currentX - previousX
-                    val deltaY = currentY - previousY
-
-                    if (isCleaningMotion(deltaX, deltaY)) {
-                        countCleaning += 1
-                    } else if (isCleaningMotionReversed(deltaX, deltaY)) {
-                        countCleaningReversed += 1
+                    if (horsePart != null && isCorrectToolForPart(toolName, horsePart)) {
+                        val overlay = dirtyOverlays[horsePart]
+                        if (overlay != null && overlay.visibility == View.VISIBLE) {
+                            overlay.alpha -= 0.01f
+                            if (overlay.alpha <= 0f) {
+                                overlay.visibility = View.GONE
+                                playSuccessEffect()
+                                updateScore()
+                                updateProgressBar()
+                                moveRider()
+                                success = true
+                            }
+                        }
                     }
-                    previousX = currentX
-                    previousY = currentY
                     true
                 }
 
@@ -562,24 +582,11 @@ class GameActivity : AppCompatActivity() {
                     val toolName = tool.id
                     val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    isCleaning =
-                        countCleaning > countCleaningReversed && countCleaning > 50 && countCleaningReversed < 20
-
-                    countCleaning = 0
-                    countCleaningReversed = 0
-
-                    if (horsePart != null && isCorrectToolForPart(toolName, horsePart)) {
-                        if (isCleaning) {
-                            updateScore()
-                            playSuccessEffect()
-                            updateProgressBar()
-                            moveRider()
-                        } else {
-                            playErrorEffect()
-                            incrementErrors()
-                            showErrorAlert(ErrorType.INCORRECT_MOVEMENT)
-                        }
-                    } else {
+                    if ((horsePart == null || !isCorrectToolForPart(
+                            toolName,
+                            horsePart
+                        )) && !success
+                    ) {
                         playErrorEffect()
                         incrementErrors()
                         if (horsePart == null) {
@@ -936,8 +943,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER_DATA", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
@@ -946,8 +953,8 @@ class GameActivity : AppCompatActivity() {
                 putExtra("USER_DATA", user)
             }
             startActivity(intent)
-            finish()
             dialog.dismiss()
+            finish()
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)

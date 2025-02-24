@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp"
+    >
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="2"
+        android:fontFamily="@font/comixloud"
+        android:textColor="@color/light_font"
+        android:textSize="8sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/errorsTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="2"
+        android:textColor="@color/light_font"
+        android:textSize="8sp"
+        android:fontFamily="@font/comixloud"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/difficultyTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Fácil"
+        android:textColor="@color/light_font"
+        android:textSize="8sp"
+        android:fontFamily="@font/comixloud"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/timeRatioTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="30/60"
+        android:textColor="@color/light_font"
+        android:textSize="8sp"
+        android:fontFamily="@font/comixloud"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="100"
+        android:textColor="@color/light_font"
+        android:textSize="8sp"
+        android:fontFamily="@font/comixloud"
+        android:gravity="center" />
+
+</LinearLayout>

@@ -9,7 +9,7 @@
         android:id="@+id/BeginPageFragment"
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.BeginPageFragment"
         android:label="Begin Page"
-        tools:layout="@layout/begin_page" >
+        tools:layout="@layout/begin_page">
 
         <action
             android:id="@+id/action_beginPage_to_userSelectionPage"
@@ -19,7 +19,7 @@
         android:id="@+id/UserSelectionPage"
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserSelectionFragment"
         android:label="User Selection Page"
-        tools:layout="@layout/user_selection_page" >
+        tools:layout="@layout/user_selection_page">
         <action
             android:id="@+id/action_userSelectionPage_to_userInitPage"
             app:destination="@id/UserInitPage">
@@ -32,9 +32,132 @@
         android:id="@+id/UserInitPage"
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserInitFragment"
         android:label="User Init Page"
-        tools:layout="@layout/user_init_page" >
+        tools:layout="@layout/user_init_page">
         <action
             android:id="@+id/action_userInitPage_to_userSelectionPage"
             app:destination="@id/UserSelectionPage" />
+        <action
+            android:id="@+id/action_userInitPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
+        <action
+            android:id="@+id/action_UserInitPage_to_UserSelectionHistoryPage"
+            app:destination="@id/UserSelectionHistoryPage" />
+        <action
+            android:id="@+id/action_UserInitPage_to_PatientConfigGamePage"
+            app:destination="@id/PatientConfigGamePage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
+        </action>
+        <action
+            android:id="@+id/action_UserInitPage_to_TherapistConfigPage"
+            app:destination="@id/TherapistConfigPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity" />
+        </action>
+        <action
+            android:id="@+id/action_UserInitPage_to_UserHistoryPage"
+            app:destination="@id/UserHistoryPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/UserManagementPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserManagementFragment"
+        android:label="User Management Page"
+        tools:layout="@layout/user_management_page">
+        <action
+            android:id="@+id/action_UserManagementPage_to_PatientRegistrationPage"
+            app:destination="@id/PatientRegistrationPage" />
+        <action
+            android:id="@+id/action_UserManagementPage_to_TherapistRegistrationPage"
+            app:destination="@id/TherapistRegistrationPage" />
+        <action
+            android:id="@+id/action_UserManagementPage_to_PatientConfigPage"
+            app:destination="@id/PatientConfigPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/TherapistRegistrationPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.TherapistRegistrationFragment"
+        android:label="Therapist Registration Page"
+        tools:layout="@layout/therapist_registration_page">
+        <action
+            android:id="@+id/action_TherapistRegistrationPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/PatientRegistrationPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.PatientRegistrationFragment"
+        android:label="Patient Registration Page"
+        tools:layout="@layout/patient_registration_page">
+        <action
+            android:id="@+id/action_PatientRegistrationPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/PatientConfigPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.PatientConfigFragment"
+        android:label="Patient Config Page"
+        tools:layout="@layout/patient_config_page">
+        <action
+            android:id="@+id/action_PatientConfigPage_to_UserManagementPage"
+            app:destination="@id/UserManagementPage" />
+        <action
+            android:id="@+id/action_PatientConfigPage_to_UserSelectionPage"
+            app:destination="@id/UserSelectionPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/TherapistConfigPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.TherapistConfigFragment"
+        android:label="Therapist Config Page"
+        tools:layout="@layout/therapist_config_page">
+        <action
+            android:id="@+id/action_TherapistConfigPage_to_UserInitPage"
+            app:destination="@id/UserInitPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity" />
+        </action>
+        <action
+            android:id="@+id/action_TherapistConfigPage_to_UserSelectionPage"
+            app:destination="@id/UserSelectionPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/UserSelectionHistoryPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserSelectionHistoryFragment"
+        android:label="User Selection History Page"
+        tools:layout="@layout/user_selection_history_page">
+        <action
+            android:id="@+id/action_UserSelectionHistoryPage_to_UserHistoryPage"
+            app:destination="@id/UserHistoryPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/UserHistoryPage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserHistoryFragment"
+        android:label="User History Page"
+        tools:layout="@layout/user_history_page"/>
+    <fragment
+        android:id="@+id/PatientConfigGamePage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.PatientConfigGameFragment"
+        android:label="User Config Game Page"
+        tools:layout="@layout/config_game_patient">
+        <action
+            android:id="@+id/action_PatientConfigGamePage_to_UserInitPage"
+            app:destination="@id/UserInitPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity" />
+        </action>
     </fragment>
 </navigation>

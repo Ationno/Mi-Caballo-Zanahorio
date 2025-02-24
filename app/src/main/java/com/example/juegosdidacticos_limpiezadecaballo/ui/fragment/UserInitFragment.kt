@@ -3,6 +3,7 @@ package com.example.juegosdidacticos_limpiezadecaballo.ui.fragment
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.UserInitPageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils
+import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
 
 class UserInitFragment : Fragment() {
@@ -46,10 +48,6 @@ class UserInitFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        binding.changeProfileButton.setOnClickListener {
-            findNavController().navigate(R.id.action_userInitPage_to_userSelectionPage)
-        }
-
         binding.aboutUsButton.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.about_us, null)
 
@@ -68,30 +66,44 @@ class UserInitFragment : Fragment() {
         }
 
         selectedUser?.let { user ->
-            binding.userName.text = user.name
-            binding.userProfile.setImageResource(AvatarUtils.getAvatarResource(user.avatar))
+            updateUI(user)
+        }
 
-            when (user) {
-                is PatientEntity -> {
-                    binding.playButton.visibility = View.VISIBLE
-                    binding.informationButton.visibility = View.VISIBLE
-                    binding.userDifficulty.visibility = View.VISIBLE
-                    lifecycleScope.launch {
-                        val config = userViewModel.getConfigByPatientId(user.id)
-                        binding.userDifficulty.text = getString(
-                            R.string.user_difficulty,
-                            config?.difficulty?.getDisplayDifficulty()
-                        )
-                    }
+        if (selectedUser is TherapistEntity) {
+            BackgroundMusicPlayer.setVolume(40, 40)
+        } else {
+            selectedUser?.id?.let { id: Int ->
+                lifecycleScope.launch {
+                    val configGame = userViewModel.getGameConfigByPatientId(id)!!
+                    BackgroundMusicPlayer.setVolume(configGame.musicVolume, configGame.gameVolume)
                 }
-
-                is TherapistEntity -> {
-                    binding.pacientsButton.visibility = View.VISIBLE
-                    binding.registerButton.visibility = View.VISIBLE
-                }
-
-                else -> {}
             }
+        }
+
+        binding.managementButton.setOnClickListener {
+            findNavController().navigate(R.id.action_userInitPage_to_UserManagementPage)
+        }
+
+        binding.histories.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_UserSelectionHistoryPage)
+        }
+
+        binding.myHistory.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_UserHistoryPage, Bundle().apply {
+                putParcelable("selectedUser", selectedUser)
+            })
+        }
+
+        binding.gameConfigButton.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_PatientConfigGamePage, Bundle().apply {
+                putParcelable("selectedUser", selectedUser)
+            })
+        }
+
+        binding.myProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_TherapistConfigPage, Bundle().apply {
+                putParcelable("selectedUser", selectedUser)
+            })
         }
 
         binding.playButton.setOnClickListener {
@@ -100,4 +112,35 @@ class UserInitFragment : Fragment() {
             startActivity(intent)
         }
     }
+
+    private fun updateUI(user: NamedEntity) {
+        binding.userName.text = user.name
+        binding.userProfile.setImageResource(AvatarUtils.getAvatarResource(user.avatar))
+
+        when (user) {
+            is PatientEntity -> {
+                binding.playButton.visibility = View.VISIBLE
+                binding.gameConfigButton.visibility = View.VISIBLE
+                binding.userDifficulty.visibility = View.VISIBLE
+                binding.myHistory.visibility = View.VISIBLE
+                lifecycleScope.launch {
+                    val config = userViewModel.getConfigByPatientId(user.id)
+                    binding.userDifficulty.text = getString(
+                        R.string.user_difficulty,
+                        config?.difficulty?.getDisplayDifficulty()
+                    )
+                }
+            }
+
+            is TherapistEntity -> {
+                binding.managementButton.visibility = View.VISIBLE
+                binding.myProfile.visibility = View.VISIBLE
+                binding.histories.visibility = View.VISIBLE
+            }
+
+            else -> {}
+        }
+    }
+
+
 }

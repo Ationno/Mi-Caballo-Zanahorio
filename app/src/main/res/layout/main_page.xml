@@ -19,4 +19,14 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/undo"
+        android:layout_margin="32dp"
+        android:contentDescription="@string/back_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
 </FrameLayout>

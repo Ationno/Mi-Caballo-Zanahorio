@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/nameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/name_hyphen"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:fontFamily="@font/comixloud"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/light_blue_shadow"
+        android:fontFamily="@font/comixloud"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        android:textColor="@color/beige"
+        android:textColorHint="@color/beige_shadow"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameTitle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/asterisk"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/name" />
+
+    <TextView
+        android:id="@+id/surnameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/surname_hyphen"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:fontFamily="@font/comixloud"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <EditText
+        android:id="@+id/surname"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/light_blue_shadow"
+        android:fontFamily="@font/comixloud"
+        android:hint="@string/surname"
+        android:inputType="textPersonName"
+        android:textColor="@color/beige"
+        android:textColorHint="@color/beige_shadow"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/surnameTitle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/asterisk"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/surname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/surname" />
+
+    <TextView
+        android:id="@+id/avatarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/comixloud"
+        android:text="@string/avatar_hyphen"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/surname" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:text="@string/asterisk"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/avatarTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/avatarTitle" />
+
+
+    <LinearLayout
+        android:id="@+id/avatarFirstRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarTitle">
+
+        <ImageView
+            android:id="@+id/avatar1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:clickable="true"
+            android:contentDescription="@string/avatar_1"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/first_avatar" />
+
+        <ImageView
+            android:id="@+id/avatar2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:clickable="true"
+            android:contentDescription="@string/avatar_2"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/second_avatar" />
+
+        <ImageView
+            android:id="@+id/avatar3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:clickable="true"
+            android:contentDescription="@string/avatar_3"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/third_avatar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/avatarSecondRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarFirstRow">
+
+        <ImageView
+            android:id="@+id/avatar4"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:clickable="true"
+            android:contentDescription="@string/avatar_4"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/fourth_avatar" />
+
+        <ImageView
+            android:id="@+id/avatar5"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:clickable="true"
+            android:contentDescription="@string/avatar_5"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/fifth_avatar" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

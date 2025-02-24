@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "therapist_table")
 data class TherapistEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) override val id: Int = 0,
     override val name: String,
     val surname: String,
     override val avatar: Avatar,

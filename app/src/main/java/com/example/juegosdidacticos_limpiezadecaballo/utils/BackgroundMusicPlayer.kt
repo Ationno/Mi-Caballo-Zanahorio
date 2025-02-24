@@ -13,8 +13,7 @@ object BackgroundMusicPlayer {
             mediaPlayer = MediaPlayer.create(context, musicResId)
             mediaPlayer?.isLooping = true
             mediaPlayer?.start()
-            val sharedPrefs = context.getSharedPreferences("AppSettings", MODE_PRIVATE)
-            setVolume(sharedPrefs.getInt("musicVolume", 50), sharedPrefs.getInt("gameVolume", 50))
+            setVolume(50, 50)
         }
     }
 

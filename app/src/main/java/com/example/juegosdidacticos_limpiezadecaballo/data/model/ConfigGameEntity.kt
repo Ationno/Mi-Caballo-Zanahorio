@@ -3,16 +3,13 @@ package com.example.juegosdidacticos_limpiezadecaballo.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
-import java.util.Date
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
 
-@Entity(tableName = "game_state_table")
-data class GameStateEntity(
+@Entity(tableName = "config_game_table")
+data class ConfigGameEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val date: Date,
-    val errors: Int,
-    val score: Int,
-    val difficulty: Difficulty,
-    val timeLeft: Long,
-    val timeTotal: Long,
-    val patientId: Int
+    val patientId: Int,
+    val gameVolume: Int,
+    val voiceVolume: Int,
+    val musicVolume: Int
 )

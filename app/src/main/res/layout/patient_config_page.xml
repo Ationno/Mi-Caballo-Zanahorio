@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="35dp"
+            app:cardBackgroundColor="@color/light_blue"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp">
+
+                <include
+                    android:id="@+id/commonPatientFields"
+                    layout="@layout/common_patient_fields"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/difficultyTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:fontFamily="@font/comixloud"
+                    android:text="- Dificultad"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/commonPatientFields" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/asterisk"
+                    android:textColor="@color/red"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/difficultyTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/difficultyTitle" />
+
+                <RadioGroup
+                    android:id="@+id/difficulty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/difficultyTitle">
+
+                    <RadioButton
+                        android:id="@+id/easy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/easy_difficulty"
+                        android:textColor="@color/beige"
+                        android:textSize="24sp" />
+
+                    <RadioButton
+                        android:id="@+id/medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/medium_difficulty"
+                        android:textColor="@color/beige"
+                        android:textSize="24sp" />
+
+                    <RadioButton
+                        android:id="@+id/hard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/hard_difficulty"
+                        android:textColor="@color/beige"
+                        android:textSize="24sp" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/voiceTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:fontFamily="@font/comixloud"
+                    android:text="@string/voice_hyphen"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/difficulty" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/asterisk"
+                    android:textColor="@color/red"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/voiceTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/voiceTitle" />
+
+                <RadioGroup
+                    android:id="@+id/voice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/voiceTitle">
+
+                    <RadioButton
+                        android:id="@+id/masculineVoice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/masculine"
+                        android:textColor="@color/beige"
+                        android:textSize="24sp" />
+
+                    <RadioButton
+                        android:id="@+id/feminineVoice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/feminine"
+                        android:textColor="@color/beige"
+                        android:textSize="24sp" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/cluesTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:fontFamily="@font/comixloud"
+                    android:text="@string/clues_hyphen"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/voice" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/asterisk"
+                    android:textColor="@color/red"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/cluesTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cluesTitle" />
+
+                <RadioGroup
+                    android:id="@+id/clues"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cluesTitle">
+
+                    <RadioButton
+                        android:id="@+id/yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/yes_text"
+                        android:textColor="@color/beige"
+                        android:textSize="24sp" />
+
+                    <RadioButton
+                        android:id="@+id/no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/no_text"
+                        android:textColor="@color/beige"
+                        android:textSize="24sp" />
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_selector"
+                    android:fontFamily="@font/comixloud"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="3"
+                    android:text="@string/deleteAccount"
+                    android:textColor="@color/light_font"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clues" />
+
+                <Button
+                    android:id="@+id/modify"
+                    android:layout_width="230dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_selector"
+                    android:fontFamily="@font/comixloud"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="3"
+                    android:text="@string/modify"
+                    android:textColor="@color/light_font"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/delete" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
