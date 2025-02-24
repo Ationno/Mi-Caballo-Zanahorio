@@ -17,6 +17,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.UserSelectionPageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.adapter.NamedEntityAdapter
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils.getAvatarResource
+import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
 
 class UserSelectionFragment : Fragment() {
@@ -40,6 +41,7 @@ class UserSelectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        BackgroundMusicPlayer.setVolume(50, 50)
         val recyclerView = binding.recyclerView
         val buttonPatients = binding.patients
         val profileAvatar = binding.profileExample

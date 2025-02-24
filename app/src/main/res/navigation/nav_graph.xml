@@ -43,11 +43,25 @@
             android:id="@+id/action_UserInitPage_to_UserSelectionHistoryPage"
             app:destination="@id/UserSelectionHistoryPage" />
         <action
+            android:id="@+id/action_UserInitPage_to_PatientConfigGamePage"
+            app:destination="@id/PatientConfigGamePage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
+        </action>
+        <action
             android:id="@+id/action_UserInitPage_to_TherapistConfigPage"
             app:destination="@id/TherapistConfigPage">
             <argument
                 android:name="selectedUser"
                 app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity" />
+        </action>
+        <action
+            android:id="@+id/action_UserInitPage_to_UserHistoryPage"
+            app:destination="@id/UserHistoryPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
         </action>
     </fragment>
     <fragment
@@ -132,6 +146,18 @@
         android:id="@+id/UserHistoryPage"
         android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.UserHistoryFragment"
         android:label="User History Page"
-        tools:layout="@layout/user_history_page">
+        tools:layout="@layout/user_history_page"/>
+    <fragment
+        android:id="@+id/PatientConfigGamePage"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.PatientConfigGameFragment"
+        android:label="User Config Game Page"
+        tools:layout="@layout/config_game_patient">
+        <action
+            android:id="@+id/action_PatientConfigGamePage_to_UserInitPage"
+            app:destination="@id/UserInitPage">
+            <argument
+                android:name="selectedUser"
+                app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.NamedEntity" />
+        </action>
     </fragment>
 </navigation>

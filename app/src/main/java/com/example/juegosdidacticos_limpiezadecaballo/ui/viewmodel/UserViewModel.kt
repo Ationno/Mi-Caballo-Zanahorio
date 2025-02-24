@@ -10,6 +10,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Genre
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigGameEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val patientDao = UserDatabase.getDatabase(application).patientDao()
     private val therapistDao = UserDatabase.getDatabase(application).therapistDao()
     private val configDao = UserDatabase.getDatabase(application).configDao()
+    private val configGameDao = UserDatabase.getDatabase(application).configGameDao()
     private val gameStateDao = UserDatabase.getDatabase(application).gameStateDao()
 
     val allPatients: LiveData<List<PatientEntity>> = patientDao.getAllPatients()
@@ -28,16 +30,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val patientCount = patientDao.getPatientCount()
         if (patientCount == 0) {
             viewModelScope.launch {
-                for (i in 1..4) {
-                    val config = ConfigEntity(
-                        patientId = i,
-                        difficulty = Difficulty.HARD,
-                        voices = Voices.FEMININE,
-                        clues = true
-                    )
-
-                    configDao.insertConfig(config)
-                }
                 val examplePatients = listOf(
                     PatientEntity(
                         name = "John",
@@ -73,7 +65,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     ),
                 )
                 examplePatients.forEach {
-                    patientDao.insertPatient(it)
+                    insertPatient(it)
                 }
             }
         }
@@ -89,7 +81,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     TherapistEntity(name = "David", surname = "Brown", avatar = Avatar.THIRD),
                 )
                 exampleTherapists.forEach {
-                    therapistDao.insertTherapist(it)
+                    insertTherapist(it)
                 }
             }
         }
@@ -104,7 +96,24 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             voices = Voices.FEMININE,
             clues = true
         )
-        configDao.insertConfig(defaultConfig)
+
+        val defaultGameConfig = ConfigGameEntity(
+            patientId = patientId,
+            gameVolume = 50,
+            voiceVolume = 50,
+            musicVolume = 50
+        )
+
+        insertConfig(defaultConfig)
+        insertGameConfig(defaultGameConfig)
+    }
+
+    suspend fun insertConfig(config: ConfigEntity) {
+        configDao.insertConfig(config)
+    }
+
+    suspend fun insertGameConfig(configGame: ConfigGameEntity) {
+        configGameDao.insertGameConfig(configGame)
     }
 
     suspend fun insertTherapist(therapist: TherapistEntity) {
@@ -123,10 +132,23 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         configDao.updateConfigByPatientId(config.patientId, config.difficulty, config.voices, config.clues)
     }
 
+    suspend fun updateGameConfig(configGame: ConfigGameEntity) {
+        configGameDao.updateGameConfigByPatientId(configGame.patientId, configGame.gameVolume, configGame.voiceVolume, configGame.musicVolume)
+    }
+
     suspend fun deletePatient(patient: PatientEntity) {
-        configDao.deleteConfigByPatientId(patient.id)
+        deleteConfigByPatientId(patient.id)
+        deleteGameConfigByPatientId(patient.id)
         gameStateDao.deleteGameStatesByPatientId(patient.id)
         patientDao.deletePatient(patient)
+    }
+
+    suspend fun deleteConfigByPatientId(patientId: Int) {
+        configDao.deleteConfigByPatientId(patientId)
+    }
+
+    suspend fun deleteGameConfigByPatientId(patientId: Int) {
+        configGameDao.deleteGameConfigByPatientId(patientId)
     }
 
     suspend fun deleteTherapist(therapist: TherapistEntity) {
@@ -136,5 +158,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun getConfigByPatientId(patientId: Int): ConfigEntity? {
         return configDao.getConfigByPatientId(patientId)
+    }
+
+    suspend fun getGameConfigByPatientId(patientId: Int): ConfigGameEntity? {
+        return configGameDao.getGameConfigByPatientId(patientId)
     }
 }

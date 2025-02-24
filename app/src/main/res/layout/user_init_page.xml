@@ -78,7 +78,7 @@
             android:visibility="gone" />
 
         <android.widget.Button
-            android:id="@+id/informationButton"
+            android:id="@+id/gameConfigButton"
             style="@style/ButtonStyleMenu"
             android:text="@string/configuration"
             android:textSize="16sp"

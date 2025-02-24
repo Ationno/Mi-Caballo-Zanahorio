@@ -3,6 +3,7 @@ package com.example.juegosdidacticos_limpiezadecaballo.ui.fragment
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.UserInitPageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils
+import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
 
 class UserInitFragment : Fragment() {
@@ -67,12 +69,35 @@ class UserInitFragment : Fragment() {
             updateUI(user)
         }
 
+        if (selectedUser is TherapistEntity) {
+            BackgroundMusicPlayer.setVolume(40, 40)
+        } else {
+            selectedUser?.id?.let { id: Int ->
+                lifecycleScope.launch {
+                    val configGame = userViewModel.getGameConfigByPatientId(id)!!
+                    BackgroundMusicPlayer.setVolume(configGame.musicVolume, configGame.gameVolume)
+                }
+            }
+        }
+
         binding.managementButton.setOnClickListener {
             findNavController().navigate(R.id.action_userInitPage_to_UserManagementPage)
         }
 
         binding.histories.setOnClickListener {
             findNavController().navigate(R.id.action_UserInitPage_to_UserSelectionHistoryPage)
+        }
+
+        binding.myHistory.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_UserHistoryPage, Bundle().apply {
+                putParcelable("selectedUser", selectedUser)
+            })
+        }
+
+        binding.gameConfigButton.setOnClickListener {
+            findNavController().navigate(R.id.action_UserInitPage_to_PatientConfigGamePage, Bundle().apply {
+                putParcelable("selectedUser", selectedUser)
+            })
         }
 
         binding.myProfile.setOnClickListener {
@@ -95,7 +120,7 @@ class UserInitFragment : Fragment() {
         when (user) {
             is PatientEntity -> {
                 binding.playButton.visibility = View.VISIBLE
-                binding.informationButton.visibility = View.VISIBLE
+                binding.gameConfigButton.visibility = View.VISIBLE
                 binding.userDifficulty.visibility = View.VISIBLE
                 binding.myHistory.visibility = View.VISIBLE
                 lifecycleScope.launch {
@@ -116,4 +141,6 @@ class UserInitFragment : Fragment() {
             else -> {}
         }
     }
+
+
 }

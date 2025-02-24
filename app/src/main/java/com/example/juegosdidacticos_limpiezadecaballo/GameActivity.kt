@@ -13,7 +13,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.ErrorType
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigGameEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.GamePageBinding
@@ -33,9 +33,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 class GameActivity : AppCompatActivity() {
 
@@ -218,9 +216,15 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        val sharedPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE)
-        gameVolume = sharedPrefs.getInt("gameVolume", 50)
-        voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
+        user?.id?.let { id: Int ->
+            lifecycleScope.launch {
+                val configGame = userViewModel.getGameConfigByPatientId(id)!!
+                gameVolume = configGame.gameVolume
+                voiceVolume = configGame.voiceVolume
+                musicVolume = configGame.musicVolume
+                BackgroundMusicPlayer.setVolume(musicVolume, gameVolume)
+            }
+        }
     }
 
     private fun updateDirtyOverlays(currentPart: String) {
@@ -415,10 +419,14 @@ class GameActivity : AppCompatActivity() {
         val musicVolumeSeekBar = dialogView.findViewById<SeekBar>(R.id.musicVolumeSeekBar)
         val musicVolumePercentage = dialogView.findViewById<TextView>(R.id.musicVolumePercentage)
 
-        val sharedPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE)
-        gameVolume = sharedPrefs.getInt("gameVolume", 50)
-        voiceVolume = sharedPrefs.getInt("voiceVolume", 50)
-        musicVolume = sharedPrefs.getInt("musicVolume", 50)
+        user?.id?.let { id: Int ->
+            lifecycleScope.launch {
+                val configGame = userViewModel.getGameConfigByPatientId(id)!!
+                gameVolume = configGame.gameVolume
+                voiceVolume = configGame.voiceVolume
+                musicVolume = configGame.musicVolume
+            }
+        }
 
         gameVolumeSeekBar.progress = gameVolume
         gameVolumePercentage.text = "$gameVolume%"
@@ -467,11 +475,18 @@ class GameActivity : AppCompatActivity() {
             voiceVolume = newVoiceVolume
             musicVolume = newMusicVolume
 
-            sharedPrefs.edit()
-                .putInt("gameVolume", newGameVolume)
-                .putInt("voiceVolume", newVoiceVolume)
-                .putInt("musicVolume", newMusicVolume)
-                .apply()
+            user?.id?.let { id: Int ->
+                lifecycleScope.launch {
+                    userViewModel.updateGameConfig(
+                        ConfigGameEntity(
+                            patientId = id,
+                            gameVolume = gameVolume,
+                            voiceVolume = voiceVolume,
+                            musicVolume = musicVolume
+                        )
+                    )
+                }
+            }
 
             dialog.dismiss()
         }
@@ -567,7 +582,11 @@ class GameActivity : AppCompatActivity() {
                     val toolName = tool.id
                     val horsePart = getHorsePartUnderDrag(event.x, event.y)
 
-                    if ((horsePart == null || !isCorrectToolForPart(toolName, horsePart)) && !success) {
+                    if ((horsePart == null || !isCorrectToolForPart(
+                            toolName,
+                            horsePart
+                        )) && !success
+                    ) {
                         playErrorEffect()
                         incrementErrors()
                         if (horsePart == null) {
