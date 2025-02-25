@@ -26,10 +26,23 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         binding.backButton.setOnClickListener {
-            if (navController.currentDestination?.id == R.id.UserInitPage) {
-                navController.navigate(R.id.UserSelectionPage)
-            } else {
-                navController.navigateUp()
+            when (navController.currentDestination?.id) {
+                R.id.UserInitPage -> {
+                    navController.navigate(R.id.UserSelectionPage)
+                }
+                R.id.UserManagementPage -> {
+                    val previousDestination = navController.previousBackStackEntry?.destination?.id
+                    if (previousDestination == R.id.PatientConfigPage ||
+                        previousDestination == R.id.PatientRegistrationPage ||
+                        previousDestination == R.id.TherapistRegistrationPage) {
+                        navController.popBackStack(R.id.UserInitPage, false)
+                    } else {
+                        navController.navigateUp()
+                    }
+                }
+                else -> {
+                    navController.navigateUp()
+                }
             }
         }
 
