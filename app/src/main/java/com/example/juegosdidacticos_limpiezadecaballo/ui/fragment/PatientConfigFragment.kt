@@ -244,7 +244,7 @@ class PatientConfigFragment : Fragment() {
                         "Paciente eliminado exitosamente",
                         Toast.LENGTH_SHORT
                     ).show()
-                    navigateToSelection()
+                    navigateBack()
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireContext(),
@@ -267,10 +267,6 @@ class PatientConfigFragment : Fragment() {
 
     private fun navigateBack() {
         findNavController().navigate(R.id.action_PatientConfigPage_to_UserManagementPage)
-    }
-
-    private fun navigateToSelection() {
-        findNavController().navigate(R.id.action_PatientConfigPage_to_UserSelectionPage)
     }
 
     override fun onDestroyView() {

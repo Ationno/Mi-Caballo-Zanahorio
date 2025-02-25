@@ -109,9 +109,6 @@
         <action
             android:id="@+id/action_PatientConfigPage_to_UserManagementPage"
             app:destination="@id/UserManagementPage" />
-        <action
-            android:id="@+id/action_PatientConfigPage_to_UserSelectionPage"
-            app:destination="@id/UserSelectionPage" />
     </fragment>
     <fragment
         android:id="@+id/TherapistConfigPage"
