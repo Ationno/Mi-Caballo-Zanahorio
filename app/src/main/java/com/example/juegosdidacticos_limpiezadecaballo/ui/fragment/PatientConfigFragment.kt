@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -20,11 +21,13 @@ import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Genre
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigGameEntity
 import com.example.juegosdidacticos_limpiezadecaballo.databinding.PatientConfigPageBinding
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils
 import com.example.juegosdidacticos_limpiezadecaballo.utils.AvatarUtils.getAvatarType
+import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import com.example.juegosdidacticos_limpiezadecaballo.utils.capitalizeFirstLetter
 import kotlinx.coroutines.launch
 
@@ -57,15 +60,55 @@ class PatientConfigFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         selectedUser?.let { user ->
             populateUserData(user)
+
             lifecycleScope.launch {
                 val config = userViewModel.getConfigByPatientId(user.id)
                 if (config != null) {
                     populateConfigData(config)
                 }
             }
+
+            lifecycleScope.launch {
+                val configGame = userViewModel.getGameConfigByPatientId(user.id)
+                if (configGame != null) {
+                    populateVolumesData(configGame)
+                }
+            }
         }
 
         setupAvatarSelection()
+
+        binding.gameVolumeSeekBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.gameVolumePercentage.text = "$progress%"
+                BackgroundMusicPlayer.setVolume(binding.musicVolumeSeekBar.progress, progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        binding.voiceVolumeSeekBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.voiceVolumePercentage.text = "$progress%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        binding.musicVolumeSeekBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.musicVolumePercentage.text = "$progress%"
+                BackgroundMusicPlayer.setVolume(progress, binding.gameVolumeSeekBar.progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
         binding.modify.setOnClickListener {
             modifyPatient()
@@ -131,7 +174,6 @@ class PatientConfigFragment : Fragment() {
             return
         }
 
-
         val patient = PatientEntity(
             id = selectedUser!!.id,
             name = name,
@@ -148,11 +190,18 @@ class PatientConfigFragment : Fragment() {
             voices = voices,
             clues = clues,
         )
+        val gameConfig = ConfigGameEntity(
+            patientId = selectedUser!!.id,
+            gameVolume = binding.gameVolumeSeekBar.progress,
+            voiceVolume = binding.voiceVolumeSeekBar.progress,
+            musicVolume = binding.musicVolumeSeekBar.progress
+        )
 
         lifecycleScope.launch {
             try {
                 userViewModel.updatePatient(patient)
                 userViewModel.updateConfig(config)
+                userViewModel.updateGameConfig(gameConfig)
                 Toast.makeText(
                     requireContext(),
                     "Paciente modificado exitosamente",
@@ -218,6 +267,22 @@ class PatientConfigFragment : Fragment() {
 
     }
 
+    private fun populateVolumesData(configGame: ConfigGameEntity) {
+        val gameVolume = configGame.gameVolume
+        val voiceVolume = configGame.voiceVolume
+        val musicVolume = configGame.musicVolume
+
+        binding.gameVolumeSeekBar.progress = gameVolume
+        binding.gameVolumePercentage.text = "$gameVolume%"
+
+        binding.voiceVolumeSeekBar.progress = voiceVolume
+        binding.voiceVolumePercentage.text = "$voiceVolume%"
+
+        binding.musicVolumeSeekBar.progress = musicVolume
+        binding.musicVolumePercentage.text = "$musicVolume%"
+
+    }
+
     private fun deletePatient() {
         val dialogView = layoutInflater.inflate(R.layout.confirm_action, null)
 
@@ -231,7 +296,8 @@ class PatientConfigFragment : Fragment() {
         infoTitle.text = "Eliminar a $userName"
 
         val infoText = dialogView.findViewById<TextView>(R.id.infoText)
-        infoText.text = "¿Estas seguro que quieres eliminar el perfil de $userName? Se borraran todos sus datos de forma permanente."
+        infoText.text =
+            "¿Estas seguro que quieres eliminar el perfil de $userName? Se borraran todos sus datos de forma permanente."
 
 
         dialogView.findViewById<View>(R.id.confirmButton).setOnClickListener {

@@ -12,6 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.juegosdidacticos_limpiezadecaballo.R
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigGameEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.TherapistEntity
@@ -49,11 +51,14 @@ class PatientConfigGameFragment : Fragment() {
         val voiceVolumePercentage = binding.voiceVolumePercentage
         val musicVolumeSeekBar = binding.musicVolumeSeekBar
         val musicVolumePercentage = binding.musicVolumePercentage
+        var config: ConfigEntity? = null
 
         selectedUser!!.id.let { id: Int ->
             lifecycleScope.launch {
 
                 val configGame = userViewModel.getGameConfigByPatientId(id)!!
+
+                config = userViewModel.getConfigByPatientId(id)!!
 
                 val gameVolume = configGame.gameVolume
                 val voiceVolume = configGame.voiceVolume
@@ -67,6 +72,11 @@ class PatientConfigGameFragment : Fragment() {
 
                 musicVolumeSeekBar.progress = musicVolume
                 musicVolumePercentage.text = "$musicVolume%"
+
+                when (config!!.voices) {
+                    Voices.MASCULINE -> binding.voice.check(R.id.masculineVoice)
+                    Voices.FEMININE -> binding.voice.check(R.id.feminineVoice)
+                }
             }
         }
 
@@ -100,6 +110,14 @@ class PatientConfigGameFragment : Fragment() {
         })
 
         binding.confirmButton.setOnClickListener {
+            val voices = when (binding.voice.checkedRadioButtonId) {
+                R.id.masculineVoice -> Voices.MASCULINE
+                R.id.feminineVoice -> Voices.FEMININE
+                else -> {
+                    Voices.MASCULINE
+                }
+            }
+
             selectedUser!!.id.let { id: Int ->
                 lifecycleScope.launch {
                     userViewModel.updateGameConfig(
@@ -110,9 +128,22 @@ class PatientConfigGameFragment : Fragment() {
                             musicVolume = musicVolumeSeekBar.progress
                         )
                     )
-                    findNavController().navigate(R.id.action_PatientConfigGamePage_to_UserInitPage, Bundle().apply {
-                        putParcelable("selectedUser", selectedUser)
-                    })
+                    config?.let { it ->
+                        userViewModel.updateConfig(
+                            ConfigEntity(
+                                patientId = id,
+                                difficulty = it.difficulty,
+                                voices = voices,
+                                clues = it.clues,
+                            )
+                        )
+                    }
+
+                    findNavController().navigate(
+                        R.id.action_PatientConfigGamePage_to_UserInitPage,
+                        Bundle().apply {
+                            putParcelable("selectedUser", selectedUser)
+                        })
                 }
             }
         }

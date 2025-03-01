@@ -14,7 +14,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.utils.Converters
 
 @Database(
     entities = [PatientEntity::class, TherapistEntity::class, GameStateEntity::class, ConfigEntity::class, ConfigGameEntity::class],
-    version = 17
+    version = 18
 )
 @TypeConverters(Converters::class)
 abstract class UserDatabase : RoomDatabase() {

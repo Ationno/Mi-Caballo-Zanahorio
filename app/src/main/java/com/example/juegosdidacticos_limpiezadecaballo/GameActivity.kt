@@ -325,8 +325,7 @@ class GameActivity : AppCompatActivity() {
                 errors = errors,
                 score = score,
                 difficulty = difficulty,
-                timeLeft = timeLeftInMillis,
-                timeTotal = totalTimeInMillis,
+                timePlayed = totalTimeInMillis - timeLeftInMillis,
                 patientId = it
             )
         }
@@ -907,7 +906,7 @@ class GameActivity : AppCompatActivity() {
 
         val title = dialogView.findViewById<TextView>(R.id.titleGameResult)
         val info = dialogView.findViewById<TextView>(R.id.infoGameResult)
-        val timeLeft = dialogView.findViewById<TextView>(R.id.timeLeft)
+        val timePlayed = dialogView.findViewById<TextView>(R.id.timePlayed)
         val errorsText = dialogView.findViewById<TextView>(R.id.errors)
         val difficultyText = dialogView.findViewById<TextView>(R.id.difficulty)
         val points = dialogView.findViewById<TextView>(R.id.points)
@@ -923,7 +922,7 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        timeLeft.text = "Tiempo restante: ${formatTime(timeLeftInMillis)}"
+        timePlayed.text = "Tiempo jugado: ${formatTime(totalTimeInMillis - timeLeftInMillis)}"
         errorsText.text = buildString {
             append("Errores: $errors/")
             append(getMaxErrors().toString())

@@ -130,6 +130,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/voiceTitle">
 
@@ -209,41 +210,174 @@
                         android:textSize="24sp" />
                 </RadioGroup>
 
-                <Button
-                    android:id="@+id/delete"
-                    android:layout_width="200dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/button_selector"
+                <TextView
+                    android:id="@+id/volumeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:fontFamily="@font/comixloud"
-                    android:shadowColor="@color/text_shadow"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="3"
-                    android:text="@string/deleteAccount"
-                    android:textColor="@color/light_font"
-                    android:textSize="10sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="- Volumenes"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/clues" />
 
-                <Button
-                    android:id="@+id/modify"
-                    android:layout_width="230dp"
-                    android:layout_height="50dp"
+                <LinearLayout
+                    android:id="@+id/volumes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/button_selector"
-                    android:fontFamily="@font/comixloud"
-                    android:shadowColor="@color/text_shadow"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="3"
-                    android:text="@string/modify"
-                    android:textColor="@color/light_font"
-                    android:textSize="15sp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/volumeTitle">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/game_volume"
+                        android:textColor="@color/beige"
+                        android:textSize="25sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <SeekBar
+                            android:id="@+id/gameVolumeSeekBar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/seek_bar"
+                            android:thumb="@drawable/seek_thumb" />
+
+                        <TextView
+                            android:id="@+id/gameVolumePercentage"
+                            android:layout_width="35dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:fontFamily="@font/comixregular"
+                            android:text="50%"
+                            android:textColor="@color/beige"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/voice_volume"
+                        android:textColor="@color/beige"
+                        android:textSize="25sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <SeekBar
+                            android:id="@+id/voiceVolumeSeekBar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/seek_bar"
+                            android:thumb="@drawable/seek_thumb" />
+
+                        <TextView
+                            android:id="@+id/voiceVolumePercentage"
+                            android:layout_width="35dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:fontFamily="@font/comixregular"
+                            android:text="50%"
+                            android:textColor="@color/beige"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/comixregular"
+                        android:text="@string/music_volume"
+                        android:textColor="@color/beige"
+                        android:textSize="25sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <SeekBar
+                            android:id="@+id/musicVolumeSeekBar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progressDrawable="@drawable/seek_bar"
+                            android:thumb="@drawable/seek_thumb" />
+
+                        <TextView
+                            android:id="@+id/musicVolumePercentage"
+                            android:layout_width="35dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:fontFamily="@font/comixregular"
+                            android:text="50%"
+                            android:textColor="@color/beige"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/delete" />
+                    app:layout_constraintTop_toBottomOf="@id/volumes">
+
+                    <Button
+                        android:id="@+id/delete"
+                        android:layout_width="120dp"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/button_selector"
+                        android:fontFamily="@font/comixloud"
+                        android:lineHeight="25dp"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="3"
+                        android:text="@string/deleteAccount"
+                        android:textColor="@color/light_font"
+                        android:textSize="10sp" />
+
+                    <Button
+                        android:id="@+id/modify"
+                        android:layout_width="120dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/button_selector"
+                        android:fontFamily="@font/comixloud"
+                        android:lineHeight="25dp"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="3"
+                        android:text="@string/modify"
+                        android:textColor="@color/light_font"
+                        android:textSize="10sp" />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
