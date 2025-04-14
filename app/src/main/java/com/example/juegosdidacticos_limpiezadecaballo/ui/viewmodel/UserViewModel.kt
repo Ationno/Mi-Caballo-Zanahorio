@@ -93,6 +93,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val defaultConfig = ConfigEntity(
             patientId = patientId,
             difficulty = Difficulty.EASY,
+            subDifficulty = Difficulty.EASY,
             voices = Voices.FEMININE,
             clues = true
         )
@@ -129,7 +130,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     suspend fun updateConfig(config: ConfigEntity) {
-        configDao.updateConfigByPatientId(config.patientId, config.difficulty, config.voices, config.clues)
+        configDao.updateConfigByPatientId(config.patientId, config.difficulty, config.subDifficulty, config.voices, config.clues)
     }
 
     suspend fun updateGameConfig(configGame: ConfigGameEntity) {

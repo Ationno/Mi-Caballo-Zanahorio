@@ -21,7 +21,7 @@
     <string name="configuration">Configuracion</string>
     <string name="user_difficulty">Dificultad %s</string>
     <string name="about_us_developer">Desarrollo</string>"
-    <string name="about_us_team">Rojas, Agustina Sol; Glorioso Ceretti, Antonio Felix</string>
+    <string name="about_us_team">- Rojas, Agustina Sol (Dev)   \n- Glorioso Ceretti, Antonio Felix (Dev)  </string>
     <string name="about_us_colaboration">Colaboracion con"</string>
     <string name="close_button">Boton de cierre</string>
     <string name="pause_game">Boton de pausa</string>
@@ -95,4 +95,20 @@
     <string name="avatar_4">Avatar 4</string>
     <string name="avatar_5">Avatar 5</string>
     <string name="history_button">Historial</string>
+    <string name="mi_caballo_zanahorio">Mi caballo Zanahorio</string>
+    <string name="about_us_info_1">
+        “Mi caballo Zanahorio” es un juego didáctico desarrollado como complemento terapéutico para el trabajo que realiza CEDICA (Centro de Equitación para Personas con Discapacidad). El proyecto surge del vínculo de cooperación entre CEDICA y la Facultad, un trabajo conjunto que se sostiene desde 2013.
+    </string>
+    <string name="about_us_info_2">
+        Esta propuesta nace como continuación del juego de ensillado desarrollado en 2016, y busca abordar de manera lúdica y virtual un momento fundamental del vínculo entre el niño y el caballo: la limpieza. Esta actividad, previa a montar, permite el acercamiento, el reconocimiento y el respeto hacia el animal, y activa múltiples procesos cognitivos como la memoria, la planificación, la secuenciación y la atención.
+    </string>
+    <string name="about_us_info_3">
+        El juego está diseñado para ser utilizado en tablets o celulares, con el objetivo de reforzar aprendizajes, facilitar la anticipación, y ofrecer una alternativa cuando las condiciones climáticas impiden el trabajo en pista.
+    </string>
+    <string name="about_us_info_4">
+        Además de trabajar la secuencia de limpieza, también se enseñan las herramientas utilizadas, las partes del cuerpo del caballo, la forma correcta de posicionarse para limpiar, y la lógica del proceso.
+    </string>
+    <string name="about_us_info_5">
+        Este proyecto refleja el compromiso con la inclusión, el aprendizaje significativo, y la innovación al servicio de la equinoterapia. Es fruto del trabajo colaborativo entre estudiantes, profesionales y la institución.
+    </string>
 </resources>

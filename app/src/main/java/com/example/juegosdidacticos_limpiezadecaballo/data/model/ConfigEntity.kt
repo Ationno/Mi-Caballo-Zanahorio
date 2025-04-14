@@ -10,6 +10,7 @@ data class ConfigEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val patientId: Int,
     val difficulty: Difficulty,
+    val subDifficulty: Difficulty,
     val voices: Voices,
     val clues: Boolean
 )

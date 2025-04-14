@@ -39,6 +39,8 @@ class PatientConfigFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
     private var selectedUser: PatientEntity? = null
     private var selectedAvatarId: Int? = null
+    private var originalDifficulty: Difficulty? = null
+    private var originalSubDifficulty: Difficulty = Difficulty.EASY
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -184,9 +186,12 @@ class PatientConfigFragment : Fragment() {
             avatar = getAvatarType(selectedAvatarId!!)
         )
 
+    val newSubDifficulty = if (difficulty == originalDifficulty) originalSubDifficulty else Difficulty.EASY
+
         val config = ConfigEntity(
             patientId = selectedUser!!.id,
             difficulty = difficulty,
+            subDifficulty = newSubDifficulty,
             voices = voices,
             clues = clues,
         )
@@ -265,6 +270,8 @@ class PatientConfigFragment : Fragment() {
             binding.clues.check(R.id.no)
         }
 
+        originalDifficulty = config.difficulty
+        originalSubDifficulty = config.difficulty
     }
 
     private fun populateVolumesData(configGame: ConfigGameEntity) {

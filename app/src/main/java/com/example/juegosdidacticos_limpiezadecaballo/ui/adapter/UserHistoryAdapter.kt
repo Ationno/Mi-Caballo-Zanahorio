@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.juegosdidacticos_limpiezadecaballo.R
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -31,12 +32,30 @@ class UserHistoryAdapter : ListAdapter<GameStateEntity, UserHistoryAdapter.GameS
         private val timeRatioTextView: TextView = itemView.findViewById(R.id.timeRatioTextView)
 
         fun bind(item: GameStateEntity) {
+            var textSubDifficulty: Int = when (item.subDifficulty){
+                Difficulty.EASY -> {
+                    1
+                }
+
+                Difficulty.MEDIUM -> {
+                    2
+                }
+
+                Difficulty.HARD -> {
+                    3
+                }
+            }
+
             val dateFormat = SimpleDateFormat("dd/MM/yy", Locale("es", "AR"))
             val formattedDate = dateFormat.format(item.date)
             dateTextView.text = formattedDate
             errorsTextView.text = String.format(Locale.getDefault(), "%d", item.errors)
             scoreTextView.text = String.format(Locale.getDefault(), "%d", item.score)
-            difficultyTextView.text = item.difficulty.getDisplayDifficulty()
+            difficultyTextView.text = buildString {
+                append(item.difficulty.getDisplayDifficulty())
+                append(": ")
+                append(textSubDifficulty)
+            }
             timeRatioTextView.text = String.format(Locale.getDefault(), "%s", formatTime(item.timePlayed))
         }
 

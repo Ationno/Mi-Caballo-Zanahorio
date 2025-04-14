@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Difficulty
 import com.example.juegosdidacticos_limpiezadecaballo.data.enums.ErrorType
+import com.example.juegosdidacticos_limpiezadecaballo.data.enums.Voices
+import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.ConfigGameEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.GameStateEntity
 import com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity
@@ -45,6 +48,7 @@ class GameActivity : AppCompatActivity() {
     private var timeLeftInMillis: Long = 0
     private var totalTimeInMillis: Long = 0
     private var difficulty: Difficulty = Difficulty.EASY
+    private var subDifficulty: Difficulty = Difficulty.EASY
     private var errors: Int = 0
     private var score: Int = 0
     private var gameVolume: Int = 0
@@ -53,6 +57,8 @@ class GameActivity : AppCompatActivity() {
     private var errorsOnCurrentStep = 0
     private var currentStep = 0
     private val dirtyOverlays = mutableMapOf<String, ImageView>()
+    private var totalSteps: Int = 0
+    private var voiceType: Voices = Voices.MASCULINE
 
     private val cleaningOrder = listOf(
         Pair("head", "soft_scraper"),
@@ -171,7 +177,8 @@ class GameActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val config = userViewModel.getConfigByPatientId(id)
                 config?.let {
-                    initializeDifficulty(it.difficulty)
+                    initializeDifficulty(it.difficulty, it.subDifficulty)
+                    voiceType = it.voices
                     startTimer()
                 }
             }
@@ -234,9 +241,10 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeDifficulty(difficulty: Difficulty) {
+    private fun initializeDifficulty(difficulty: Difficulty, subDifficulty: Difficulty) {
         this.difficulty = difficulty
-        when (difficulty) {
+        this.subDifficulty = subDifficulty
+        when (subDifficulty) {
             Difficulty.EASY -> {
                 timeLeftInMillis = 480000L
                 totalTimeInMillis = 480000L
@@ -253,6 +261,19 @@ class GameActivity : AppCompatActivity() {
 
             }
         }
+        when (difficulty) {
+            Difficulty.EASY -> {
+                totalSteps = 5
+            }
+
+            Difficulty.MEDIUM -> {
+                totalSteps = 10
+            }
+
+            Difficulty.HARD -> {
+                totalSteps = 15
+            }
+        }
         binding.errorValue.text = buildString {
             append("0/")
             append(getMaxErrors().toString())
@@ -261,7 +282,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun getMaxErrors(): Int {
-        return when (difficulty) {
+        return when (subDifficulty) {
             Difficulty.EASY -> 24
             Difficulty.MEDIUM -> 16
             Difficulty.HARD -> 8
@@ -316,6 +337,8 @@ class GameActivity : AppCompatActivity() {
 
         showGameResultDialog(completed, loseReason)
         saveGameState(completed)
+        if (completed)
+            updateUserSubDifficulty()
     }
 
     private fun saveGameState(completed: Boolean) {
@@ -325,6 +348,7 @@ class GameActivity : AppCompatActivity() {
                 errors = errors,
                 score = score,
                 difficulty = difficulty,
+                subDifficulty = subDifficulty,
                 timePlayed = totalTimeInMillis - timeLeftInMillis,
                 patientId = it
             )
@@ -333,6 +357,40 @@ class GameActivity : AppCompatActivity() {
         lifecycleScope.launch {
             if (gameState != null) {
                 gameViewModel.insertGameState(gameState)
+            }
+        }
+    }
+
+    private fun updateUserSubDifficulty() {
+        var newSubDifficulty: Difficulty = Difficulty.EASY
+
+        when (subDifficulty) {
+            Difficulty.EASY -> {
+                newSubDifficulty = Difficulty.MEDIUM
+            }
+
+            Difficulty.MEDIUM -> {
+                newSubDifficulty = Difficulty.HARD
+            }
+
+            Difficulty.HARD -> {
+                newSubDifficulty = Difficulty.HARD
+            }
+        }
+
+        val configEntity = user?.id?.let {
+            ConfigEntity(
+                patientId = it,
+                difficulty = difficulty,
+                subDifficulty = newSubDifficulty,
+                voices = voiceType,
+                clues = true
+            )
+        }
+
+        lifecycleScope.launch {
+            if (configEntity != null) {
+                userViewModel.updateConfig(configEntity)
             }
         }
     }
@@ -710,21 +768,6 @@ class GameActivity : AppCompatActivity() {
         }, 3000)
     }
 
-    private fun isCleaningMotion(deltaX: Float, deltaY: Float): Boolean {
-        val isTopToBottom = deltaY > 0
-        val isRightToLeft = deltaX < 0
-
-        return isTopToBottom || isRightToLeft
-    }
-
-    private fun isCleaningMotionReversed(deltaX: Float, deltaY: Float): Boolean {
-        val isTopToBottom = deltaY < 5
-        val isRightToLeft = deltaX > 0
-
-        return isTopToBottom || isRightToLeft
-    }
-
-
     private fun getHorsePartUnderDrag(x: Float, y: Float): String? {
 
         val accessibleHorseRegionsPx = horseRegionsDp
@@ -893,9 +936,9 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun updateProgressBar() {
-        val progress = (currentStep.toFloat() / cleaningOrder.size) * 100
+        val progress = (currentStep.toFloat() / totalSteps) * 100
         binding.progressBar.progress = progress.toInt()
-        if (progress == 100f) {
+        if (currentStep == totalSteps) {
             endGame(true)
             return
         }

@@ -43,6 +43,9 @@
             android:id="@+id/action_UserInitPage_to_UserSelectionHistoryPage"
             app:destination="@id/UserSelectionHistoryPage" />
         <action
+            android:id="@+id/action_UserInitPage_to_AboutUs"
+            app:destination="@id/AboutUs" />
+        <action
             android:id="@+id/action_UserInitPage_to_PatientConfigGamePage"
             app:destination="@id/PatientConfigGamePage">
             <argument
@@ -63,6 +66,12 @@
                 android:name="selectedUser"
                 app:argType="com.example.juegosdidacticos_limpiezadecaballo.data.model.PatientEntity" />
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/AboutUs"
+        android:name="com.example.juegosdidacticos_limpiezadecaballo.ui.fragment.AboutUsFragment"
+        android:label="About Us Page"
+        tools:layout="@layout/about_us">
     </fragment>
     <fragment
         android:id="@+id/UserManagementPage"

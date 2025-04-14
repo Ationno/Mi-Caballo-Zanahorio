@@ -133,6 +133,7 @@ class PatientConfigGameFragment : Fragment() {
                             ConfigEntity(
                                 patientId = id,
                                 difficulty = it.difficulty,
+                                subDifficulty = it.subDifficulty,
                                 voices = voices,
                                 clues = it.clues,
                             )

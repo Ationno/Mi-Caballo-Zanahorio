@@ -49,20 +49,7 @@ class UserInitFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.aboutUsButton.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.about_us, null)
-
-            val dialog = AlertDialog.Builder(requireContext())
-                .setView(dialogView)
-                .create()
-
-            dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-            dialog.setCanceledOnTouchOutside(true)
-            dialog.show()
+            findNavController().navigate(R.id.action_UserInitPage_to_AboutUs)
         }
 
         selectedUser?.let { user ->

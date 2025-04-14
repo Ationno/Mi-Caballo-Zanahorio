@@ -19,13 +19,14 @@ interface ConfigDao {
     @Query(
         """
         UPDATE config_table 
-        SET difficulty = :difficulty, voices = :voices, clues = :clues
+        SET difficulty = :difficulty, voices = :voices, clues = :clues, subDifficulty = :subDifficulty
         WHERE patientId = :patientId
     """
     )
     suspend fun updateConfigByPatientId(
         patientId: Int,
         difficulty: Difficulty,
+        subDifficulty: Difficulty,
         voices: Voices,
         clues: Boolean
     )

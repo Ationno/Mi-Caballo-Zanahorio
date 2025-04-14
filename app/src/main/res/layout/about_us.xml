@@ -1,82 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/background_color"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="8dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <ImageView
-            android:id="@+id/closeDialogButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:clickable="true"
-            android:contentDescription="@string/close_button"
-            android:focusable="true"
-            android:src="@drawable/ic_close"
-            app:layout_constraintBottom_toBottomOf="@id/infoTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/infoTitle"
-            app:layout_constraintVertical_bias="0.0"
-            app:tint="#C65D18" />
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="30dp">
 
         <TextView
-            android:id="@+id/infoTitle"
+            android:id="@+id/aboutUsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/comixloud"
+            android:gravity="center"
+            android:lineHeight="55dp"
+            android:text="@string/mi_caballo_zanahorio"
+            android:textColor="#C65D18 "
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/aboutUsImage"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cleaning_horse_kid"
+            app:layout_constraintEnd_toEndOf="@+id/aboutUsTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/aboutUsTitle"
+
+            />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/infoAboutUs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/light_blue"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/aboutUsImage">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/comixregular"
+                    android:text="@string/about_us_info_1"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/comixregular"
+                    android:text="@string/about_us_info_2"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/development"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/comixloud"
             android:text="@string/about_us_developer"
             android:textColor="#C65D18 "
-            android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@id/closeDialogButton"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/infoAboutUs" />
 
-        <TextView
-            android:id="@+id/infoContent"
+        <androidx.cardview.widget.CardView
+            android:layout_marginTop="15dp"
+            android:id="@+id/developmentContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/comixregular"
-            android:text="@string/about_us_team"
-            android:textColor="#D89A34 "
-            android:textSize="16sp"
+            app:cardBackgroundColor="@color/light_blue"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/infoTitle" />
+            app:layout_constraintTop_toBottomOf="@id/development">
+
+            <TextView
+                android:layout_margin="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/comixregular"
+                android:text="@string/about_us_team"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/infoTitle2"
+            android:id="@+id/colaboration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/comixloud"
             android:text="@string/about_us_colaboration"
             android:textColor="#C65D18 "
-            android:textSize="18sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/infoContent" />
+            app:layout_constraintTop_toBottomOf="@+id/developmentContent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/infoTitle2">
+            app:layout_constraintTop_toBottomOf="@+id/colaboration">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
                 android:contentDescription="@string/cedica_logo"
                 android:scaleType="fitCenter"
                 android:src="@drawable/cedica_logo_2" />
@@ -89,4 +146,4 @@
                 android:src="@drawable/logo_informatica" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</ScrollView>
