@@ -109,6 +109,8 @@ class UserInitFragment : Fragment() {
                 binding.playButton.visibility = View.VISIBLE
                 binding.gameConfigButton.visibility = View.VISIBLE
                 binding.userDifficulty.visibility = View.VISIBLE
+                binding.userDifficulty.visibility = View.VISIBLE
+                binding.subUserDifficulty.visibility = View.VISIBLE
                 binding.myHistory.visibility = View.VISIBLE
                 lifecycleScope.launch {
                     val config = userViewModel.getConfigByPatientId(user.id)
@@ -116,6 +118,15 @@ class UserInitFragment : Fragment() {
                         R.string.user_difficulty,
                         config?.difficulty?.getDisplayDifficulty()
                     )
+                    binding.subUserDifficulty.text = buildString {
+                        append(
+                            getString(
+                                R.string.user_subdifficulty,
+                                config?.subDifficulty?.ordinal?.toString()
+                            )
+                        )
+                        append("/2")
+                    }
                 }
             }
 

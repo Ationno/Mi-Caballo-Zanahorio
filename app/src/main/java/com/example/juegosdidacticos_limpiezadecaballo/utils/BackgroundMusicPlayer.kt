@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 object BackgroundMusicPlayer {
     private var mediaPlayer: MediaPlayer? = null
     private var volumeFinal: Float = 0f
+    private var musicResId: Int = 0
 
     fun start(context: Context, musicResId: Int) {
         if (mediaPlayer == null) {
@@ -18,6 +19,7 @@ object BackgroundMusicPlayer {
     }
 
     fun changeMusic(context: Context, newMusicResId: Int) {
+        musicResId = newMusicResId
         mediaPlayer?.let {
             if (it.isPlaying) {
                 it.stop()
@@ -38,5 +40,17 @@ object BackgroundMusicPlayer {
 
     fun isPlaying(): Boolean {
         return mediaPlayer?.isPlaying ?: false
+    }
+
+    fun stop() {
+        mediaPlayer?.stop()
+    }
+
+    fun restart() {
+        mediaPlayer?.start()
+    }
+
+    fun getMusicResId(): Int {
+        return musicResId
     }
 }

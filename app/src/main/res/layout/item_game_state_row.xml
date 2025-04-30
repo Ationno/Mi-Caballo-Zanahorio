@@ -8,14 +8,14 @@
 
     <TextView
         android:id="@+id/dateTextView"
-        android:layout_width="0dp"
+        android:layout_width="10dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="2"
         android:fontFamily="@font/comixloud"
+        android:gravity="center_horizontal"
+        android:text="2"
         android:textColor="@color/light_font"
-        android:textSize="8sp"
-        android:gravity="center" />
+        android:textSize="8sp" />
 
     <TextView
         android:id="@+id/errorsTextView"
@@ -26,7 +26,7 @@
         android:textColor="@color/light_font"
         android:textSize="8sp"
         android:fontFamily="@font/comixloud"
-        android:gravity="center" />
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/difficultyTextView"
@@ -37,7 +37,7 @@
         android:textColor="@color/light_font"
         android:textSize="8sp"
         android:fontFamily="@font/comixloud"
-        android:gravity="center" />
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/timeRatioTextView"
@@ -48,7 +48,7 @@
         android:textColor="@color/light_font"
         android:textSize="8sp"
         android:fontFamily="@font/comixloud"
-        android:gravity="center" />
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/scoreTextView"
@@ -59,6 +59,6 @@
         android:textColor="@color/light_font"
         android:textSize="8sp"
         android:fontFamily="@font/comixloud"
-        android:gravity="center" />
+        android:gravity="center_horizontal" />
 
 </LinearLayout>

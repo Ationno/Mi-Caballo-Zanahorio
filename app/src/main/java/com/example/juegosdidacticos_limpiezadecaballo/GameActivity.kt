@@ -21,6 +21,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +37,9 @@ import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
+import java.lang.Math.pow
 import java.util.Date
+import kotlin.math.pow
 
 class GameActivity : AppCompatActivity() {
 
@@ -59,6 +62,8 @@ class GameActivity : AppCompatActivity() {
     private val dirtyOverlays = mutableMapOf<String, ImageView>()
     private var totalSteps: Int = 0
     private var voiceType: Voices = Voices.MASCULINE
+    private var dialogGlobal: AlertDialog? = null
+    private var subDialogGlobal: AlertDialog? = null
 
     private val cleaningOrder = listOf(
         Pair("head", "soft_scraper"),
@@ -278,7 +283,11 @@ class GameActivity : AppCompatActivity() {
             append("0/")
             append(getMaxErrors().toString())
         }
-        binding.topMenuDifficulty.text = difficulty.getDisplayDifficulty()
+        binding.topMenuDifficulty.text = buildString {
+            append(difficulty.getDisplayDifficulty())
+            append(" - ")
+            append(subDifficulty.ordinal)
+        }
     }
 
     private fun getMaxErrors(): Int {
@@ -418,14 +427,44 @@ class GameActivity : AppCompatActivity() {
             .setView(dialogView)
             .create()
 
+        dialogGlobal = dialog
+
         dialogView.findViewById<View>(R.id.menuButton).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("SHOW_USER_INIT_FRAGMENT", true)
-                putExtra("USER_DATA", user)
+
+            val subDialogView = layoutInflater.inflate(R.layout.confirm_action, null)
+
+            val subDialog = AlertDialog.Builder(this)
+                .setView(subDialogView)
+                .create()
+
+            subDialogGlobal = subDialog
+
+            val infoTitle = subDialogView.findViewById<TextView>(R.id.infoTitle)
+            infoTitle.text = "Retornar al Menu"
+
+            val infoText = subDialogView.findViewById<TextView>(R.id.infoText)
+            infoText.text =
+                "¿Estas seguro que quieres retornar al Menu? Se borraran todos los datos de esta partida."
+
+
+            subDialogView.findViewById<View>(R.id.confirmButton).setOnClickListener {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("SHOW_USER_INIT_FRAGMENT", true)
+                    putExtra("USER_DATA", user)
+                }
+                startActivity(intent)
+                subDialog.dismiss()
+                dialog.dismiss()
+                finish()
             }
-            startActivity(intent)
-            dialog.dismiss()
-            finish()
+
+            subDialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+                subDialog.dismiss()
+            }
+
+            subDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            subDialog.setCanceledOnTouchOutside(true)
+            subDialog.show()
         }
 
         dialogView.findViewById<View>(R.id.restartButton).setOnClickListener {
@@ -468,6 +507,8 @@ class GameActivity : AppCompatActivity() {
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
+
+        dialogGlobal = dialog
 
         val gameVolumeSeekBar = dialogView.findViewById<SeekBar>(R.id.gameVolumeSeekBar)
         val gameVolumePercentage = dialogView.findViewById<TextView>(R.id.gameVolumePercentage)
@@ -880,6 +921,12 @@ class GameActivity : AppCompatActivity() {
             Difficulty.HARD -> 2.0
         }
 
+        val subDifficultyMultiplier = when (subDifficulty) {
+            Difficulty.EASY -> 1.0
+            Difficulty.MEDIUM -> 1.5
+            Difficulty.HARD -> 2.0
+        }
+
         val timeSpent = totalTimeInMillis - timeLeftInMillis
         val timeMultiplier = when {
             timeSpent < totalTimeInMillis * 0.25 -> 1.5
@@ -896,7 +943,9 @@ class GameActivity : AppCompatActivity() {
         }
 
         val stepScore =
-            (baseScore * difficultyMultiplier * timeMultiplier * errorMultiplier).toInt()
+            ((baseScore * timeMultiplier * errorMultiplier * subDifficultyMultiplier).pow(
+                difficultyMultiplier
+            )).toInt()
 
         score += stepScore
 
@@ -954,6 +1003,8 @@ class GameActivity : AppCompatActivity() {
         val difficultyText = dialogView.findViewById<TextView>(R.id.difficulty)
         val points = dialogView.findViewById<TextView>(R.id.points)
         val progress = dialogView.findViewById<TextView>(R.id.progress)
+        val subDifficultyText = dialogView.findViewById<TextView>(R.id.subDifficulty)
+        val newSubDifficultyText = dialogView.findViewById<TextView>(R.id.newSubDifficulty)
 
         if (isWin) {
             title.text = "Has Ganado!"
@@ -965,12 +1016,34 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
+        if (isWin) {
+            newSubDifficultyText.visibility = View.VISIBLE
+            Log.d("subDifficulty", subDifficulty.getDisplayDifficulty())
+            when (subDifficulty) {
+                Difficulty.EASY -> {
+                    newSubDifficultyText.text = "¡Felicidades has pasado al proximo subnivel! Ahora jugaras en el subnivel: 1"
+                }
+
+                Difficulty.MEDIUM -> {
+                    newSubDifficultyText.text = "¡Felicidades has pasado al proximo subnivel! Ahora jugaras en el subnivel: 2"
+                }
+
+                Difficulty.HARD -> {
+                    newSubDifficultyText.text = "¡Felicidades ya has completado este subnivel! Pidele a tu terapeuta que revise tus partidas."
+                }
+            }
+        } else {
+            subDifficultyText.text = "Subnivel: ${subDifficulty.ordinal}"
+        }
+
+
         timePlayed.text = "Tiempo jugado: ${formatTime(totalTimeInMillis - timeLeftInMillis)}"
         errorsText.text = buildString {
             append("Errores: $errors/")
             append(getMaxErrors().toString())
         }
         difficultyText.text = "Dificultad: ${difficulty.getDisplayDifficulty()}"
+        subDifficultyText.text = "Subnivel: ${subDifficulty.ordinal}"
         points.text = "Puntos: $score"
         progress.text = "Progreso: ${(currentStep.toFloat() / cleaningOrder.size * 100).toInt()}%"
 
@@ -984,6 +1057,7 @@ class GameActivity : AppCompatActivity() {
                 putExtra("SHOW_USER_INIT_FRAGMENT", true)
                 putExtra("USER_DATA", user)
             }
+            newSubDifficultyText.visibility = View.GONE
             startActivity(intent)
             dialog.dismiss()
             finish()
@@ -994,6 +1068,7 @@ class GameActivity : AppCompatActivity() {
                 putExtra("SHOW_USER_INIT_FRAGMENT", true)
                 putExtra("USER_DATA", user)
             }
+            newSubDifficultyText.visibility = View.GONE
             startActivity(intent)
             dialog.dismiss()
             finish()
@@ -1002,5 +1077,18 @@ class GameActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialog.show()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dialogGlobal?.dismiss()
+        subDialogGlobal?.dismiss()
+        if (BackgroundMusicPlayer.getMusicResId() == R.raw.game_music) BackgroundMusicPlayer.stop()
+        onPauseButtonClicked()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        BackgroundMusicPlayer.restart()
     }
 }

@@ -21,6 +21,40 @@
         android:background="#7601950F"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/errorAlert"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="43dp"
+        android:background="@drawable/error_alert_background"
+        android:fontFamily="@font/comixregular"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topMenu" />
+
+    <TextView
+        android:id="@+id/clueText"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="43dp"
+        android:background="@drawable/hint_alert_background"
+        android:fontFamily="@font/comixregular"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/errorAlert" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topMenu"
         android:layout_width="match_parent"
@@ -30,38 +64,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/errorAlert"
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="43dp"
-            android:background="@drawable/error_alert_background"
-            android:fontFamily="@font/comixregular"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topMenu" />
-
-        <TextView
-            android:id="@+id/clueText"
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="43dp"
-            android:background="@drawable/hint_alert_background"
-            android:fontFamily="@font/comixregular"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/errorAlert" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

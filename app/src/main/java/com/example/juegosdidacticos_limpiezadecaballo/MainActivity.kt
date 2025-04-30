@@ -15,6 +15,7 @@ import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlaye
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainPageBinding
     private lateinit var navController: NavController
+    private var isNavigatingToAnotherActivity = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +90,16 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.backButton.imageTintList = ContextCompat.getColorStateList(this, R.color.dark_orange)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (BackgroundMusicPlayer.getMusicResId() == R.raw.menu_music) BackgroundMusicPlayer.stop()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        BackgroundMusicPlayer.restart()
     }
 
     override fun onRestart() {

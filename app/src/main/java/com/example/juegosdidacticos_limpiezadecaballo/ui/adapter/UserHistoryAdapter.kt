@@ -53,7 +53,7 @@ class UserHistoryAdapter : ListAdapter<GameStateEntity, UserHistoryAdapter.GameS
             scoreTextView.text = String.format(Locale.getDefault(), "%d", item.score)
             difficultyTextView.text = buildString {
                 append(item.difficulty.getDisplayDifficulty())
-                append(": ")
+                append("/")
                 append(textSubDifficulty)
             }
             timeRatioTextView.text = String.format(Locale.getDefault(), "%s", formatTime(item.timePlayed))

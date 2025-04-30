@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Juegos Didacticos - Limpieza de Caballo</string>
+    <string name="app_name">Mi Caballo Zanahorio</string>
     <string name="cedica_logo">Logo de Cedica.</string>
     <string name="horse_vector">Imagen en negro del contorno de un caballo.</string>
     <string name="cedica_logo_cut">Logo de Cedica sin su texto de marca.</string>
@@ -111,4 +111,5 @@
     <string name="about_us_info_5">
         Este proyecto refleja el compromiso con la inclusión, el aprendizaje significativo, y la innovación al servicio de la equinoterapia. Es fruto del trabajo colaborativo entre estudiantes, profesionales y la institución.
     </string>
+    <string name="user_subdifficulty">Subnivel %s</string>
 </resources>
