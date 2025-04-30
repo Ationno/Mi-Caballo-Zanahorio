@@ -32,19 +32,7 @@ class UserHistoryAdapter : ListAdapter<GameStateEntity, UserHistoryAdapter.GameS
         private val timeRatioTextView: TextView = itemView.findViewById(R.id.timeRatioTextView)
 
         fun bind(item: GameStateEntity) {
-            var textSubDifficulty: Int = when (item.subDifficulty){
-                Difficulty.EASY -> {
-                    1
-                }
-
-                Difficulty.MEDIUM -> {
-                    2
-                }
-
-                Difficulty.HARD -> {
-                    3
-                }
-            }
+            val textSubDifficulty: Int = item.subDifficulty.ordinal + 1
 
             val dateFormat = SimpleDateFormat("dd/MM/yy", Locale("es", "AR"))
             val formattedDate = dateFormat.format(item.date)

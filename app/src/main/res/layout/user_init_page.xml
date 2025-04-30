@@ -63,7 +63,7 @@
         android:shadowDy="2"
         android:shadowRadius="3"
         android:visibility="gone"
-        android:text="@string/user_subdifficulty"
+        android:text="Subnivel: "
         android:textColor="@color/light_font"
         android:textSize="30sp"
         android:textStyle="bold"

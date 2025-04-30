@@ -119,13 +119,9 @@ class UserInitFragment : Fragment() {
                         config?.difficulty?.getDisplayDifficulty()
                     )
                     binding.subUserDifficulty.text = buildString {
-                        append(
-                            getString(
-                                R.string.user_subdifficulty,
-                                config?.subDifficulty?.ordinal?.toString()
-                            )
-                        )
-                        append("/2")
+                        append("Subnivel: ")
+                        append(config?.subDifficulty?.ordinal?.plus(1) ?: 0)
+                        append("/3")
                     }
                 }
             }

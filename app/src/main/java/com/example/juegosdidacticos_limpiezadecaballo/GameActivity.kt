@@ -286,7 +286,7 @@ class GameActivity : AppCompatActivity() {
         binding.topMenuDifficulty.text = buildString {
             append(difficulty.getDisplayDifficulty())
             append(" - ")
-            append(subDifficulty.ordinal)
+            append(subDifficulty.ordinal + 1)
         }
     }
 
@@ -1081,14 +1081,15 @@ class GameActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        if (BackgroundMusicPlayer.getMusicResId() == R.raw.game_music) BackgroundMusicPlayer.stop()
         dialogGlobal?.dismiss()
         subDialogGlobal?.dismiss()
-        if (BackgroundMusicPlayer.getMusicResId() == R.raw.game_music) BackgroundMusicPlayer.stop()
         onPauseButtonClicked()
+        Log.d("onStop", "onStop called")
     }
 
     override fun onStart() {
         super.onStart()
-        BackgroundMusicPlayer.restart()
+        BackgroundMusicPlayer.changeMusic(this, R.raw.game_music)
     }
 }
