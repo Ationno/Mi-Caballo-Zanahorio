@@ -49,6 +49,7 @@ dependencies {
     // ROOM dependencies
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.ui.android)
     ksp(libs.androidx.room.compiler)
 
     // Core and other AndroidX dependencies

@@ -3,6 +3,7 @@ package com.example.juegosdidacticos_limpiezadecaballo
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Context
@@ -15,10 +16,13 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.DragEvent
+import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
@@ -40,6 +44,8 @@ import kotlinx.coroutines.launch
 import java.lang.Math.pow
 import java.util.Date
 import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 class GameActivity : AppCompatActivity() {
 
@@ -164,6 +170,32 @@ class GameActivity : AppCompatActivity() {
         )
     )
 
+    private val partNames = mapOf(
+        "head" to "Cabeza",
+        "neck" to "Cuello",
+        "shoulder" to "Paleta",
+        "back" to "Lomo",
+        "belly" to "Panza",
+        "haunch" to "Anca",
+        "front_legs" to "Manos",
+        "hind_legs" to "Patas",
+        "groin" to "Verija",
+        "whole_body" to "Cuerpo completo",
+        "main" to "Crin",
+        "tail" to "Cola",
+        "hooves_1" to "Vaso mano izquierda",
+        "hooves_2" to "Vaso pata derecha",
+        "hooves_3" to "Vaso pata izquierda"
+    )
+
+    private val toolNames = mapOf(
+        "hard_scraper" to "Rasqueta dura",
+        "soft_scraper" to "Rasqueta suave",
+        "hoof_pick" to "Escarbavasos",
+        "soft_brush" to "Cepillo blando",
+        "hard_brush" to "Cepillo duro"
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = GamePageBinding.inflate(layoutInflater)
@@ -174,6 +206,12 @@ class GameActivity : AppCompatActivity() {
         }
 
         BackgroundMusicPlayer.changeMusic(this, R.raw.game_music)
+
+        setupToolDrag(binding.hardBrush)
+        setupToolDrag(binding.softBrush)
+        setupToolDrag(binding.hardScraper)
+        setupToolDrag(binding.softScraper)
+        setupToolDrag(binding.hoofPick)
 
         user = intent.getParcelableExtra("USER", PatientEntity::class.java)
         val patientId = user?.id
@@ -404,6 +442,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupClickListeners() {
         binding.btnPause.setOnClickListener {
             onPauseButtonClicked()
@@ -416,6 +455,39 @@ class GameActivity : AppCompatActivity() {
         binding.btnHint.setOnClickListener {
             onHintButtonClicked()
         }
+
+        binding.horseImage.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    val horsePart = getHorsePartAtPosition(event.x, event.y)
+
+                    horsePart?.let {
+                        showPartPopup(partNames[it] ?: it, event.x, event.y)
+                        playPartAudio(it)
+                    }
+
+                    view.performClick()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private val allHorseRegionsPx by lazy {
+        horseRegionsDp.mapValues { (_, pair) ->
+            RectF(
+                dpToPx(pair.first.left),
+                dpToPx(pair.first.top),
+                dpToPx(pair.first.right),
+                dpToPx(pair.first.bottom)
+            )
+        }
+    }
+    private fun getHorsePartAtPosition(x: Float, y: Float): String? {
+        return allHorseRegionsPx.entries.find { (_, rect) ->
+            rect.contains(x, y)
+        }?.key
     }
 
     private fun onPauseButtonClicked() {
@@ -608,6 +680,56 @@ class GameActivity : AppCompatActivity() {
         dialog.window?.setLayout(widthInPixels, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    fun setupToolDrag(toolImageView: ImageView) {
+        var isDragging = false
+        var initialX = 0f
+        var initialY = 0f
+        val touchSlop = android.view.ViewConfiguration.get(toolImageView.context).scaledTouchSlop // Mínima distancia para considerar arrastre
+
+        toolImageView.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    initialX = motionEvent.x
+                    initialY = motionEvent.y
+                    isDragging = false
+                    true
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    if (!isDragging) {
+                        val dx = motionEvent.x - initialX
+                        val dy = motionEvent.y - initialY
+
+                        if (dx * dx + dy * dy > touchSlop * touchSlop) {
+                            isDragging = true
+                            view.alpha = 0.5f
+                            val shadowBuilder = View.DragShadowBuilder(view)
+                            view.startDragAndDrop(null, shadowBuilder, view, 0)
+                        }
+                    }
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    if (!isDragging) {
+                        val toolImageViewId = toolImageView.context.resources.getResourceEntryName(toolImageView.id).replace(Regex("([a-z])([A-Z])"), "$1_$2").lowercase()
+                        showToolPopup(toolImageViewId, toolImageView)
+                        playToolAudio(toolImageViewId)
+                    }
+                    view.alpha = 1.0f
+                    true
+                }
+
+                MotionEvent.ACTION_CANCEL -> {
+                    view.alpha = 1.0f
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
     private fun onHintButtonClicked() {
         if (errorsOnCurrentStep >= 4) {
             val clue = when {
@@ -626,6 +748,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupDragAndDrop() {
         val tools = listOf(
             binding.hardScraper,
@@ -1091,5 +1214,115 @@ class GameActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         BackgroundMusicPlayer.changeMusic(this, R.raw.game_music)
+    }
+
+    private fun showPartPopup(partName: String, x: Float, y: Float) {
+        val popupView = layoutInflater.inflate(R.layout.part_name_popup, null)
+        popupView.findViewById<TextView>(R.id.partNameText).text = partName
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.showAtLocation(
+            binding.root,
+            Gravity.NO_GRAVITY,
+            x.toInt() - popupView.width / 2,
+            y.toInt() - popupView.height - dpToPx(16f).toInt()
+        )
+
+        playPartAudio(partName)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            popupWindow.dismiss()
+        }, 2000)
+    }
+
+    private fun playPartAudio(partKey: String) {
+        var partKeyLocal = partKey
+        if (partKey == "hooves_1") partKeyLocal = "front_hooves"
+        if (partKey == "hooves_2" || partKey == "hooves_3") partKeyLocal = "hind_hooves"
+
+        val voicePrefix = when (voiceType) {
+            Voices.MASCULINE -> "masculine"
+            Voices.FEMININE -> "femenine"
+        }
+
+        val audioResId = resources.getIdentifier(
+            "${partKeyLocal}_${voicePrefix}",
+            "raw",
+            packageName
+        )
+
+        if (audioResId != 0) {
+            MediaPlayer.create(this, audioResId).apply {
+                setVolume(voiceVolume / 100f, voiceVolume / 100f)
+                start()
+                setOnCompletionListener { release() }
+            }
+        }
+    }
+
+    private fun showToolPopup(toolName: String, view: View) {
+        val popupView = layoutInflater.inflate(R.layout.part_name_popup, null)
+
+        val toolNameText = when (toolName) {
+            "hard_scraper" -> "rasqueta dura"
+            "soft_scraper" -> "rasqueta suave"
+            "hoof_pick" -> "escarbavasos"
+            "soft_brush" -> "cepillo blando"
+            "hard_brush" -> "cepillo duro"
+            else -> ""
+        }
+
+        popupView.findViewById<TextView>(R.id.partNameText).text = toolNameText
+
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.showAtLocation(
+            binding.root,
+            Gravity.NO_GRAVITY,
+            location[0] + view.width / 2 - popupView.width / 2,
+            location[1] - popupView.height - dpToPx(16f).toInt()
+        )
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            popupWindow.dismiss()
+        }, 2000)
+    }
+
+    private fun playToolAudio(toolKey: String) {
+
+        val voicePrefix = when (voiceType) {
+            Voices.MASCULINE -> "masculine"
+            Voices.FEMININE -> "femenine"
+        }
+
+        val audioResId = resources.getIdentifier(
+            "${toolKey}_${voicePrefix}",
+            "raw",
+            packageName
+        )
+
+        Log.d("audioResId", audioResId.toString())
+
+        if (audioResId != 0) {
+            MediaPlayer.create(this, audioResId).apply {
+                setVolume(voiceVolume / 100f, voiceVolume / 100f)
+                start()
+                setOnCompletionListener { release() }
+            }
+        }
     }
 }
