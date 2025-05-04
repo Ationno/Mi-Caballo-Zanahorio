@@ -314,9 +314,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="18dp"
-            android:paddingEnd="17dp"
-            android:scaleX="2"
-            android:scaleY="2"
+            android:paddingEnd="1dp"
+            android:scaleX="3.5"
+            android:scaleY="3.5"
             android:src="@drawable/neck_dirt"
             android:visibility="gone" />
 
@@ -403,8 +403,8 @@
             android:id="@+id/dirtyMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
             android:src="@drawable/main_dirt"
             android:visibility="gone" />
 

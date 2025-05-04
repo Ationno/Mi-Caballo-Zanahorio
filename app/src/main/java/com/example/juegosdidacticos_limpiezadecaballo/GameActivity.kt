@@ -91,16 +91,16 @@ class GameActivity : AppCompatActivity() {
 
     private val horseRegionsDp = mutableMapOf(
         "head" to Pair(RectF(30f, 5f, 105f, 120f), true),
-        "neck" to Pair(RectF(95f, 20f, 160f, 100f), false),
+        "neck" to Pair(RectF(95f, 20f, 130f, 100f), false),
         "shoulder" to Pair(RectF(115f, 150f, 160f, 190f), false),
         "back" to Pair(RectF(160f, 95f, 250f, 115f), false),
         "belly" to Pair(RectF(170f, 170f, 235f, 210f), false),
         "haunch" to Pair(RectF(251f, 95f, 300f, 140f), false),
-        "front_legs" to Pair(RectF(30f, 191f, 150f, 330f), false),
-        "hind_legs" to Pair(RectF(236f, 201f, 300f, 330f), false),
+        "front_legs" to Pair(RectF(30f, 191f, 150f, 315f), false),
+        "hind_legs" to Pair(RectF(236f, 201f, 300f, 310f), false),
         "groin" to Pair(RectF(236f, 171f, 270f, 200f), false),
         "whole_body" to Pair(RectF(70f, 100f, 300f, 175f), false),
-        "main" to Pair(RectF(95f, 20f, 170f, 115f), false),
+        "main" to Pair(RectF(130f, 20f, 170f, 115f), false),
         "tail" to Pair(RectF(280f, 100f, 330f, 290f), false),
         "hooves_1" to Pair(RectF(90f, 315f, 115f, 330f), false),
         "hooves_2" to Pair(RectF(220f, 310f, 245f, 325f), false),
@@ -183,9 +183,9 @@ class GameActivity : AppCompatActivity() {
         "whole_body" to "Cuerpo completo",
         "main" to "Crin",
         "tail" to "Cola",
-        "hooves_1" to "Vaso mano izquierda",
-        "hooves_2" to "Vaso pata derecha",
-        "hooves_3" to "Vaso pata izquierda"
+        "hooves_1" to "Vasos delanteros",
+        "hooves_2" to "Vaso traseros",
+        "hooves_3" to "Vaso traseros"
     )
 
     private val toolNames = mapOf(
@@ -1144,19 +1144,19 @@ class GameActivity : AppCompatActivity() {
             Log.d("subDifficulty", subDifficulty.getDisplayDifficulty())
             when (subDifficulty) {
                 Difficulty.EASY -> {
-                    newSubDifficultyText.text = "¡Felicidades has pasado al proximo subnivel! Ahora jugaras en el subnivel: 1"
-                }
-
-                Difficulty.MEDIUM -> {
                     newSubDifficultyText.text = "¡Felicidades has pasado al proximo subnivel! Ahora jugaras en el subnivel: 2"
                 }
 
+                Difficulty.MEDIUM -> {
+                    newSubDifficultyText.text = "¡Felicidades has pasado al proximo subnivel! Ahora jugaras en el subnivel: 3"
+                }
+
                 Difficulty.HARD -> {
-                    newSubDifficultyText.text = "¡Felicidades ya has completado este subnivel! Pidele a tu terapeuta que revise tus partidas."
+                    newSubDifficultyText.text = "¡Felicidades ya has completado este nivel! Pidele a tu terapeuta que revise tus partidas."
                 }
             }
         } else {
-            subDifficultyText.text = "Subnivel: ${subDifficulty.ordinal}"
+            subDifficultyText.text = "Subnivel: ${subDifficulty.ordinal+1}"
         }
 
 
@@ -1166,7 +1166,7 @@ class GameActivity : AppCompatActivity() {
             append(getMaxErrors().toString())
         }
         difficultyText.text = "Dificultad: ${difficulty.getDisplayDifficulty()}"
-        subDifficultyText.text = "Subnivel: ${subDifficulty.ordinal}"
+        subDifficultyText.text = "Subnivel: ${subDifficulty.ordinal+1}"
         points.text = "Puntos: $score"
         progress.text = "Progreso: ${(currentStep.toFloat() / cleaningOrder.size * 100).toInt()}%"
 
@@ -1271,7 +1271,7 @@ class GameActivity : AppCompatActivity() {
 
         val toolNameText = when (toolName) {
             "hard_scraper" -> "rasqueta dura"
-            "soft_scraper" -> "rasqueta suave"
+            "soft_scraper" -> "rasqueta blanda"
             "hoof_pick" -> "escarbavasos"
             "soft_brush" -> "cepillo blando"
             "hard_brush" -> "cepillo duro"
