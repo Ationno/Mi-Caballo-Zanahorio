@@ -2,6 +2,7 @@ package com.example.juegosdidacticos_limpiezadecaballo.utils
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 
 object BackgroundMusicPlayer {
@@ -27,6 +28,7 @@ object BackgroundMusicPlayer {
             it.release()
         }
 
+        Log.d("Llego1", "LLego1")
         mediaPlayer = MediaPlayer.create(context.applicationContext, newMusicResId)
         mediaPlayer?.isLooping = true
         mediaPlayer?.setVolume(volumeFinal / 100f, volumeFinal / 100f)

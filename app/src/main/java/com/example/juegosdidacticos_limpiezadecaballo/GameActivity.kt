@@ -68,6 +68,8 @@ class GameActivity : AppCompatActivity() {
     private var voiceType: Voices = Voices.MASCULINE
     private var dialogGlobal: AlertDialog? = null
     private var subDialogGlobal: AlertDialog? = null
+    private var restart: Boolean = false
+    private var backToMenu: Boolean = false
 
     private val cleaningOrder = listOf(
         Pair("head", "soft_scraper"),
@@ -525,6 +527,7 @@ class GameActivity : AppCompatActivity() {
                 startActivity(intent)
                 subDialog.dismiss()
                 dialog.dismiss()
+                backToMenu = true
                 finish()
             }
 
@@ -543,6 +546,7 @@ class GameActivity : AppCompatActivity() {
             }
             startActivity(intent)
             dialog.dismiss()
+            restart = true
             finish()
         }
 
@@ -1188,6 +1192,7 @@ class GameActivity : AppCompatActivity() {
             newSubDifficultyText.visibility = View.GONE
             startActivity(intent)
             dialog.dismiss()
+            backToMenu = true
             finish()
         }
 
@@ -1196,11 +1201,12 @@ class GameActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        if (BackgroundMusicPlayer.getMusicResId() == R.raw.game_music) BackgroundMusicPlayer.stop()
+        if (BackgroundMusicPlayer.getMusicResId() == R.raw.game_music && !restart) BackgroundMusicPlayer.stop()
         dialogGlobal?.dismiss()
         subDialogGlobal?.dismiss()
-        onPauseButtonClicked()
-        Log.d("onStop", "onStop called")
+        if (!restart && !backToMenu) onPauseButtonClicked()
+        restart = false
+        backToMenu = false
     }
 
     override fun onStart() {
