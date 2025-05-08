@@ -20,12 +20,12 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -41,11 +41,9 @@ import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.GameViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.ui.viewmodel.UserViewModel
 import com.example.juegosdidacticos_limpiezadecaballo.utils.BackgroundMusicPlayer
 import kotlinx.coroutines.launch
-import java.lang.Math.pow
 import java.util.Date
 import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
+
 
 class GameActivity : AppCompatActivity() {
 
@@ -1141,7 +1139,6 @@ class GameActivity : AppCompatActivity() {
 
         if (isWin) {
             newSubDifficultyText.visibility = View.VISIBLE
-            Log.d("subDifficulty", subDifficulty.getDisplayDifficulty())
             when (subDifficulty) {
                 Difficulty.EASY -> {
                     newSubDifficultyText.text = "¡Felicidades has pasado al proximo subnivel! Ahora jugaras en el subnivel: 2"
@@ -1168,22 +1165,19 @@ class GameActivity : AppCompatActivity() {
         difficultyText.text = "Dificultad: ${difficulty.getDisplayDifficulty()}"
         subDifficultyText.text = "Subnivel: ${subDifficulty.ordinal+1}"
         points.text = "Puntos: $score"
-        progress.text = "Progreso: ${(currentStep.toFloat() / cleaningOrder.size * 100).toInt()}%"
+        progress.text = "Progreso: ${((currentStep.toFloat() / totalSteps) * 100).toInt()}%"
 
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .setCancelable(false)
             .create()
 
-        dialogView.findViewById<View>(R.id.closeButton).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("SHOW_USER_INIT_FRAGMENT", true)
-                putExtra("USER_DATA", user)
-            }
-            newSubDifficultyText.visibility = View.GONE
-            startActivity(intent)
-            dialog.dismiss()
-            finish()
+        dialog.setOnShowListener {
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.window?.setLayout(
+                dpToPx(700f).toInt(),
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         }
 
         dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
@@ -1196,8 +1190,6 @@ class GameActivity : AppCompatActivity() {
             dialog.dismiss()
             finish()
         }
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialog.show()
     }
